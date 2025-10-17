@@ -1,45 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Beranda</title>
-  @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>@yield('title', config('app.name', 'Laravel'))</title>
+
+    <!-- Fonts (opsional) -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+    <!-- Vite assets (Bootstrap & JS kamu dari npm) -->
+    @vite(['resources/scss/app.scss', 'resources/js/app.js'])
 </head>
-<body>
-  <h1 class="text-3xl font-bold underline">Hello World</h1>
-  <nav class="navbar navbar-expand-lg bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown link
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-      </ul>
+
+<body class="bg-light">
+    <div class="min-vh-100 d-flex flex-column">
+        {{-- Navbar --}}
+        @include('layouts.navigation')
+
+        {{-- Page Heading --}}
+        @hasSection('header')
+            <header class="bg-white shadow-sm border-bottom">
+                <div class="container py-3">
+                    @yield('header')
+                </div>
+            </header>
+        @endif
+
+        {{-- Page Content --}}
+        <main class="flex-grow-1 py-4">
+            <div class="container">
+                @yield('content')
+            </div>
+        </main>
+
+        {{-- Footer --}}
+        <footer class="bg-white border-top text-center py-3 small text-muted">
+            &copy; {{ date('Y') }} {{ config('app.name', 'Laravel') }}. All rights reserved.
+        </footer>
     </div>
-  </div>
-</nav>
 </body>
+
 </html>

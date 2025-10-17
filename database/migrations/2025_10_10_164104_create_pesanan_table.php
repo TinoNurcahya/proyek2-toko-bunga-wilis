@@ -22,6 +22,7 @@ return new class extends Migration
             $table->dateTime('tanggal_pesanan')->useCurrent();
             $table->text('alamat_pengiriman')->nullable();
             $table->string('snap_token')->nullable(); // untuk integrasi Midtrans
+            $table->timestamps();
         });
     }
 

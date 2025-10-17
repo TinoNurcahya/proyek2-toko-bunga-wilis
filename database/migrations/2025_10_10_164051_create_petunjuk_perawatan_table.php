@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('penyiraman')->nullable();
             $table->text('cahaya')->nullable();
             $table->text('suhu_dan_kelembapan')->nullable();
+            $table->timestamps();
         });
     }
 

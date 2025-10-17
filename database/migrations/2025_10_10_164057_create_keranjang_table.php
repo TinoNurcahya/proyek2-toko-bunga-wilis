@@ -21,6 +21,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->integer('jumlah')->default(1);
             $table->decimal('subtotal', 10, 2);
+            $table->timestamps();
         });
     }
 

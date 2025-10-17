@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('nama_ilmiah')->nullable();
             $table->string('ukuran_detail')->nullable();
             $table->string('asal_tanaman')->nullable();
+            $table->timestamps();
         });
     }
 
