@@ -1,15 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>welcome</title>
-</head>
-<body>
-  <h1>welcome</h1>
-  <a href="{{ route('login') }}">Login</a>
-<a href="{{ route('register') }}">Daftar</a>
+@extends('layouts.app')
 
-</body>
-</html>
+@section('title', 'Beranda')
+
+<section id="hero" class="text-white d-flex align-items-center justify-content-center daunbg">
+    <div class="container">
+        <h1 class="fraunces h-1">Wilis Garden</h1>
+        <div class="montserrat">
+            <p class="lead">Dari Alam ke Rumahmu, Toko Bunga Wilis hadir dengan tanaman segar yang siap memperindah
+                hari-harimu.</p>
+            <p class="lead">Tanaman berkualitas untuk rumahmu, tersedia sekarang di Toko Bunga Wilis.</p>
+            <a href="#" class="btn btn-success btn-lg mt-3">Belanja Sekarang</a>
+        </div>
+    </div>
+</section>
+@section('content')
+
+
+@endsection

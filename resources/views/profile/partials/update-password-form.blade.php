@@ -12,26 +12,33 @@
         @csrf
         @method('put')
 
-        <div class="mb-3">
+        <div class="form-floating mb-3">
+            <input id="update_password_current_password" name="current_password" type="password" class="form-control"
+                autocomplete="current-password" placeholder=" ">
             <label for="update_password_current_password" class="form-label">{{ __('Current Password') }}</label>
-            <input id="update_password_current_password" name="current_password" type="password" class="form-control" autocomplete="current-password">
-            @if($errors->updatePassword->has('current_password'))
+            @if ($errors->updatePassword->has('current_password'))
                 <div class="text-danger small mt-1">{{ $errors->updatePassword->first('current_password') }}</div>
             @endif
         </div>
 
-        <div class="mb-3">
-            <label for="update_password_password" class="form-label">{{ __('New Password') }}</label>
-            <input id="update_password_password" name="password" type="password" class="form-control" autocomplete="new-password">
-            @if($errors->updatePassword->has('password'))
-                <div class="text-danger small mt-1">{{ $errors->updatePassword->first('password') }}</div>
+        <div class="form-floating mb-3">
+            <input id="update_password_password" name="password" type="password" class="form-control"
+                autocomplete="new-password" placeholder=" ">
+            <label for="update_password_password">{{ __('New Password') }}</label>
+
+            @if ($errors->updatePassword->has('password'))
+                <div class="text-danger small mt-1">
+                    {{ $errors->updatePassword->first('password') }}
+                </div>
             @endif
         </div>
 
+
         <div class="mb-3">
             <label for="update_password_password_confirmation" class="form-label">{{ __('Confirm Password') }}</label>
-            <input id="update_password_password_confirmation" name="password_confirmation" type="password" class="form-control" autocomplete="new-password">
-            @if($errors->updatePassword->has('password_confirmation'))
+            <input id="update_password_password_confirmation" name="password_confirmation" type="password"
+                class="form-control" autocomplete="new-password">
+            @if ($errors->updatePassword->has('password_confirmation'))
                 <div class="text-danger small mt-1">{{ $errors->updatePassword->first('password_confirmation') }}</div>
             @endif
         </div>

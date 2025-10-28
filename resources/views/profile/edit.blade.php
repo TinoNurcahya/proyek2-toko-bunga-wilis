@@ -1,15 +1,9 @@
-@extends('layouts.app') {{-- gunakan layout utama --}}
+@extends('layouts.app')
 
 @section('title', 'Dashboard')
 
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="fw-semibold fs-4 text-dark">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-4">
+@section('content')
+    <div class="py-4 mt-3">
         <div class="container">
             <div class="row g-4">
 
@@ -40,4 +34,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+@endsection

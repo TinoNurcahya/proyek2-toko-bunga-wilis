@@ -19,7 +19,7 @@
 
         <div class="mb-3">
             <label for="name" class="form-label">{{ __('Name') }}</label>
-            <input id="name" name="name" type="text" class="form-control" value="{{ old('name', $user->name) }}" required autofocus autocomplete="name">
+            <input id="name" name="name" type="text" class="form-control" value="{{ old('name', $user->nama) }}" required autofocus autocomplete="name">
             @if($errors->get('name'))
                 <div class="text-danger small mt-1">{{ $errors->first('name') }}</div>
             @endif

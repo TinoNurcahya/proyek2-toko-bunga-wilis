@@ -1,9 +1,9 @@
-@extends('layouts.app') {{-- gunakan layout utama --}}
+@extends('layouts.app')
 
 @section('title', 'Dashboard')
 
 @section('content')
-    <div class="container py-4">
+    <div class="container py-4 mt-5">
         <div class="card shadow-sm">
             <div class="card-body">
                 <h1 class="h4 mb-3">
@@ -19,9 +19,9 @@
 
                 <form action="{{ route('logout') }}" method="POST" class="mt-4">
                     @csrf
-                    <button type="submit" class="btn btn-danger">
+                    <x-danger-button>
                         <i class="fa-solid fa-right-from-bracket me-2"></i> Logout
-                    </button>
+                    </x-danger-button>
                 </form>
             </div>
         </div>

@@ -1,5 +1,52 @@
 @import "bootstrap/scss/bootstrap";
-@import "@fortawesome/fontawesome-free/css/all.min.css";
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import "navbar";
+@import "auth";
+@import "footer";
+
 body {
-  background-color: #1773d4;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+.form-floating > label {
+    padding: 0 0.5rem;
+    top: 50%;
+    left: 0.75rem;
+    height: auto;
+    padding: 0;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.608);
+    transform: translateY(-50%);
+    transition: all 0.3s ease-in-out;
+}
+.form-floating .form-control {
+    height: 50px;
+    min-height: auto;
+}
+/* Teks label tetap putih */
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label {
+    background-color: transparent !important;
+    font-size: 1.2rem !important;
+    color: #ffffff !important;
+}
+
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label {
+    top: 0;
+    left: 0.9rem;
+    font-size: 0.8rem;
+    padding: 0 0.25rem;
+    transform: translateY(-50%);
+}
+.form-control:focus {
+    border-color: #ffffff;
+    box-shadow: 0 0 0 0.25rem rgba(29, 58, 26, 0.349);
+}
+.fraunces {
+    font-family: "Fraunces", sans-serif;
+}
+.montserrat {
+    font-family: "Montserrat", sans-serif;
 }
