@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Metode Pembayaran</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f9fafb;
+      font-family: 'Inter', sans-serif;
+    }
+    .card {
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .payment-option {
+      padding: 1rem;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    .payment-option:hover {
+      background-color: #f0fdf4;
+      border-color: #16a34a;
+    }
+    .form-check-input:checked {
+      background-color: #16a34a;
+      border-color: #16a34a;
+    }
+    .payment-content {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .payment-content i {
+      font-size: 1.75rem;
+      color: #16a34a;
+      flex-shrink: 0;
+    }
+    .btn-pay {
+      background-color: #16a34a;
+      color: white;
+      border-radius: 8px;
+    }
+    .btn-pay:hover {
+      background-color: #15803d;
+    }
+    .ewallet-section {
+      margin-top: 1rem;
+    }
+    .summary-card {
+      border-radius: 12px;
+      border: 1px solid #dee2e6;
+      padding: 1.5rem;
+      background-color: #fff;
+    }
+    .summary-card h6 {
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .summary-card .label {
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+    }
+    .summary-card .value {
+      font-weight: 600;
+      font-size: 1.25rem;
+      color: #111827;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-white border-bottom">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-success" href="#">🌿 Wilis Garden</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="#">Beranda</a></li>
+          <li class="nav-item"><a class="nav-link active text-success" href="#">Produk</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Tentang Kami</a></li>
+        </ul>
+        <form class="d-flex me-3" role="search">
+          <input class="form-control" type="search" placeholder="Cari..." aria-label="Search">
+        </form>
+        <div class="d-flex align-items-center gap-3">
+          <i class="bi bi-cart fs-5"></i>
+          <i class="bi bi-bell fs-5"></i>
+          <i class="bi bi-person-circle fs-5"></i>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header Payment Method -->
+  <div class="container mt-4 mb-3">
+    <div class="d-flex align-items-center">
+      <i class="bi bi-arrow-left-short fs-4 me-2"></i>
+      <div>
+        <h6 class="mb-0 fw-bold">Payment Method</h6>
+        <small class="text-muted">langkah 2 dari 3: Pilih metode pembayaran kamu</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container py-4">
+    <div class="row g-4">
+      <!-- Metode Pembayaran -->
+      <div class="col-lg-7">
+        <div class="card p-4">
+          <h5 class="fw-semibold mb-1">Pilih metode pembayaran</h5>
+          <!-- Bank -->
+          <div class="payment-option d-flex align-items-start gap-3">
+            <div class="pt-1">
+              <input class="form-check-input" type="radio" name="paymentMethod" id="bank">
+            </div>
+            <div class="payment-content">
+              <i class="bi bi-building"></i>
+              <label for="bank" class="form-check-label">
+                <strong>Bank (Virtual account)</strong><br>
+                <small class="text-muted">transfer langsung ke rekening bank kami</small>
+              </label>
+            </div>
+          </div>
+
+          <!-- E-wallet -->
+          <div class="payment-option d-flex align-items-start gap-3">
+            <div class="pt-1">
+              <input class="form-check-input" type="radio" name="paymentMethod" id="ewallet">
+            </div>
+            <div class="payment-content">
+              <i class="bi bi-wallet2"></i>
+              <label for="ewallet" class="form-check-label">
+                <strong>E-wallet</strong><br>
+                <small class="text-muted">membayar dengan dompet digital</small>
+              </label>
+            </div>
+          </div>
+
+          <!-- QRIS -->
+          <div class="payment-option d-flex align-items-start gap-3">
+            <div class="pt-1">
+              <input class="form-check-input" type="radio" name="paymentMethod" id="qris">
+            </div>
+            <div class="payment-content">
+              <i class="bi bi-qr-code"></i>
+              <label for="qris" class="form-check-label">
+                <strong>QRIS</strong><br>
+                <small class="text-muted">pindai kode qr dengan aplikasi bank apa pun</small>
+              </label>
+            </div>
+          </div>
+
+          <!-- E-wallet form -->
+          <div class="ewallet-section">
+            <h6 class="fw-semibold mt-3">E-Wallet Payment</h6>
+            <div class="mb-3">
+              <label for="provider" class="form-label">E-Wallet Provider *</label>
+              <select class="form-select" id="provider">
+                <option selected>Select e-wallet</option>
+                <option value="gopay">GoPay</option>
+                <option value="ovo">OVO</option>
+                <option value="dana">DANA</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label">Nomor telepon *</label>
+              <input type="text" class="form-control" id="phone" placeholder="masukan nomor telepon yang terhubung">
+            </div>
+          </div>
+
+          <!-- Button -->
+          <button class="btn btn-pay w-100 mt-3">Bayar sekarang</button>
+        </div>
+      </div>
+
+      <!-- Ringkasan Pesanan -->
+      <div class="col-lg-5">
+        <div class="summary-card">
+          <h6>Ringkasan pesanan</h6>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <div class="label">Id Order</div>
+              <div class="value">Total</div>
+            </div>
+            <div class="text-end">
+              <div class="label">ORD-1759155726931</div>
+              <div class="value">RP572.760</div>
+            </div>
+          </div>
+          <hr>
+          <div class="mb-2 fw-semibold">Alamat pengiriman</div>
+          <div class="text-muted">Orion</div>
+          <div class="text-muted">Jl. Sojar, Bulak, Kec. Jatibarang</div>
+          <div class="text-muted">Indramayu &nbsp;&nbsp;&nbsp;&nbsp; 452525</div>
+          <div class="text-muted">0814142365423</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
