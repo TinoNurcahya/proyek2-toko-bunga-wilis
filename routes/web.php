@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\ProductController;
 
 
 Route::get('/', function () {
@@ -37,6 +38,12 @@ Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name
 // Jika user mengetik /logout di URL secara langsung
 Route::get('/logout', function () {
     abort(404);
+
 });
+// === Product Details ===
+
+Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
+
+
 
 require __DIR__.'/auth.php';
