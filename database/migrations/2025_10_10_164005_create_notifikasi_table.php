@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('notifikasi', function (Blueprint $table) {
             $table->id('id_notifikasi');
             $table->foreignId('id_users')
-            ->constrained('users', 'id_users')
-            ->onDelete('cascade');
-            
+                ->constrained('users', 'id_users')
+                ->onDelete('cascade');
+            $table->string('judul');
             $table->string('pesan');
             $table->enum('status', ['belum_dibaca', 'dibaca'])->default('belum_dibaca');
-            $table->date('tanggal');
+            $table->timestamps();
         });
     }
 

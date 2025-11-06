@@ -21,7 +21,7 @@
                 <form method="POST" action="{{ route('verification.send') }}">
                     @csrf
                     <x-primary-button class="btn btn-green py-2">
-                        {{ __('Kirim Ulang Email') }}
+                        {{ __('Kirim Email') }}
                     </x-primary-button>
                 </form>
             </div>

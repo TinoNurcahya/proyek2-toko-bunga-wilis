@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('ukuran', function (Blueprint $table) {
             $table->id('id_ukuran');
-            $table->string('nama_ukuran'); // mini, sedang, besar, ekstra besar
+            $table->string('nama_ukuran');
         });
     }
 

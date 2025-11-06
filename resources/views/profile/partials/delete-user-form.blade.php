@@ -1,16 +1,16 @@
 <section class="mb-4">
-    <header class="mb-3">
+    <header class="mb-4 ms-2">
         <h2 class="h5 fw-bold text-dark">
-            {{ __('Delete Account') }}
+            {{ __('Hapus Akun') }}
         </h2>
         <p class="small text-muted">
-            {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
+            {{ __('Setelah akun Anda dihapus, semua sumber daya dan datanya akan dihapus secara permanen.') }}
         </p>
     </header>
 
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
-        {{ __('Delete Account') }}
+        {{ __('Hapus Akun') }}
     </button>
 
     <!-- Modal -->
@@ -19,49 +19,55 @@
         <div class="modal-dialog">
             <div class="modal-content">
 
-                @if (auth()->user()->google_id && !auth()->user()->getAuthPassword())
-                    <!-- TAMPILAN UNTUK SOCIAL USERS (GOOGLE AUTH) -->
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteAccountModalLabel">
-                            {{ __('Delete Google Account') }}
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
+                @if (auth()->user()->google_id)
+                    <!-- tampilan untuk login lewat google -->
+                    <form method="POST" action="{{ route('profile.destroy') }}" id="socialDeleteForm">
+                        @csrf
+                        @method('delete')
 
-                    <div class="modal-body">
-                        <div class="alert alert-warning">
-                            <i class="fas fa-exclamation-triangle me-2"></i>
-                            <strong>Akun Google Terdeteksi</strong>
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteAccountModalLabel">
+                                {{ __('Hapus Akun') }}
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
 
-                        <p class="small text-muted">
-                            {{ __('Your account is connected to Google. To delete your account:') }}
-                        </p>
+                        <div class="modal-body">
+                            <div class="alert alert-warning">
+                                <i class="fab fa-google me-2"></i>
+                                <strong>Akun Google Terdeteksi</strong>
+                            </div>
 
-                        <ol class="small text-muted">
-                            <li>{{ __('Set a password first in your profile page') }}</li>
-                            <li>{{ __('Then come back here to delete your account') }}</li>
-                        </ol>
-                    </div>
+                            <p class="small text-muted">
+                                {{ __('Akun Anda terhubung dengan Google. Penghapusan akun tidak memerlukan verifikasi password.') }}
+                            </p>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            {{ __('Cancel') }}
-                        </button>
-                        <a href="{{ route('profile.edit') }}#password" class="btn btn-warning">
-                            <i class="fas fa-key me-1"></i>
-                            {{ __('Set Password') }}
-                        </a>
-                    </div>
+                            <div class="alert alert-danger">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                <strong>Peringatan:</strong> Tindakan ini tidak dapat dibatalkan. Semua data akan
+                                dihapus permanen.
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                {{ __('Batal') }}
+                            </button>
+                            <button type="submit" class="btn btn-danger">
+                                {{ __('Hapus Akun Permanen') }}
+                            </button>
+                        </div>
+                    </form>
                 @else
-                    <!-- TAMPILAN NORMAL UNTUK USER DENGAN PASSWORD -->
+                    <!-- tampilan untuk login normal -->
                     <form method="POST" action="{{ route('profile.destroy') }}">
                         @csrf
                         @method('delete')
 
                         <div class="modal-header">
                             <h5 class="modal-title" id="deleteAccountModalLabel">
-                                {{ __('Are you sure you want to delete your account?') }}
+                                {{ __('Yakin ingin menghapus akun?') }}
                             </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
@@ -69,14 +75,14 @@
 
                         <div class="modal-body">
                             <p class="small text-muted">
-                                {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
+                                {{ __('Setelah akun dihapus, semua data akan terhapus secara permanen. Masukkan password Anda untuk konfirmasi penghapusan akun.') }}
                             </p>
 
                             <div class="mb-3">
                                 <label for="password" class="form-label">{{ __('Password') }}</label>
                                 <input id="password" name="password" type="password"
                                     class="form-control @error('password', 'userDeletion') is-invalid @enderror"
-                                    placeholder="{{ __('Password') }}" required>
+                                    placeholder="{{ __('Masukkan password Anda') }}" required>
 
                                 @error('password', 'userDeletion')
                                     <div class="invalid-feedback">
@@ -88,10 +94,10 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                {{ __('Cancel') }}
+                                {{ __('Batal') }}
                             </button>
                             <button type="submit" class="btn btn-danger">
-                                {{ __('Delete Account') }}
+                                {{ __('Hapus Akun') }}
                             </button>
                         </div>
                     </form>

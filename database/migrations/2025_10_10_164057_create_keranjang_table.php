@@ -16,12 +16,13 @@ return new class extends Migration
             $table->foreignId('id_users')
                 ->constrained('users', 'id_users')
                 ->onDelete('cascade');
-            $table->foreignId('id_produk')
-                ->constrained('produk', 'id_produk')
+            $table->foreignId('id_produk_ukuran')
+                ->constrained('produk_ukuran', 'id_produk_ukuran')
                 ->onDelete('cascade');
             $table->integer('jumlah')->default(1);
-            $table->decimal('subtotal', 10, 2);
             $table->timestamps();
+
+            $table->unique(['id_users', 'id_produk_ukuran']);
         });
     }
 

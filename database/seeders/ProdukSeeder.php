@@ -16,10 +16,7 @@ class ProdukSeeder extends Seeder
         DB::table('produk')->insert([
             [
                 'id_kategori' => 1, // indoor
-                'id_ukuran' => 2,   // sedang
                 'nama' => 'Monstera Deliciosa',
-                'harga' => 125000,
-                'stok' => 10,
                 'foto_utama' => 'images/monstera.jpg',
                 'deskripsi' => 'Tanaman hias indoor populer dengan daun besar berlubang.',
                 'terjual' => 5,
@@ -30,10 +27,7 @@ class ProdukSeeder extends Seeder
             ],
             [
                 'id_kategori' => 2, // outdoor
-                'id_ukuran' => 3,   // besar
                 'nama' => 'Palem Kipas',
-                'harga' => 175000,
-                'stok' => 8,
                 'foto_utama' => 'images/palem-kipas.jpg',
                 'deskripsi' => 'Tanaman outdoor dengan daun berbentuk kipas, cocok untuk taman.',
                 'terjual' => 2,

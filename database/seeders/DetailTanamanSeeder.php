@@ -16,7 +16,6 @@ class DetailTanamanSeeder extends Seeder
         DB::table('detail_tanaman')->insert([
             [
                 'id_produk' => 1,
-                'id_kategori' => 1, // Indoor Plant
                 'nama_ilmiah' => 'Monstera deliciosa',
                 'ukuran_detail' => 'Tinggi ±60 cm',
                 'asal_tanaman' => 'Meksiko & Amerika Tengah',
@@ -25,7 +24,6 @@ class DetailTanamanSeeder extends Seeder
             ],
             [
                 'id_produk' => 2,
-                'id_kategori' => 2, // Outdoor Plant
                 'nama_ilmiah' => 'Echinocactus grusonii',
                 'ukuran_detail' => 'Diameter ±25 cm',
                 'asal_tanaman' => 'Meksiko',

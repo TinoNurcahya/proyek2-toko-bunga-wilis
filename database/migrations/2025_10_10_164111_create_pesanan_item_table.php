@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('id_pesanan')
                 ->constrained('pesanan', 'id_pesanan')
                 ->onDelete('cascade');
-            $table->foreignId('id_produk')
-                ->constrained('produk', 'id_produk')
+            $table->foreignId('id_produk_ukuran')
+                ->constrained('produk_ukuran', 'id_produk_ukuran')
                 ->onDelete('cascade');
             $table->decimal('harga_satuan', 10, 2);
             $table->integer('kuantitas');

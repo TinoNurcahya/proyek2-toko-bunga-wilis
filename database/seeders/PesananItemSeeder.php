@@ -16,7 +16,7 @@ class PesananItemSeeder extends Seeder
         DB::table('pesanan_item')->insert([
             [
                 'id_pesanan' => 1,
-                'id_produk' => 1, // Monstera
+                'id_produk_ukuran' => 1, // Monstera
                 'harga_satuan' => 150000,
                 'kuantitas' => 2,
                 'subtotal' => 2 * 150000,
@@ -25,7 +25,7 @@ class PesananItemSeeder extends Seeder
             ],
             [
                 'id_pesanan' => 1,
-                'id_produk' => 2, // kaktus
+                'id_produk_ukuran' => 2, // kaktus
                 'harga_satuan' => 120000,
                 'kuantitas' => 1,
                 'subtotal' => 1 * 120000,

@@ -23,13 +23,11 @@ class DatabaseSeeder extends Seeder
             FotoProdukSeeder::class,
             DetailTanamanSeeder::class,
             PetunjukPerawatanSeeder::class,
-            KeranjangSeeder::class,
+            ProdukUkuranSeeder::class,
             PesananSeeder::class,
             PesananItemSeeder::class,
-            CategorySeeder::class,
-            ProductSeeder::class,
-]);
+            KeranjangSeeder::class,
+        ]);
 
-    
     }
 }

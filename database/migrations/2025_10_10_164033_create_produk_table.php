@@ -14,10 +14,7 @@ return new class extends Migration
         Schema::create('produk', function (Blueprint $table) {
             $table->id('id_produk');
             $table->foreignId('id_kategori')->constrained('kategori', 'id_kategori')->onDelete('cascade');
-            $table->foreignId('id_ukuran')->constrained('ukuran', 'id_ukuran')->onDelete('cascade');
             $table->string('nama');
-            $table->decimal('harga', 10, 2);
-            $table->integer('stok');
             $table->string('foto_utama')->nullable();
             $table->text('deskripsi')->nullable();
             $table->integer('terjual')->default(0);

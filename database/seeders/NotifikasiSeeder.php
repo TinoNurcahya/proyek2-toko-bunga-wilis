@@ -17,15 +17,27 @@ class NotifikasiSeeder extends Seeder
         DB::table('notifikasi')->insert([
             [
                 'id_users' => 2,
+                'judul' => 'Login',
                 'pesan' => 'Selamat datang di sistem kami!',
                 'status' => 'belum_dibaca',
-                'tanggal' => Carbon::now()->toDateString(),
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
-                'id_users' => 3,
+                'id_users' => 2,
+                'judul' => 'verifikasi',
                 'pesan' => 'Akun kamu berhasil diverifikasi.',
                 'status' => 'dibaca',
-                'tanggal' => Carbon::now()->subDay()->toDateString(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id_users' => 2,
+                'judul' => 'daftar',
+                'pesan' => 'Selamat datang di sistem kami!',
+                'status' => 'belum_dibaca',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
         ]);
     }

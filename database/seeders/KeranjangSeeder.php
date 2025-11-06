@@ -16,17 +16,15 @@ class KeranjangSeeder extends Seeder
         DB::table('keranjang')->insert([
             [
                 'id_users' => 2, // User kedua
-                'id_produk' => 1, // Monstera
+                'id_produk_ukuran' => 1, // Monstera
                 'jumlah' => 2,
-                'subtotal' => 2 * 150000, // harga contoh 150rb
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'id_users' => 3, // User ketiga
-                'id_produk' => 2, // Kaktus Golden Barrel
+                'id_produk_ukuran' => 2,
                 'jumlah' => 3,
-                'subtotal' => 3 * 90000,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

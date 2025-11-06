@@ -23,7 +23,7 @@ class PetunjukPerawatanSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_produk' => 2, // Kaktus Golden Barrel
+                'id_produk' => 2,
                 'penyiraman' => 'Disiram 1 kali per 10-14 hari, hindari tanah terlalu lembap.',
                 'cahaya' => 'Butuh sinar matahari penuh setidaknya 6 jam sehari.',
                 'suhu_dan_kelembapan' => 'Suhu 25–35°C, kelembapan rendah.',

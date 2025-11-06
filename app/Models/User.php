@@ -2,30 +2,26 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
+use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Notifications\CustomVerifyEmail;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmailContract
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
-    protected $primaryKey = 'id_users';
+    use HasFactory, Notifiable, MustVerifyEmail; 
 
+    protected $primaryKey = 'id_users';
     public $incrementing = true;
     protected $keyType = 'int';
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
+
     protected $fillable = [
         'nama',
         'email',
         'password',
+        'google_id',
         'role',
         'alamat',
         'no_hp',
@@ -33,21 +29,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'foto_profil',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -56,9 +42,6 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    /**
-     * Get the notification that should be sent to the user.
-     */
     public function sendEmailVerificationNotification(): void
     {
         $this->notify(new CustomVerifyEmail());
@@ -72,5 +55,14 @@ class User extends Authenticatable implements MustVerifyEmail
         ]));
 
         $this->notify(new \App\Notifications\CustomResetPassword($resetUrl, $this));
+    }
+    public function hasVerifiedEmail(): bool
+    {
+        return !is_null($this->email_verified_at);
+    }
+
+    public function notifikasi()
+    {
+        return $this->hasMany(Notifikasi::class, 'id_users', 'id_users');
     }
 }
