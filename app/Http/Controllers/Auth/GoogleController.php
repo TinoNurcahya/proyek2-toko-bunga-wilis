@@ -46,7 +46,7 @@ class GoogleController extends Controller
             Auth::login($user, true);
             request()->session()->regenerate();
 
-            // SEMUA redirect ke home, biarkan route home yang handle verifikasi
+            // SEMUA redirect ke home
             return redirect()->route('home');
 
         } catch (\Exception $e) {

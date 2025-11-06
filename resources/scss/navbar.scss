@@ -141,14 +141,17 @@
     font-style: italic;
 }
 
-.user-popup ul, li {
+.user-popup ul,
+li {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
 .user-popup li a,
-.user-popup button {
+.user-popup button,
+.cart-popup button,
+.notif-popup button {
     display: block;
     font-size: 14px;
     width: 100%;
@@ -159,7 +162,9 @@
 }
 
 .user-popup li a:hover,
-.user-popup button:hover {
+.user-popup button:hover,
+.cart-popup button:hover,
+.notif-popup button:hover {
     background-color: #dfdfdf;
 }
 

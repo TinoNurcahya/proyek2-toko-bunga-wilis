@@ -24,8 +24,8 @@ class VerifyEmailController extends Controller
         }
 
         $user = $request->user();
-        
+
         // Redirect berdasarkan role setelah verifikasi
-return redirect()->route('home')->with('status', 'Email berhasil diverifikasi!');
+        return redirect()->route('home')->with('status', 'Email berhasil diverifikasi!');
     }
 }

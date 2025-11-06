@@ -32,15 +32,6 @@ class PesananItemSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'id_pesanan' => 2,
-                'id_produk' => 2, // Kaktus Golden Barrel
-                'harga_satuan' => 90000,
-                'kuantitas' => 3,
-                'subtotal' => 3 * 90000,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
         ]);
     }
 }

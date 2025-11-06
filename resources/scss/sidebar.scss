@@ -1,0 +1,112 @@
+.sidebar-nav {
+    height: fit-content;
+    top: 2rem;
+}
+
+
+.profile-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 3px solid #f8f9fa;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-name {
+    font-size: 1.1rem;
+    color: #2d3748;
+    font-weight: 600;
+}
+
+.nav-section:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.section-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #718096;
+    letter-spacing: 0.5px;
+    margin-bottom: 1rem;
+}
+
+.nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Link */
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #4a5568;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    border: none;
+    background: transparent;
+}
+
+.sidebar-link:hover {
+    background-color: #f7fafc;
+    color: #2d3748;
+    transform: translateX(4px);
+    text-decoration: none;
+}
+
+.sidebar-active {
+    background-color: #ebf8ff;
+    color: #1d3a1a;
+    font-weight: 500;
+    border-left: 4px solid #1d3a1a;
+}
+
+.sidebar-active i {
+    color: #1d3a1a;
+}
+
+.sidebar-link i {
+    width: 16px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #718096;
+    transition: color 0.3s ease;
+}
+
+.sidebar-link:hover i {
+    color: #4a5568;
+}
+
+.sidebar-link {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-link:focus {
+    outline: 2px solid #3182ce;
+    outline-offset: 2px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .sidebar-nav {
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        position: relative;
+        top: 0;
+    }
+    
+    .profile-image {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .sidebar-link {
+        padding: 0.625rem 0.875rem;
+        font-size: 0.85rem;
+    }
+}

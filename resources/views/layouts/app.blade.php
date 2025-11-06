@@ -41,47 +41,6 @@
     </div>
 
     @stack('scripts')
-    <script>
-        window.addEventListener('show-toast', event => {
-            const {
-                type,
-                message
-            } = event.detail;
-            const bgClass = {
-                success: 'bg-success text-white',
-                info: 'bg-info text-white',
-                warning: 'bg-warning text-dark',
-                error: 'bg-danger text-white'
-            } [type] || 'bg-secondary text-white';
-            const iconClass = {
-                success: 'fas fa-check-circle',
-                info: 'fas fa-info-circle',
-                warning: 'fas fa-exclamation-triangle',
-                error: 'fas fa-exclamation-circle'
-            } [type] || 'fas fa-bell';
-            const toast = document.createElement('div');
-            toast.className = `toast align-items-center border-0 ${bgClass}`;
-            toast.role = 'alert';
-            toast.innerHTML = `
-            <div class="d-flex">
-                <div class="toast-body d-flex align-items-start">
-                    <i class="${iconClass} me-3 mt-1 flex-shrink-0"></i>
-                    <span class="fw-semibold flex-grow-1" style="word-break: break-word;">${message}</span>
-                </div>
-                <button type="button" class="btn-close btn-close-white me-3 m-auto flex-shrink-0" data-bs-dismiss="toast"></button>
-            </div>
-        `;
-            document.getElementById('toastContainer').appendChild(toast);
-
-            const bsToast = new bootstrap.Toast(toast, {
-                delay: 2500
-            });
-            bsToast.show();
-
-            // Hapus elemen toast setelah animasi selesai
-            toast.addEventListener('hidden.bs.toast', () => toast.remove());
-        });
-    </script>
 </body>
 
 </html>

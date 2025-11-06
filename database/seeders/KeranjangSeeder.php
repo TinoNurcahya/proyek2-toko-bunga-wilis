@@ -22,7 +22,7 @@ class KeranjangSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_users' => 3, // User ketiga
+                'id_users' => 3,
                 'id_produk_ukuran' => 2,
                 'jumlah' => 3,
                 'created_at' => now(),
