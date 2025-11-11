@@ -1,4 +1,4 @@
-nav {
+#main-navbar {
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     background: rgba(255, 255, 255, 0.45);
@@ -74,7 +74,7 @@ nav {
     background: rgba(255, 255, 255, 0.1) !important;
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     backdrop-filter: blur(20px) saturate(180%);
-    transition: all 0.3s ease;
+    transition: all 0.3s;
 }
 
 .search-box input:focus {
@@ -126,13 +126,13 @@ nav {
 .user-popup::before {
     content: "";
     position: absolute;
-    top: -7px;
+    top: -8px;
     right: 24px;
     width: 0;
     height: 0;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-    border-bottom: 8px solid #fff;
+    border-bottom: 8px solid #1d3a1a;
     z-index: 1001;
 }
 
@@ -141,15 +141,17 @@ nav {
     font-style: italic;
 }
 
-.user-popup ul, li {
+.user-popup ul,
+li {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-
 .user-popup li a,
-.user-popup button {
+.user-popup button,
+.cart-popup button,
+.notif-popup button {
     display: block;
     font-size: 14px;
     width: 100%;
@@ -160,50 +162,104 @@ nav {
 }
 
 .user-popup li a:hover,
-.user-popup button:hover {
+.user-popup button:hover,
+.cart-popup button:hover,
+.notif-popup button:hover {
     background-color: #dfdfdf;
 }
-
 
 /* ================= MOBILE ================= */
 @media (max-width: 992px) {
     /* Navbar wrapper */
     #main-navbar {
-        background: rgba(255, 255, 255, 0.95) !important;
-        -webkit-backdrop-filter: blur(12px) saturate(150%);
-        backdrop-filter: blur(12px) saturate(150%);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        background: rgba(255, 255, 255, 0.45);
+        border-bottom: 1px solid rgba(29, 58, 26, 0.4);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        z-index: 999;
+        transition: background 0.3s, border-color 0.3s;
     }
 
     #main-navbar .container {
-        padding-left: 10px;
-        padding-right: 10px;
+        padding: 0 10px;
     }
-
+    .navbar .navbar-nav a:hover::after,
+    .navbar .navbar-nav .active::after {
+        transform: scaleX(0.1);
+    }
     /* Toggler */
     .navbar-toggler {
         border: none !important;
+        transition: all 0.3s ease;
+        z-index: 9;
     }
-
+    .navbar-toggler span,
+    .navbar-toggler .default-icon,
+    .navbar-toggler .close-icon {
+        pointer-events: none;
+    }
     .navbar-toggler:focus {
         box-shadow: none !important;
     }
 
+    /* Sembunyikan icon default Bootstrap */
+    .navbar-toggler-icon {
+        background-image: none !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: auto;
+        height: auto;
+    }
+    .navbar-collapse.collapse:not(.show) {
+        display: none !important;
+    }
+
+    .navbar-collapse.collapse.show {
+        display: block !important;
+    }
+
+    .navbar-toggler {
+        border: none !important;
+        background: transparent !important;
+        padding: 4px 8px;
+    }
+
+    .navbar-toggler:focus {
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
+    .d-none {
+        display: none !important;
+    }
+
+    .navbar-toggler.border-dark .navbar-toggler-icon i {
+        color: #000;
+    }
+
+    .navbar-toggler.border-white .navbar-toggler-icon i {
+        color: #fff;
+    }
+
     /* Collapse content */
     .navbar-collapse {
-        background: #ffffff;
+        background: rgba(255, 255, 255, 0.4);
         border-top: 1px solid rgba(0, 0, 0, 0.08);
         padding: 0.8rem 1rem 1rem;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
         margin-top: 0.5rem;
-        border-radius: 0;
-        box-shadow: none;
+        border-radius: 18px;
     }
     .navbar-nav .nav-item {
-        margin: 0.2rem 0;
+        width: 100%;
+        text-align: center;
     }
 
     .navbar-nav .nav-link {
+        display: block;
+        padding: 10px 0;
         font-size: 15px;
         letter-spacing: 0.3px;
     }
@@ -232,27 +288,29 @@ nav {
         color: #357d36 !important;
         text-shadow: 0 0 6px rgba(39, 170, 39, 0.25);
     }
-
-    /* Search box mobile */
-    .search-box {
-        width: 100%;
-        margin-top: 0.8rem;
-        margin-bottom: 1rem;
-        position: relative;
+    .navbar-nav .search-box {
+        width: 50%;
+        max-width: 300px;
+        display: block;
+        margin: 0 auto;
     }
 
-    .search-box input {
-        width: 100%;
-        border: 1px solid #1d3a1a !important;
-        background: #fff !important;
-        padding: 0.55rem 2.2rem 0.55rem 1rem;
-        border-radius: 20px;
-        font-size: 14px;
+    .navbar-nav .search-box input {
+        width: 100% !important;
+        padding-right: 40px;
     }
 
-    .search-box i {
-        right: 12px;
-        color: #1d3a1a;
+    .navbar-nav .search-box .fa-search {
+        right: 15px;
+        transform: translateY(-50%);
+    }
+
+    .navbar-nav .nav-link.me-4 {
+        margin-right: 0 !important;
+    }
+
+    .navbar-nav.ms-5 {
+        margin-left: 0 !important;
     }
 
     /* Icon kanan (cart, notif, user) */
@@ -268,20 +326,15 @@ nav {
         font-size: 1.3rem;
     }
 
-    /* Popup container */
     .cart-popup,
     .notif-popup,
     .user-popup {
-        top: 110%;
-        right: 50%;
-        transform: translateX(50%);
-        min-width: 85%;
+        display: none !important;
     }
 
-    .cart-popup::before,
-    .notif-popup::before,
-    .user-popup::before {
-        right: 50%;
-        transform: translateX(50%);
+    .cart-hover-container:hover .cart-popup,
+    .notif-hover-container:hover .notif-popup,
+    .user-hover-container:hover .user-popup {
+        display: none !important;
     }
 }

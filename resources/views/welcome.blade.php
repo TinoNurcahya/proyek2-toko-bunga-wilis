@@ -2,7 +2,8 @@
 
 @section('title', 'Beranda')
 
-<section id="hero" class="text-white d-flex align-items-center justify-content-center daunbg">
+@section('content')
+<section id="hero" class="text-white d-flex align-items-center justify-content-center daunbg container-fluid">
     <div class="container">
         <h1 class="fraunces h-1">Wilis Garden</h1>
         <div class="montserrat">
@@ -13,7 +14,6 @@
         </div>
     </div>
 </section>
-@section('content')
 
 
 @endsection

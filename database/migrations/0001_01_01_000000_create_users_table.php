@@ -17,9 +17,10 @@ return new class extends Migration
             $table->string('nama');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('google_id')->nullable();
             $table->text('alamat')->nullable();
             $table->string('no_hp', 15)->nullable();
-            $table->enum('jenis_kelamin', ['L', 'P'])->nullable();
+            $table->enum('jenis_kelamin', ['L', 'P'])->default('L');
             $table->string('foto_profil')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

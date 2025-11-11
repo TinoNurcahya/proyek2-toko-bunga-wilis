@@ -1,0 +1,45 @@
+.form-container-profile {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+#update_password_current_password::placeholder,
+#update_password_password::placeholder,
+#update_password_password_confirmation::placeholder {
+    font-size: 14px;
+    color: #888;
+    opacity: 1;
+}
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 3px solid #dee2e6;
+    margin-bottom: 15px;
+}
+.mobile-profile-picture {
+    width: 120px;
+    height: 120px;
+}
+
+.form-text-profile {
+    font-size: 0.75rem;
+}
+
+/* Desktop - gambar di kanan */
+@media (min-width: 768px) {
+    .mobile-profile-section {
+        display: none;
+    }
+}
+
+/* Mobile - gambar di atas */
+@media (max-width: 767.98px) {
+    .desktop-profile-section {
+        display: none;
+    }
+    .mobile-profile-section {
+        display: block;
+        margin-bottom: 20px;
+    }
+}

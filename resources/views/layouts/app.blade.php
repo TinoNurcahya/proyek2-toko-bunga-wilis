@@ -14,7 +14,7 @@
 <body class="bg-light">
     <div class="min-vh-100 d-flex flex-column">
         {{-- Navbar --}}
-        @include('layouts.navigation') 
+        @include('layouts.navigation')
 
         {{-- Page Heading --}}
         @hasSection('header')
@@ -35,6 +35,12 @@
         {{-- Footer --}}
         <x-footer />
     </div>
+    <!-- Toast Container -->
+    <div aria-live="polite" aria-atomic="true" class="position-fixed" style="z-index: 2000; top: 100px; right: 400px;">
+        <div id="toastContainer" class="toast-container"></div>
+    </div>
+
+    @stack('scripts')
 </body>
 
 </html>
