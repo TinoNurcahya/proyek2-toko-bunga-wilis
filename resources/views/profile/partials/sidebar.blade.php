@@ -5,10 +5,10 @@
             <img src="{{ asset('storage/' . $user->foto_profil) }}" alt="Foto Profil"
                 class="profile-image rounded-circle mb-3">
         @else
-            <img src="{{ asset('images/default-avatar.png') }}" alt="Foto Profil Default"
+            <img src="{{ asset('images/default/default-avatar.png') }}" alt="Foto Profil Default"
                 class="profile-image rounded-circle mb-3">
         @endif
-        <h5 class="profile-name fw-bold text-dark mb-1"> {{ Str::limit($user->nama, 20) }}</h5>
+        <h5 class="profile-name fw-bold text-dark mb-1 overflow-x-auto"> {{ $user->nama }}</h5>
     </div>
 
     <!-- Navigation -->

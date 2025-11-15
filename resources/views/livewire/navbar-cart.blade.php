@@ -31,7 +31,7 @@
                                             alt="{{ $cartItem->produkUkuran->produk->nama }}" width="50" height="50"
                                             class="me-3 rounded object-fit-cover flex-shrink-0">
                                     @else
-                                        <img src="{{ asset('images/default-product.jpg') }}" alt="Default Product"
+                                        <img src="{{ asset('images/default/default-product.jpg') }}" alt="Default Product"
                                             width="50" height="50"
                                             class="me-3 rounded object-fit-cover flex-shrink-0">
                                     @endif
@@ -80,12 +80,18 @@
                         </div>
 
                         <div class="dropdown-divider my-2"></div>
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <strong>Total:</strong>
-                            <strong class="text-success" id="navbar-total-price">
-                                Rp {{ number_format($totalPrice, 0, ',', '.') }}
-                            </strong>
-                        </div>
+                        @if ($cartCount > 0)
+                            @php
+                                $otherItemsCount = max(0, $cartCount - $cartItems->count());
+                            @endphp
+
+                            <div class="dropdown-divider my-2"></div>
+                            <div class="text-center mb-2">
+                                <small class="text-muted">
+                                    + {{ $otherItemsCount }} produk {{ $otherItemsCount != 1 ? 'lainnya' : 'lain' }}
+                                </small>
+                            </div>
+                        @endif
                     @else
                         <div class="text-center py-3">
                             <i class="fas fa-shopping-cart text-muted fa-2x mb-2"></i>

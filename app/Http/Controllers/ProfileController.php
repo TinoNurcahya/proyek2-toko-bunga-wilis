@@ -24,7 +24,7 @@ class ProfileController extends Controller
     public function edit(Request $request): View
     {
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => $request->user(),'theme' => 'light'
         ]);
     }
 
@@ -114,7 +114,7 @@ class ProfileController extends Controller
     public function editAddress(Request $request): View
     {
         return view('profile.alamat', [
-            'user' => $request->user(),
+            'user' => $request->user(), 'theme' => 'light'
         ]);
     }
 
@@ -142,7 +142,7 @@ class ProfileController extends Controller
 
         return view('profile.notifikasi', [
             'user' => $request->user(),
-            'notifikasi' => $notifikasi,
+            'notifikasi' => $notifikasi,'theme' => 'light'
         ]);
     }
 
@@ -261,7 +261,7 @@ class ProfileController extends Controller
         return view('profile.keranjang', [
             'user' => $request->user(),
             'cartItems' => $cartItems,
-            'totalPrice' => $totalPrice,
+            'totalPrice' => $totalPrice,'theme' => 'light'
         ]);
     }
 
@@ -282,9 +282,6 @@ class ProfileController extends Controller
         return back()->with('error', 'Item keranjang tidak ditemukan');
     }
 
-    /**
-     * Update cart item quantity.
-     */
     /**
      * Update cart item quantity.
      */

@@ -30,6 +30,30 @@ class DetailTanamanSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'id_produk' => 3,
+                'nama_ilmiah' => 'Rosa',
+                'ukuran_detail' => 'Diameter ±10 cm',
+                'asal_tanaman' => 'dataran Asia, Eropa, dan Timur Tengah',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id_produk' => 4,
+                'nama_ilmiah' => 'Plectranthus scutellarioides',
+                'ukuran_detail' => 'Diameter ±10 cm',
+                'asal_tanaman' => 'Asia Tenggara dan kepulauan Pasifik',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id_produk' => 5,
+                'nama_ilmiah' => 'Anthurium plowmanii',
+                'ukuran_detail' => 'Diameter ±10 cm',
+                'asal_tanaman' => 'Amerika Selatan dan Amerika Tengah',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }

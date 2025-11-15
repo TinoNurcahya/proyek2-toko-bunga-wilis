@@ -16,20 +16,9 @@
         {{-- Navbar --}}
         @include('layouts.navigation')
 
-        {{-- Page Heading --}}
-        @hasSection('header')
-            <header class="bg-white shadow-sm border-bottom">
-                <div class="container py-3">
-                    @yield('header')
-                </div>
-            </header>
-        @endif
-
         {{-- Page Content --}}
-        <main class="flex-grow-1 py-4">
-            <div class="container">
-                @yield('content')
-            </div>
+        <main class="flex-grow-1">
+            @yield('content')
         </main>
 
         {{-- Footer --}}

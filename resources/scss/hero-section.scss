@@ -1,0 +1,138 @@
+#hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    color: white;
+    padding-left: 8%;
+    padding-right: 8%;
+}
+
+.hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 0;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    line-height: 1.6;
+}
+
+.border-hero-btn {
+    display: inline-block;
+    position: relative;
+    margin-top: 1rem;
+}
+// error__button error__button--active
+.error__button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: #2d333b;
+    color: #e8eaed;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    border: 1px solid #404854;
+}
+
+.error__button:hover {
+    background: #37404c;
+    transform: translateY(-2px);
+    color: #ffffff;
+}
+
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+/* Border animasi */
+.border-hero-btn::after,
+.border-hero-btn::before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    padding: 3px;
+    border-radius: 10px;
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+/* Efek blur glow */
+.border-hero-btn::before {
+    filter: blur(0.8rem);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+/* Saat hover : border muncul & animasi aktif */
+.border-hero-btn:hover::after,
+.border-hero-btn:hover::before {
+    opacity: 1;
+    background-image: conic-gradient(
+        from var(--angle),
+        #ff4545,
+        #00ff99,
+        #006aff,
+        #ff0095,
+        #ff4545
+    );
+    animation: spin 3s linear infinite;
+}
+
+/* Keyframe spin */
+@keyframes spin {
+    from {
+        --angle: 0deg;
+    }
+    to {
+        --angle: 360deg;
+    }
+}
+
+@media (max-width: 768px) {
+    .daunbg {
+        background-attachment: scroll;
+        background-position: center top;
+        background-size: cover;
+    }
+
+    .border-hero-btn {
+        display: block;
+        position: relative;
+        margin: 1.5rem auto 0;
+        text-align: center;
+        width: 100%;
+        max-width: 280px;
+    }
+
+}

@@ -23,6 +23,21 @@ class ProdukUkuranSeeder extends Seeder
             ['id_produk' => 2, 'id_ukuran' => 2, 'stok' => 8, 'harga' => 45000],   // Sedang
             ['id_produk' => 2, 'id_ukuran' => 3, 'stok' => 4, 'harga' => 60000],   // Besar
 
+            // mawar
+            ['id_produk' => 3, 'id_ukuran' => 1, 'stok' => 15, 'harga' => 30000],  // Mini
+            ['id_produk' => 3, 'id_ukuran' => 2, 'stok' => 8, 'harga' => 45000],   // Sedang
+            ['id_produk' => 3, 'id_ukuran' => 3, 'stok' => 4, 'harga' => 60000],   // Besar
+            
+            // coleus
+            ['id_produk' => 4, 'id_ukuran' => 1, 'stok' => 15, 'harga' => 30000],  // Mini
+            ['id_produk' => 4, 'id_ukuran' => 2, 'stok' => 8, 'harga' => 45000],   // Sedang
+            ['id_produk' => 4, 'id_ukuran' => 3, 'stok' => 4, 'harga' => 60000],   // Besar
+
+            // coleus
+            ['id_produk' => 5, 'id_ukuran' => 1, 'stok' => 15, 'harga' => 30000],  // Mini
+            ['id_produk' => 5, 'id_ukuran' => 2, 'stok' => 8, 'harga' => 45000],   // Sedang
+            ['id_produk' => 5, 'id_ukuran' => 3, 'stok' => 4, 'harga' => 60000],   // Besar
+
         ]);
     }
 }

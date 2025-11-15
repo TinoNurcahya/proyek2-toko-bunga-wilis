@@ -4,6 +4,12 @@
 @import "auth";
 @import "sidebar";
 @import "update-profile";
+@import "hero-section";
+@import "category-section";
+@import "size-section";
+@import "latest-section";
+@import "popular-section";
+@import "contact-section";
 @import "footer";
 @import "404";
 
@@ -88,14 +94,69 @@ body {
     .toast-container {
         max-width: calc(100vw - 40px);
     }
-    
+
     div[aria-live="polite"] {
         right: 20px !important;
         left: 20px !important;
         top: 70px !important;
     }
-    
+
     .toast {
         width: 100%;
+    }
+}
+
+/* Pusat lingkaran */
+.feature-card {
+    position: absolute;
+    width: 260px;
+    max-width: 85%;
+}
+
+.feature-top {
+    top: -20px;
+    left: 71%;
+    transform: translateX(-50%);
+}
+
+.feature-left {
+    left: 28%;
+    top: 66%;
+    transform: translateY(-50%) translateX(-60%);
+}
+
+.feature-right {
+    right: 33%;
+    top: 80%;
+    transform: translateY(-50%) translateX(60%);
+}
+
+/* Testimonial */
+.testimonial {
+    border-top: 4px solid #28a745 !important;
+}
+
+/* Responsif */
+@media (max-width: 992px) {
+    .feature-card {
+        position: static;
+        transform: none !important;
+        margin-bottom: 0.5rem;
+        width: 100%;
+        max-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .pilih-kami-section {
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+
+    /* Perbaikan gambar untuk mobile */
+    .pilih-kami-section img {
+        max-width: 200px !important;
+        height: auto !important;
+        width: 100% !important;
     }
 }

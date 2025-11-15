@@ -46,9 +46,11 @@ class GoogleController extends Controller
             Auth::login($user, true);
             request()->session()->regenerate();
 
-            // SEMUA redirect ke home
-            return redirect()->route('home');
+            if (!$user->hasVerifiedEmail()) {
+                return redirect()->route('verification.notice');
+            }
 
+            return redirect()->route('home');
         } catch (\Exception $e) {
             return redirect()->route('login')
                 ->with('error', 'Login dengan Google gagal: ' . $e->getMessage());

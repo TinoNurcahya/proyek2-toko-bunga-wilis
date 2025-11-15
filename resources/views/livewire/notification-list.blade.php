@@ -69,7 +69,7 @@
     @else
         <!-- Empty State -->
         <div class="text-center py-4">
-            <img src="{{ asset('images/empty-notification.jpg') }}" class="img-fluid w-50 mb-3"
+            <img src="{{ asset('images/default/empty-notification.jpg') }}" class="img-fluid w-50 mb-3"
                 alt="Notifikasi kosong">
             <h5 class="text-muted fw-bold mb-3">Notifikasi kosong</h5>
             <p class="text-muted small mx-auto mb-4" style="max-width: 400px;">

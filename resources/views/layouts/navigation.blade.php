@@ -1,9 +1,14 @@
 <!-- Navbar Start -->
-<nav id="main-navbar" class="navbar navbar-expand-lg w-100 fw-medium fixed-top navbar-light montserrat">
+@php
+    $theme = $theme ?? 'dark';
+@endphp
+
+<nav id="main-navbar"
+    class="navbar navbar-expand-lg w-100 fw-medium fixed-top navbar-light montserrat {{ $theme === 'light' ? 'page-light' : '' }}">
     <div class="container">
         <!-- Logo -->
-        <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
-            <img id="navbar-logo" src="{{ asset('images/logo-dark.png') }}" alt="Logo" class="me-2">
+        <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}#">
+            <img id="navbar-logo" src="{{ asset('images/logo.png') }}" alt="Logo" class="me-2">
         </a>
 
         <!-- Toggler -->
@@ -20,7 +25,7 @@
             <ul class="navbar-nav me-auto ms-5 align-items-center montserrat">
                 <li class="nav-item">
                     <a class="nav-link me-4 {{ request()->is('/') ? 'active' : '' }}"
-                        href="{{ url('/') }}">Beranda</a>
+                        href="{{ url('/') }}#">Beranda</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link me-4 {{ request()->is('produk') ? 'active' : '' }}"
@@ -28,7 +33,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link me-4 {{ request()->is('tentang') ? 'active' : '' }}"
-                        href="{{ url('/tentang') }}">Tentang
+                        href="{{ url('/') }}#tentang">Tentang
                         Kami</a>
                 </li>
 

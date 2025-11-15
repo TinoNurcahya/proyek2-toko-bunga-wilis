@@ -28,6 +28,44 @@ class Produk extends Model
         return $this->hasOne(DetailTanaman::class, 'id_produk', 'id_produk');
     }
 
+    // RELATIONSHIP UNTUK PRODUK_UKURAN
+    public function produkUkuran()
+    {
+        return $this->hasMany(ProdukUkuran::class, 'id_produk', 'id_produk');
+    }
+
+    // RELATIONSHIP DENGAN UKURAN MELALUI PRODUK_UKURAN
+    public function ukurans()
+    {
+        return $this->belongsToMany(Ukuran::class, 'produk_ukuran', 'id_produk', 'id_ukuran')
+            ->withPivot('harga', 'stok')
+            ->withTimestamps();
+    }
+
+    // ACCESSOR UNTUK HARGA TERENDAH
+    public function getHargaTerendahAttribute()
+    {
+        return $this->produkUkuran()->min('harga');
+    }
+
+    // ACCESSOR UNTUK HARGA TERTINGGI
+    public function getHargaTertinggiAttribute()
+    {
+        return $this->produkUkuran()->max('harga');
+    }
+
+    public function getTerjualFormattedAttribute()
+    {
+        return $this->terjual >= 1000
+            ? floor($this->terjual / 1000) . 'rb+'
+            : $this->terjual;
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'id_produk';
+    }
+
     public function keranjang()
     {
         return $this->hasMany(Keranjang::class, 'id_produk', 'id_produk');
@@ -38,8 +76,14 @@ class Produk extends Model
         return $this->belongsTo(Kategori::class, 'id_kategori', 'id_kategori');
     }
 
-    public function ukuran()
+    public function petunjukPerawatan()
     {
-        return $this->belongsTo(Ukuran::class, 'id_ukuran', 'id_ukuran');
+        return $this->hasOne(PetunjukPerawatan::class, 'id_produk', 'id_produk');
+    }
+    
+    // RELATIONSHIP KE REVIEWS
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'id_produk', 'id_produk');
     }
 }

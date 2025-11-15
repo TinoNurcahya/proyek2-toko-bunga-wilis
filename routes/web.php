@@ -1,15 +1,15 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\ProductController;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ReviewController;
 
 // === Halaman Utama ===
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [ProductController::class, 'index'])->name('home');
 
 // === Google OAuth ===
 Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.redirect');
@@ -32,6 +32,14 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::get('/profile/keranjang', [ProfileController::class, 'showCart'])->name('profile.keranjang');
     Route::delete('/profile/keranjang/{id}', [ProfileController::class, 'deleteCartItem'])->name('profile.keranjang.delete');
     Route::post('/profile/keranjang/{id}/update-quantity', [ProfileController::class, 'updateQuantity'])->name('profile.keranjang.update-quantity');
+
+    // ROUTE PRODUK
+    Route::get('/produk/{produk}', [ProductController::class, 'show'])->name('produk.detail');
+
+    // ROUTE REVIEW
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::get('/reviews/create/{produk}', [ReviewController::class, 'create'])->name('reviews.create');
+    Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 });
 
 // === ROUTES KHUSUS ADMIN (TAMBAHKAN 'verified') ===

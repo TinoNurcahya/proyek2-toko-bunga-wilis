@@ -9,16 +9,29 @@ class Review extends Model
 {
     use HasFactory;
 
+    protected $table = 'reviews';
+    protected $primaryKey = 'id_review';
+
     protected $fillable = [
-        'product_id',
-        'user_name',
+        'id_produk',
+        'id_users',  
         'rating',
-        'comment',
-        'review_date',
+        'komentar',
+        'tanggal_review',
     ];
 
-    public function product()
+    public function getRouteKeyName()
     {
-        return $this->belongsTo(Product::class);
+        return 'id_review';
+    }
+
+    public function produk()
+    {
+        return $this->belongsTo(Produk::class, 'id_produk', 'id_produk');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_users', 'id_users');
     }
 }

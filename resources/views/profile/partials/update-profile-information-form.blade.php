@@ -39,7 +39,7 @@
                         </div>
                     @else
                         <div class="mb-3">
-                            <img src="{{ asset('images/default-avatar.png') }}" alt="Foto Profil Default"
+                            <img src="{{ asset('images/default/default-avatar.png') }}" alt="Foto Profil Default"
                                 class="profile-picture rounded-circle mobile-profile-picture">
                         </div>
                     @endif
@@ -187,7 +187,7 @@
                             </div>
                         @else
                             <div class="mb-3">
-                                <img src="{{ asset('images/default-avatar.png') }}" alt="Foto Profil Default"
+                                <img src="{{ asset('images/default/default-avatar.png') }}" alt="Foto Profil Default"
                                     class="profile-picture rounded-circle">
                             </div>
                         @endif

@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             PesananSeeder::class,
             PesananItemSeeder::class,
             KeranjangSeeder::class,
+            ReviewSeeder::class,
         ]);
 
     }

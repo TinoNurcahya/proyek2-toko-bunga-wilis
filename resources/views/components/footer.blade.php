@@ -20,7 +20,7 @@
                         <ul class="list-unstyled montserrat">
                             <li><a href="#">Beranda</a></li>
                             <li><a href="#">Produk</a></li>
-                            <li><a href="#">Tentang Kami</a></li>
+                            <li><a href="{{ url('/') }}#tentang">Tentang Kami</a></li>
                             <li><a href="#">Mengapa Memilih Kami?</a></li>
                         </ul>
                     </div>
@@ -64,7 +64,7 @@
                     <a href="#" class="mx-1">Terms of Use</a> •
                     <a href="#" class="mx-1">Refund Policy</a>
                 </p>
-                <p class="mb-0 me-4">&copy; 2025 Wilis Garden. All rights reserved.</p>
+                <p class="mb-0 me-4">&copy; {{ now()->year }} Wilis Garden. All rights reserved.</p>
             </div>
         </div>
     </div>

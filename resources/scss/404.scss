@@ -380,8 +380,8 @@
 .error__button {
     display: inline-block;
     padding: 1rem 2rem;
-    background: #2d333b;
-    color: #e8eaed;
+    background: #ffffff;
+    color: #1d3a1a;
     text-decoration: none;
     font-weight: 600;
     border-radius: 8px;
@@ -393,7 +393,7 @@
 }
 
 .error__button:hover {
-    background: #37404c;
+    background: #1d3a1a;
     transform: translateY(-2px);
     color: #ffffff;
 }
@@ -474,8 +474,8 @@
     .error__button {
         display: inline-block;
         padding: 0.8rem 1.5rem;
-        background: #2d333b;
-        color: #e8eaed;
+        background: #ffffff;
+        color: #1d3a1a;
         text-decoration: none;
         font-weight: 600;
         border-radius: 8px;
@@ -507,7 +507,7 @@
         margin-bottom: 1rem;
     }
     .error__button:hover {
-        background: #37404c;
+        background: #1d3a1a;
         transform: translateY(-1px);
         color: #ffffff;
     }
@@ -541,11 +541,11 @@
         opacity: 1;
         background-image: conic-gradient(
             from var(--angle),
-            #8b0000,
-            #006400,
-            #00008b,
-            #800080,
-            #8b0000
+            #ff4545,
+            #00ff99,
+            #006aff,
+            #ff0095,
+            #ff4545
         );
         animation: spin 3s linear infinite;
     }
