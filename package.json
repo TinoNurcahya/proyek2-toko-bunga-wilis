@@ -19,8 +19,10 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^7.1.0",
         "@popperjs/core": "^2.11.8",
+        "aos": "^2.3.4",
         "bootstrap": "^5.3.8",
         "photoswipe": "^5.4.4",
+        "rellax": "^1.12.1",
         "swiper": "^12.0.3"
     }
 }

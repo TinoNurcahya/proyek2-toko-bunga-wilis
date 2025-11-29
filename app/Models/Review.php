@@ -14,11 +14,41 @@ class Review extends Model
 
     protected $fillable = [
         'id_produk',
-        'id_users',  
+        'id_users',
         'rating',
         'komentar',
         'tanggal_review',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::saved(function ($review) {
+            $review->updateProductRating();
+        });
+
+        static::deleted(function ($review) {
+            $review->updateProductRating();
+        });
+    }
+
+    public function updateProductRating()
+    {
+        $produk = $this->produk;
+        if (!$produk) return;
+
+        $reviews = $produk->reviews;
+
+        if ($reviews->count() > 0) {
+            $produk->rating = $reviews->avg('rating');
+            $produk->jumlah_rating = $reviews->count();
+        } else {
+            $produk->rating = 0;
+            $produk->jumlah_rating = 0;
+        }
+
+        $produk->save();
+    }
 
     public function getRouteKeyName()
     {

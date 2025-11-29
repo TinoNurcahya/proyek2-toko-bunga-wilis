@@ -80,10 +80,14 @@ class Produk extends Model
     {
         return $this->hasOne(PetunjukPerawatan::class, 'id_produk', 'id_produk');
     }
-    
-    // RELATIONSHIP KE REVIEWS
+
     public function reviews()
     {
         return $this->hasMany(Review::class, 'id_produk', 'id_produk');
+    }
+
+    public function fotoProduk()
+    {
+        return $this->hasMany(FotoProduk::class, 'id_produk', 'id_produk');
     }
 }

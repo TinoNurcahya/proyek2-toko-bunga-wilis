@@ -6,6 +6,7 @@ use App\Models\Review;
 use App\Models\Produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
@@ -25,7 +26,7 @@ class ReviewController extends Controller
 
         // Cek duplicate review
         $existingReview = Review::where('id_produk', $request->id_produk)
-            ->where('id_users', auth()->id())
+            ->where('id_users', Auth::user()->id_users)
             ->first();
 
         if ($existingReview) {
@@ -33,18 +34,17 @@ class ReviewController extends Controller
                 ->with('error', 'Anda sudah memberikan review untuk produk ini!');
         }
 
+        // Create review
         $review = Review::create([
             'id_produk' => $request->id_produk,
-            'id_users' => auth()->id(),
+            'id_users' => Auth::user()->id_users,
             'rating' => $request->rating,
             'komentar' => $request->komentar,
             'tanggal_review' => now(),
         ]);
 
-        // UPDATE: Clear cache agar testimonial real-time update
+        // Clear cache
         Cache::forget('testimonials-high-rating');
-
-        $this->updateProductRating($request->id_produk);
 
         return redirect()->route('produk.show', $request->id_produk)
             ->with('success', 'Review berhasil ditambahkan!');
@@ -54,36 +54,19 @@ class ReviewController extends Controller
     {
         $review = Review::findOrFail($id);
 
-        // Authorization check
-        if (auth()->user()->role !== 'admin' && $review->id_users !== auth()->id()) {
+        // Authorization check - PAKAI id_users
+        if (Auth::user()->role !== 'admin' && $review->id_users !== Auth::user()->id_users) {
             abort(403, 'Unauthorized action.');
         }
 
         $id_produk = $review->id_produk;
+
+        // Delete review - auto-update akan ter-trigger otomatis
         $review->delete();
 
-        // UPDATE: Clear cache agar testimonial real-time update
+        // Clear cache
         Cache::forget('testimonials-high-rating');
 
-        // Update rating produk setelah hapus review
-        $this->updateProductRating($id_produk);
-
         return redirect()->back()->with('success', 'Review berhasil dihapus!');
-    }
-
-    private function updateProductRating($id_produk)
-    {
-        $produk = Produk::find($id_produk);
-
-        if ($produk) {
-            $ratingData = Review::where('id_produk', $id_produk)
-                ->selectRaw('AVG(rating) as rata_rata, COUNT(*) as jumlah')
-                ->first();
-
-            $produk->update([
-                'rating' => $ratingData->rata_rata ?? 0,
-                'jumlah_rating' => $ratingData->jumlah ?? 0
-            ]);
-        }
     }
 }

@@ -2,7 +2,7 @@
 
 <section class="text-center pt-4 home-section-title">
     <div class="container">
-        <h3 class="fw-semibold mb-1 position-relative d-inline-block fraunces">Terbaru</h3>
+        <h3 class="fw-semibold mb-1 position-relative d-inline-block fraunces" data-aos="fade-down">Terbaru</h3>
         <p class="text-muted montserrat">Jangan lewatkan item baru yang baru ditambahkan</p>
 
         @if (isset($produkItem) && $produkItem->count() > 0)

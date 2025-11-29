@@ -1,9 +1,9 @@
 <div class="testimonial-swiper mx-auto" style="max-width: 600px;" wire:poll.60s="refreshTestimonials" wire:ignore>
-    <h3 class="fw-semibold mb-1 position-relative d-inline-block fraunces">
+    <h3 class="fw-semibold mb-1 position-relative d-inline-block fraunces" data-aos="fade-down">
         Apa yang orang katakan
     </h3>
 
-    <div class="testimonial-container position-relative">
+    <div class="testimonial-container position-relative" data-aos="fade-down">
         <div class="swiper testimonialSwiper">
             <div class="swiper-wrapper">
                 @if ($testimonials->count() > 0)

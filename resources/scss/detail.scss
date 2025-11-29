@@ -1,0 +1,489 @@
+/* Base Styles */
+.product-main-image {
+    max-height: 400px;
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.product-main-image:hover {
+    transform: scale(1.02);
+}
+
+.gallery-thumb {
+    transition: all 0.3s ease;
+    border: 2px solid #dee2e6;
+    height: 80px;
+    width: 90%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.gallery-thumb:hover,
+.gallery-thumb.active {
+    border-color: #1d3a1a;
+    transform: scale(1.05);
+}
+
+.gallery-thumb.active {
+    border-width: 3px;
+    border-color: #1d3a1a;
+}
+
+/* Product Info */
+#product-title {
+    font-size: 1.75rem;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+}
+
+#product-scientific-name {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 1rem;
+}
+
+#product-stats {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+#product-price {
+    background-color: rgba(22, 163, 74, 0.09);
+    border-radius: 8px;
+    font-size: 1.5rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Size Selection */
+#size-options-container {
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.size-option {
+    min-width: 80px;
+    transition: all 0.2s ease;
+    flex: 1;
+    max-width: 120px;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+}
+
+.size-option.active {
+    background-color: #16a34a;
+    color: white;
+    border-color: #16a34a;
+    font-weight: 600;
+    transform: scale(1.05);
+}
+
+.size-option:hover:not(.active) {
+    background-color: #e8f5e8;
+    border-color: #16a34a;
+    color: #16a34a;
+}
+
+/* Quantity Controls */
+#quantity-controls {
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+#decrease-qty,
+#increase-qty {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+#qty {
+    min-width: 25px;
+    text-align: center;
+    font-size: 1.25rem;
+}
+
+#stock-info {
+    min-width: 120px;
+}
+
+/* Subtotal */
+#subtotal-card {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+#subtotal-card .card-body {
+    padding: 1rem 1.25rem;
+}
+
+/* Action Buttons */
+#action-buttons {
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+#add-to-cart-btn,
+#buy-now-btn {
+    padding: 0.875rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+#add-to-cart-btn:hover {
+    color: white;
+    transform: translateY(-2px);
+}
+
+#buy-now-btn:hover {
+    background-color: #16a34a;
+    transform: translateY(-2px);
+}
+
+/* Feature Highlights */
+#feature-highlights {
+    // gap: 0.1rem;
+    margin-bottom: 1rem;
+    flex-wrap: nowrap;
+}
+
+.feature-item {
+    padding: 1rem 0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.feature-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.feature-item i {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.feature-item small {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Modal */
+.modal-image-content {
+    max-height: 70vh;
+    width: auto;
+    max-width: 100%;
+    border-radius: 8px;
+}
+
+/* Tabs */
+.nav-tabs {
+    border-bottom: 2px solid #dee2e6;
+    margin-bottom: 0;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    padding: 1rem 1.2rem;
+    font-weight: 500;
+    color: #6c757d;
+    transition: all 0.3s ease;
+}
+
+.nav-tabs .nav-link:hover {
+    border: none;
+    color: #16a34a;
+}
+
+.nav-tabs .nav-link.active {
+    border: none;
+    border-bottom: 3px solid #1d3a1a;
+    color: #1d3a1a;
+    background: transparent;
+    font-weight: 500;
+}
+
+.tab-content {
+    border-radius: 0 0 8px 8px;
+}
+
+/* Detail Text */
+.detail-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* Care Cards */
+.care-card {
+    min-height: 180px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.care-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.care-card .card-body {
+    padding: 1.5rem 1rem;
+}
+
+.care-card i {
+    margin-bottom: 1rem;
+}
+
+/* Gallery Grid */
+.gallery-image {
+    height: 200px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+.gallery-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.gallery-card .card-body {
+    padding: 1rem 0.5rem;
+}
+
+.product-item {
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+.product-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Rating Section */
+.rating-bar .progress {
+    height: 8px;
+}
+
+/* Animation and Interaction */
+.product-card {
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Utility Classes */
+.image-zoomable {
+    cursor: zoom-in;
+}
+
+.reviews-container {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.review-item {
+    transition: all 0.3s ease;
+}
+
+/* Mobile Responsive - 768px */
+@media (max-width: 768px) {
+    * {
+        overflow-x: hidden;
+    }
+    #product-detail-page {
+        padding-top: 0;
+    }
+
+    #back-button {
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+        width: 100%;
+        padding: 0.75rem 1rem;
+    }
+
+    #product-main-section {
+        gap: 2rem;
+    }
+
+    #product-gallery {
+        position: static;
+        margin-bottom: 0.5rem;
+    }
+
+    .product-main-image {
+        max-height: 300px;
+        border-radius: 12px;
+    }
+
+    .gallery-thumb {
+        height: 60px;
+        border-radius: 6px;
+    }
+    #product-info {
+        margin-top: 0 !important;
+    }
+    #product-title {
+        font-size: 1.5rem;
+        text-align: center;
+        margin-bottom: 0.75rem;
+    }
+
+    #product-scientific-name {
+        text-align: center;
+        margin-bottom: 1.25rem;
+    }
+
+    #product-stats {
+        justify-content: center;
+        margin-bottom: 1.25rem;
+    }
+
+    #product-price {
+        font-size: 1.25rem;
+        text-align: center;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    #size-label {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    #size-options-container {
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .size-option {
+        min-width: 70px;
+        font-size: 0.85rem;
+        padding: 0.5rem 0.75rem;
+        flex: 0 1 auto;
+    }
+
+    #quantity-label {
+        text-align: center;
+    }
+
+    #quantity-controls {
+        text-align: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+    }
+
+    #action-buttons {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    #add-to-cart-btn,
+    #buy-now-btn {
+        width: 100%;
+        padding: 1rem 1.5rem;
+    }
+
+    #feature-highlights {
+        flex-wrap: wrap;
+        margin-bottom: 1.5rem;
+    }
+
+    .feature-item {
+        margin-top: 6px;
+        padding: 0.75rem 0rem;
+    }
+
+    .feature-item i {
+        font-size: 1.25rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .feature-item small {
+        font-size: 0.75rem;
+    }
+
+    #product-details-section {
+        margin-top: 2rem;
+    }
+
+    .nav-tabs .nav-link {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+        text-align: center;
+    }
+
+    .tab-content {
+        padding: 1.5rem;
+    }
+
+    .detail-text {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .care-card {
+        min-height: 160px;
+        margin-bottom: 1rem;
+    }
+
+    .care-card .card-body {
+        padding: 1.25rem 0.75rem;
+    }
+
+    .gallery-image {
+        height: 200px;
+        border-radius: 6px;
+    }
+
+    #rating-section {
+        margin-top: 2rem;
+    }
+
+    #rating-summary {
+        text-align: center;
+    }
+
+    #rating-overview {
+        border-right: none !important;
+        border-bottom: 1px solid #dee2e6;
+        padding-bottom: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    #rating-overview h1 {
+        font-size: 2.5rem;
+    }
+
+    #reviews-section {
+        margin-top: 1.5rem;
+    }
+
+    #related-products-section {
+        margin-top: 2rem;
+    }
+
+    .related-product-image {
+        height: 150px;
+    }
+
+    .product-card {
+        margin-bottom: 1.5rem;
+    }
+
+    .product-item {
+        margin-bottom: 0;
+    }
+}

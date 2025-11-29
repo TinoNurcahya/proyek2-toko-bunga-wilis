@@ -1,7 +1,9 @@
-<section id="pilih-kami" class="pt-4 position-relative overflow-hidden home-section-title">
+<section id="pilih-kami" class="mt-md-5 pt-4 position-relative overflow-hidden home-section-title">
     <div class="container text-center">
-        <h3 class="fw-semibold mb-1 position-relative d-inline-block fraunces">Mengapa memilih kami?</h3>
-        <p class="text-muted mx-auto mb-5 montserrat" style="max-width: 600px;">
+        <h3 class="fw-semibold mb-1 position-relative d-inline-block fraunces" data-aos="fade-down" data-aos-offset="320">
+            Mengapa memilih kami?
+        </h3>
+        <p class="text-muted mx-auto mb-5 montserrat" style="max-width: 600px;" data-aos="fade-down" data-aos-offset="320">
             Kami menghadirkan beragam pilihan bunga segar dengan kualitas terbaik, rangkaian yang indah,
             serta harga yang bersahabat untuk setiap momen spesial Anda.
         </p>
@@ -14,7 +16,8 @@
 
             <!-- Kartu keunggulan -->
             <div class="feature-card feature-top">
-                <div class="card shadow-sm border-0">
+                <div class="card shadow-sm border-0" data-aos="fade-right" data-aos-duration="1500"
+                    data-aos-offset="380">
                     <div class="card-body">
                         <i class="fab fa-canadian-maple-leaf text-danger mb-2 fa-2x"></i>
                         <h6 class="fw-semibold fraunces">Bunga Segar & Berkualitas Tinggi</h6>
@@ -26,7 +29,8 @@
             </div>
 
             <div class="feature-card feature-left">
-                <div class="card shadow-sm border-0">
+                <div class="card shadow-sm border-0" data-aos="fade-left" data-aos-duration="1500"
+                    data-aos-offset="300">
                     <div class="card-body">
                         <i class="fa-solid fa-tags text-danger mb-2 fa-2x"></i>
                         <h6 class="fw-semibold fraunces">Harga Terjangkau & Transparan</h6>
@@ -38,7 +42,8 @@
             </div>
 
             <div class="feature-card feature-right">
-                <div class="card shadow-sm border-0">
+                <div class="card shadow-sm border-0" data-aos="fade-right" data-aos-duration="1500"
+                    data-aos-offset="400">
                     <div class="card-body">
                         <i class="fa-solid fa-clover text-danger mb-2 fa-2x"></i>
                         <h6 class="fw-semibold fraunces">Berbagai Pilihan</h6>

@@ -7,7 +7,7 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ReviewController;
-
+// use App\Livewire\ProductList;    
 // === Halaman Utama ===
 Route::get('/', [ProductController::class, 'index'])->name('home');
 
@@ -34,8 +34,13 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::post('/profile/keranjang/{id}/update-quantity', [ProfileController::class, 'updateQuantity'])->name('profile.keranjang.update-quantity');
 
     // ROUTE PRODUK
+    Route::get('/produk', [ProductController::class, 'list'])->name('produk');
+    // Route::get('/produk-livewire', \App\Livewire\ProductList::class)->name('produk.livewire');
+    // Route::get('/produk', ProductList::class)->name('produk');
+    Route::get('/produk/search', [ProductController::class, 'search'])->name('produk.search');
+    Route::post('/review', [ReviewController::class, 'store'])->name('review.store');
     Route::get('/produk/{produk}', [ProductController::class, 'show'])->name('produk.detail');
-
+    
     // ROUTE REVIEW
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::get('/reviews/create/{produk}', [ReviewController::class, 'create'])->name('reviews.create');

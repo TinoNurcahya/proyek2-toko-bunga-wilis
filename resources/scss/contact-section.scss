@@ -10,15 +10,14 @@
     margin-top: 30px;
 }
 
-.form-control {
+#kontak-form .form-control {
     border-radius: 8px;
     border: 1px solid #ddd;
     padding: 16px;
-    margin-bottom: 20px;
     background-color: #f8fff8;
 }
 
-.form-control:focus {
+#kontak-form .form-control:focus {
     border-color: #2c5530;
     box-shadow: 0 0 0 0.2rem rgba(44, 85, 48, 0.25);
     background-color: #f0fff0;

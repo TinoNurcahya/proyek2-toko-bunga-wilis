@@ -8,6 +8,15 @@
     padding-right: 8%;
 }
 
+.wave {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
 .hero-section::before {
     content: "";
     position: absolute;
@@ -118,12 +127,117 @@
         --angle: 360deg;
     }
 }
+#hero .hero-content [data-aos] {
+    animation-duration: 1.5s !important;
+    animation-fill-mode: both !important;
+}
 
+#hero [data-aos="fade-right"] {
+    transform: translateX(-50px);
+    opacity: 0;
+    animation: fadeRightImmediate 0.8s ease forwards;
+    animation-delay: calc(var(--delay, 0) * 1ms);
+}
+
+#hero [data-aos="fade-left"] {
+    transform: translateX(50px);
+    opacity: 0;
+    animation: fadeLeftImmediate 0.8s ease forwards;
+    animation-delay: calc(var(--delay, 0) * 1ms);
+}
+
+#hero [data-aos="fade-down"] {
+    transform: translateY(-50px);
+    opacity: 0;
+    animation: fadeDownImmediate 0.8s ease forwards;
+    animation-delay: calc(var(--delay, 0) * 1ms);
+}
+
+#hero [data-aos="fade-up"] {
+    transform: translateY(50px);
+    opacity: 0;
+    animation: fadeUpImmediate 0.8s ease forwards;
+    animation-delay: calc(var(--delay, 0) * 1ms);
+}
+
+/* Keyframes */
+@keyframes fadeRightImmediate {
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeLeftImmediate {
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeDownImmediate {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeUpImmediate {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.wave svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    pointer-events: none;
+}
+
+.border-div {
+    position: relative;
+    z-index: 3;
+    pointer-events: auto;
+}
+
+.error__button {
+    position: relative;
+    z-index: 4;
+    pointer-events: auto;
+    transition: all 0.3s ease;
+}
+
+.error__button--active:hover {
+    background-color: #2ecc71;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
 @media (max-width: 768px) {
     .daunbg {
         background-attachment: scroll;
         background-position: center top;
         background-size: cover;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+        text-align: center;
     }
 
     .border-hero-btn {
@@ -134,5 +248,14 @@
         width: 100%;
         max-width: 280px;
     }
+    .wave {
+        bottom: -1px;
+        width: 100%;
+    }
 
+    .wave svg {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
 }

@@ -3,8 +3,8 @@
 <section id="paling-laris" class="pt-4 home-section-title">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h3 class="fw-semibold mb-1 position-relative d-inline-block fraunces">Paling Laris</h3>
-            <a href="#" class="explore-link montserrat fw-semibold">
+            <h3 class="fw-semibold mb-1 position-relative d-inline-block fraunces" data-aos="fade-right">Paling Laris</h3>
+            <a href="{{ url('/produk') }}" class="explore-link montserrat fw-semibold" data-aos="fade-left">
                 Jelajahi Semua <i class="fa-solid fa-arrow-right ms-1"></i>
                 <span></span>
                 <span></span>
@@ -16,7 +16,7 @@
         <div class="row g-4">
             <!-- Kartu Produk -->
             @foreach ($produkTerlaris as $item)
-                <div class="col-6 col-md-4 col-lg-3">
+                <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up" data-aos-duration="700" data-aos-offset="50">
                     <div class="card h-100 border-0 shadow-sm">
                         <img src="{{ asset($item->foto_utama) }}" alt="{{ $item->nama }}"
                             class="card-img-top rounded-top-3" alt="{{ $item->nama }}"
@@ -52,17 +52,19 @@
 
         <div class="text-center mt-5 montserrat">
             <div class="buttons">
-                <button class="blob-btn">
-                    Jelajahi Semua <i class="fa-solid fa-arrow-right ms-2"></i>
-                    <span class="blob-btn__inner">
-                        <span class="blob-btn__blobs">
-                            <span class="blob-btn__blob"></span>
-                            <span class="blob-btn__blob"></span>
-                            <span class="blob-btn__blob"></span>
-                            <span class="blob-btn__blob"></span>
+                <a href="{{ url('/produk') }}">
+                    <button class="blob-btn" data-aos="fade-up">
+                        Jelajahi Semua <i class="fa-solid fa-arrow-right ms-2"></i>
+                        <span class="blob-btn__inner">
+                            <span class="blob-btn__blobs">
+                                <span class="blob-btn__blob"></span>
+                                <span class="blob-btn__blob"></span>
+                                <span class="blob-btn__blob"></span>
+                                <span class="blob-btn__blob"></span>
+                            </span>
                         </span>
-                    </span>
-                </button>
+                    </button>
+                </a>
             </div>
 
             <!-- Filter efek “gooey” -->

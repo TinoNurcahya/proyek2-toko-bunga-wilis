@@ -28,7 +28,7 @@
                         href="{{ url('/') }}#">Beranda</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link me-4 {{ request()->is('produk') ? 'active' : '' }}"
+                    <a class="nav-link me-4 {{ request()->is('produk*') ? 'active' : '' }}"
                         href="{{ url('/produk') }}">Produk</a>
                 </li>
                 <li class="nav-item">
@@ -39,11 +39,16 @@
 
                 <!-- Search box -->
                 <li class="nav-item">
-                    <div class="search-box position-relative">
-                        <input type="text" class="form-control bg-opacity-25 border-0 rounded-pill ps-3 pe-5"
-                            placeholder="Cari...">
-                        <i class="fas fa-search position-absolute end-0 me-3 top-50 translate-middle-y"></i>
-                    </div>
+                    <form id="global-search-form" action="{{ route('produk') }}" method="GET"
+                        class="search-box position-relative">
+                        <input type="text" name="search" id="nav-search-input"
+                            class="form-control bg-opacity-25 border-0 rounded-pill ps-3 pe-5" placeholder="Cari..."
+                            value="{{ request('search') }}">
+                        <button type="submit"
+                            class="btn btn-link position-absolute end-0 me-3 top-50 translate-middle-y border-0 p-0">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
                 </li>
             </ul>
 

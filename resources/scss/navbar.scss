@@ -427,7 +427,8 @@ li {
     }
 }
 @media (min-width: 768px) {
-  #tentang {
-    scroll-margin-top: 100px;
-  }
+    #tentang,
+    #paling-laris {
+        scroll-margin-top: 100px;
+    }
 }
