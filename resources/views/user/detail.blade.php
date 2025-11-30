@@ -66,105 +66,8 @@
                     </span>
                 </div>
 
-                {{-- Harga --}}
-                <h3 class="text-success fw-bold mb-3 montserrat p-2" id="product-price">
-                    @if ($produk->produkUkuran && $produk->produkUkuran->count() > 0)
-                        Rp {{ number_format($produk->produkUkuran->first()->harga, 0, ',', '.') }}
-                    @elseif($produk->harga_terendah)
-                        Rp {{ number_format($produk->harga_terendah, 0, ',', '.') }}
-                    @else
-                        Harga tidak tersedia
-                    @endif
-                </h3>
-
-                {{-- Pilihan Ukuran --}}
-                <div class="mb-4 montserrat" id="size-selection">
-                    <p class="fw-semibold mb-3" id="size-label">Ukuran</p>
-                    <div class="d-flex gap-2 flex-wrap" id="size-options-container">
-                        @if ($produk->produkUkuran && $produk->produkUkuran->count() > 0)
-                            @foreach ($produk->produkUkuran as $produkUkuran)
-                                <button
-                                    class="btn btn-outline-success size-option text-nowrap {{ $loop->first ? 'active' : '' }}"
-                                    data-price="{{ $produkUkuran->harga }}" data-stock="{{ $produkUkuran->stok }}"
-                                    data-ukuran-name="{{ $produkUkuran->ukuran->nama_ukuran ?? ($produkUkuran->ukuran->nama ?? 'Ukuran') }}">
-                                    {{ $produkUkuran->ukuran->nama_ukuran ?? ($produkUkuran->ukuran->nama ?? 'Ukuran') }}
-                                </button>
-                            @endforeach
-                        @else
-                            <button class="btn btn-outline-success size-option active"
-                                data-price="{{ $produk->harga_terendah }}" data-stock="{{ $produk->stok_total ?? 0 }}"
-                                data-ukuran-name="Standard">
-                                Standard
-                            </button>
-                        @endif
-                    </div>
-                </div>
-
-                {{-- Kuantitas dan Stok --}}
-                <div class="mb-4 montserrat" id="quantity-section">
-                    <p class="fw-bold mb-3" id="quantity-label">Kuantitas</p>
-                    <div class="d-flex align-items-center mb-4" id="quantity-controls">
-                        <button class="btn btn-outline-secondary" onclick="changeQty(-1)" id="decrease-qty">−</button>
-                        <div id="qty" class="mx-3 fs-5 fw-bold">1</div>
-                        <button class="btn btn-outline-secondary" onclick="changeQty(1)" id="increase-qty">+</button>
-                        <span class="ms-3 text-muted small" id="stock-info">Stok:
-                            {{ $produk->produkUkuran->first()->stok ?? ($produk->stok_total ?? 0) }}</span>
-                    </div>
-                </div>
-
-                {{-- Subtotal --}}
-                <div class="card bg-light mb-4 montserrat" id="subtotal-card">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <p class="fw-bold mb-0">Subtotal</p>
-                            </div>
-                            <div class="col-auto">
-                                <strong id="subtotal" class="text-success fw-bold mb-0 text-decoration-underline">
-                                    Rp {{ number_format($produk->harga_terendah ?? 0, 0, ',', '.') }}
-                                </strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Tombol Aksi --}}
-                <div class="d-flex gap-3 mb-4 montserrat" id="action-buttons">
-                    <button class="btn btn-outline-success flex-fill py-3" id="add-to-cart-btn">
-                        <i class="fa-solid fa-cart-plus me-2"></i>Masukkan ke Keranjang
-                    </button>
-                    <button class="btn btn-green text-light flex-fill py-3" id="buy-now-btn">
-                        <i class="fas fa-bolt me-2"></i>Beli Sekarang
-                    </button>
-                </div>
-
-                {{-- Info Penting --}}
-                <div class="row text-center mb-4" id="feature-highlights">
-                    <div class="col-md-3 col-6">
-                        <div class="border rounded p-2 feature-item">
-                            <i class="fas fa-shipping-fast text-success mb-2"></i>
-                            <small class="d-block montserrat">Gratis Ongkir</small>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <div class="border rounded py-2 px-0 feature-item">
-                            <i class="fas fa-shield-alt text-success mb-2"></i>
-                            <small class="d-block montserrat">Garansi 30 Hari</small>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <div class="border rounded py-2 px-0 feature-item">
-                            <i class="fas fa-undo text-success mb-2"></i>
-                            <small class="d-block montserrat">Pengembalian</small>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <div class="border rounded py-2 px-0 feature-item">
-                            <i class="fas fa-headset text-success mb-2"></i>
-                            <small class="d-block montserrat">Bantuan 24/7</small>
-                        </div>
-                    </div>
-                </div>
+                {{-- BAGIAN REALTIME DENGAN LIVEWIRE --}}
+                @livewire('ProductDetail', ['produk' => $produk])
             </div>
         </div>
 
@@ -203,8 +106,8 @@
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link fraunces" id="care-tab" data-bs-toggle="tab"
-                                    data-bs-target="#care" type="button">
+                                <button class="nav-link fraunces" id="care-tab" data-bs-toggle="tab" data-bs-target="#care"
+                                    type="button">
                                     Petunjuk Perawatan
                                 </button>
                             </li>
@@ -486,137 +389,186 @@
     </div>
 
     {{-- Script untuk interaksi --}}
-    <script>
-        // Fungsi untuk mengganti gambar utama
-        function changeMainImage(imageSrc, element) {
-            document.getElementById('main-image').src = imageSrc;
-            document.getElementById('modal-image').src = imageSrc;
-            document.querySelectorAll('.gallery-thumb').forEach(thumb => {
-                thumb.classList.remove('active');
-                thumb.style.borderColor = '#dee2e6';
-            });
-            element.classList.add('active');
-            element.style.borderColor = '#1d3a1a';
-        }
+<script>
+    // Debugging
+    console.log('Product Detail Script Loaded');
 
-        // Fungsi untuk set image modal
-        function setModalImage(imageSrc) {
-            document.getElementById('modal-image').src = imageSrc;
-        }
+    // Fungsi untuk mengganti gambar utama
+    function changeMainImage(imageSrc, element) {
+        document.getElementById('main-image').src = imageSrc;
+        document.getElementById('modal-image').src = imageSrc;
+        document.querySelectorAll('.gallery-thumb').forEach(thumb => {
+            thumb.classList.remove('active');
+            thumb.style.borderColor = '#dee2e6';
+        });
+        element.classList.add('active');
+        element.style.borderColor = '#1d3a1a';
+    }
 
-        // Fungsi untuk quantity
-        function changeQty(change) {
-            const qtyElement = document.getElementById('qty');
-            let qty = parseInt(qtyElement.textContent);
-            const newQty = qty + change;
+    // Fungsi untuk set image modal
+    function setModalImage(imageSrc) {
+        document.getElementById('modal-image').src = imageSrc;
+    }
 
-            // Validasi stok
-            const stockInfo = document.getElementById('stock-info');
-            const availableStock = parseInt(stockInfo.textContent.replace('Stok: ', ''));
-
-            if (newQty >= 1 && newQty <= availableStock) {
-                qtyElement.textContent = newQty;
-                updateSubtotal();
-            }
-        }
-
-        // Fungsi untuk update subtotal
-        function updateSubtotal() {
-            const qty = parseInt(document.getElementById('qty').textContent);
-            const activeSize = document.querySelector('.size-option.active');
-            const price = activeSize ? parseInt(activeSize.dataset.price) : {{ $produk->harga_terendah ?? 0 }};
-            const subtotal = qty * price;
-
-            document.getElementById('subtotal').textContent = 'Rp ' + subtotal.toLocaleString('id-ID');
-        }
-
-        // Fungsi untuk inisialisasi ukuran default
-        function initializeDefaultSize() {
-            const defaultSize = document.querySelector('.size-option.active');
-            if (defaultSize) {
-                const price = defaultSize.dataset.price;
-                const stock = defaultSize.dataset.stock;
-                document.getElementById('product-price').textContent = 'Rp ' + parseInt(price).toLocaleString('id-ID');
-                document.getElementById('stock-info').textContent = 'Stok: ' + stock;
-                updateSubtotal();
-            }
-        }
-
-        // Fungsi untuk inisialisasi modal image
-        function initializeModalImage() {
-            const mainImage = document.getElementById('main-image');
-            const modalImage = document.getElementById('modal-image');
-
-            if (mainImage && modalImage) {
-                modalImage.src = mainImage.src;
-            }
-        }
-
-        // Event listener untuk pilihan ukuran
-        function initializeSizeOptions() {
-            document.querySelectorAll('.size-option').forEach(button => {
-                button.addEventListener('click', function() {
-                    // Remove active class dari semua button
-                    document.querySelectorAll('.size-option').forEach(btn => {
-                        btn.classList.remove('active');
-                    });
-
-                    // Add active class ke button yang diklik
-                    this.classList.add('active');
-
-                    // Update harga
-                    const price = this.dataset.price;
-                    document.getElementById('product-price').textContent = 'Rp ' + parseInt(price)
-                        .toLocaleString('id-ID');
-
-                    // Update stok info
-                    document.getElementById('stock-info').textContent = 'Stok: ' + this.dataset.stock;
-
-                    // Reset quantity ke 1
-                    document.getElementById('qty').textContent = '1';
-
-                    // Update subtotal
-                    updateSubtotal();
-                });
+    // Event listener untuk main image click (buka modal)
+    function initializeImageModal() {
+        const mainImage = document.getElementById('main-image');
+        if (mainImage) {
+            mainImage.addEventListener('click', function() {
+                setModalImage(this.src);
             });
         }
 
-        // Event listener untuk main image click (buka modal)
-        function initializeImageModal() {
-            const mainImage = document.getElementById('main-image');
-            if (mainImage) {
-                mainImage.addEventListener('click', function() {
-                    setModalImage(this.src);
-                });
-            }
-
-            // Juga untuk gallery images di tab gallery
-            document.querySelectorAll('.gallery-image').forEach(img => {
-                img.addEventListener('click', function() {
-                    setModalImage(this.src);
-                });
-            });
-        }
-
-        // Inisialisasi semua fungsi ketika DOM siap
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeSizeOptions();
-            initializeDefaultSize();
-            initializeModalImage();
-            initializeImageModal();
-
-            // Juga set modal image saat thumbnail diklik
-            document.querySelectorAll('.gallery-thumb').forEach(thumb => {
-                thumb.addEventListener('click', function() {
-                    const imageSrc = this.src;
-                    setModalImage(imageSrc);
-                });
+        document.querySelectorAll('.gallery-image').forEach(img => {
+            img.addEventListener('click', function() {
+                setModalImage(this.src);
             });
         });
+    }
 
-        window.addEventListener('load', function() {
-            initializeDefaultSize();
-            initializeModalImage();
+    // Inisialisasi ketika DOM siap
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM Content Loaded - Product Detail');
+        initializeImageModal();
+
+        document.querySelectorAll('.gallery-thumb').forEach(thumb => {
+            thumb.addEventListener('click', function() {
+                const imageSrc = this.src;
+                setModalImage(imageSrc);
+            });
         });
-    </script>
+    });
+
+    // Livewire event listeners - MENGGUNAKAN TOAST SYSTEM ANDA
+    document.addEventListener('livewire:init', function() {
+        console.log('Livewire Initialized - Product Detail Component');
+        
+        Livewire.on('cart-updated', function() {
+            console.log('🔔 cart-updated event received');
+            updateCartCounter();
+            showSuccessAnimation();
+        });
+        
+        Livewire.on('show-alert', function(data) {
+            console.log('🔔 show-alert event received:', data);
+            
+            // Handle data dari Livewire dan trigger toast system Anda
+            handleLivewireAlert(data);
+        });
+        
+        Livewire.on('show-login-modal', function() {
+            console.log('🔔 show-login-modal event received');
+            const loginModalElement = document.getElementById('loginModal');
+            if (loginModalElement) {
+                const loginModal = new bootstrap.Modal(loginModalElement);
+                loginModal.show();
+            } else {
+                console.error('❌ Login modal element not found');
+            }
+        });
+    });
+
+    // Function untuk handle alert dari Livewire
+    function handleLivewireAlert(data) {
+        let type, message;
+        
+        if (Array.isArray(data) && data.length > 0) {
+            // Data datang sebagai array (Livewire v3)
+            type = data[0]?.type;
+            message = data[0]?.message;
+        } else if (data && typeof data === 'object') {
+            // Data datang sebagai object
+            type = data.type;
+            message = data.message;
+        }
+        
+        if (type && message) {
+            // Trigger toast system yang sudah ada
+            const toastEvent = new CustomEvent('show-toast', {
+                detail: { type, message }
+            });
+            window.dispatchEvent(toastEvent);
+        } else {
+            console.error('❌ Invalid alert data structure:', data);
+            // Fallback error toast
+            const toastEvent = new CustomEvent('show-toast', {
+                detail: {
+                    type: 'error',
+                    message: 'Terjadi kesalahan sistem'
+                }
+            });
+            window.dispatchEvent(toastEvent);
+        }
+    }
+
+    function updateCartCounter() {
+        const counter = document.getElementById('cart-count');
+        if (counter) {
+            let currentCount = parseInt(counter.textContent) || 0;
+            counter.textContent = currentCount + 1;
+            
+            // Animasi
+            counter.classList.add('pulse');
+            setTimeout(() => counter.classList.remove('pulse'), 500);
+            console.log('🛒 Cart counter updated to:', currentCount + 1);
+        } else {
+            console.warn('⚠️ Cart counter element not found');
+        }
+    }
+
+    function showSuccessAnimation() {
+        const btn = document.getElementById('add-to-cart-btn');
+        if (btn) {
+            // Store original state
+            const originalHTML = btn.innerHTML;
+            const originalClass = btn.className;
+            
+            // Change to success state
+            btn.innerHTML = '<i class="fas fa-check me-2"></i>Berhasil Ditambahkan!';
+            btn.className = 'btn btn-success flex-fill py-3';
+            btn.disabled = true;
+            
+            console.log('🎉 Success animation shown');
+            
+            // Revert after 2 seconds
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.className = originalClass;
+                btn.disabled = false;
+            }, 2000);
+        } else {
+            console.warn('⚠️ Add to cart button not found for animation');
+        }
+    }
+
+    // CSS untuk pulse animation
+    if (!document.querySelector('#product-detail-animations')) {
+        const style = document.createElement('style');
+        style.id = 'product-detail-animations';
+        style.textContent = `
+            .pulse {
+                animation: pulse 0.5s ease-in-out;
+            }
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.2); }
+                100% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // Test function untuk manual testing
+    window.testToast = function() {
+        const toastEvent = new CustomEvent('show-toast', {
+            detail: {
+                type: 'success',
+                message: 'Test toast berhasil!'
+            }
+        });
+        window.dispatchEvent(toastEvent);
+    };
+
+    console.log('✅ Product Detail Script Ready - test dengan: testToast()');
+</script>
 @endsection

@@ -12,7 +12,13 @@ class NavbarCart extends Component
     public $cartItems = [];
     public $totalPrice = 0;
 
-    protected $listeners = ['cartUpdated' => 'loadCart'];
+    // protected $listeners = ['cartUpdated' => 'loadCart'];
+        protected $listeners = [
+        'cartUpdated' => 'loadCart',
+        'cart-updated' => 'loadCart',
+        'itemAddedToCart' => 'loadCart',
+        'refreshCart' => 'loadCart'
+    ];
 
     public function mount()
     {
