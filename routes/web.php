@@ -2,21 +2,24 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\GoogleController;
-use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ReviewController;
-// use App\Livewire\ProductList;    
-// === Halaman Utama ===
+use App\Http\Controllers\Admin\AdminOrderController;
+
+// === HALAMAN UTAMA ===
 Route::get('/', [ProductController::class, 'index'])->name('home');
 
-// === Google OAuth ===
+// === GOOGLE OAUTH ===
 Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.redirect');
 Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
 
-// === ROUTES KHUSUS USER (TAMBAHKAN 'verified') ===
+// === ROUTE USER ===
 Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
+
+    // PROFILE
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -33,44 +36,50 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::delete('/profile/keranjang/{id}', [ProfileController::class, 'deleteCartItem'])->name('profile.keranjang.delete');
     Route::post('/profile/keranjang/{id}/update-quantity', [ProfileController::class, 'updateQuantity'])->name('profile.keranjang.update-quantity');
 
-    // ROUTE PRODUK
+    // PRODUK
     Route::get('/produk', [ProductController::class, 'list'])->name('produk');
-    // Route::get('/produk-livewire', \App\Livewire\ProductList::class)->name('produk.livewire');
-    // Route::get('/produk', ProductList::class)->name('produk');
     Route::get('/produk/search', [ProductController::class, 'search'])->name('produk.search');
-    Route::post('/review', [ReviewController::class, 'store'])->name('review.store');
     Route::get('/produk/{produk}', [ProductController::class, 'show'])->name('produk.detail');
-    
-    // ROUTE REVIEW
+
+    // REVIEW
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::get('/reviews/create/{produk}', [ReviewController::class, 'create'])->name('reviews.create');
     Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 });
 
-// === ROUTES KHUSUS ADMIN (TAMBAHKAN 'verified') ===
-Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-});
+// === ROUTE ADMIN — FIXED (tidak duplikat lagi) ===
+Route::prefix('admin')
+    ->middleware(['auth', 'verified', 'role:admin'])
+    ->name('admin.')
+    ->group(function () {
 
-// === Routes fallback setelah login ===
+        // Dashboard
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])
+            ->name('dashboard');
+
+        // Orders
+        Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders');
+        Route::get('/orders/{id}', [AdminOrderController::class, 'show'])->name('orders.show');
+        Route::post('/orders/{id}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.status');
+        Route::post('/orders/{id}/resi', [AdminOrderController::class, 'updateResi'])->name('orders.resi');
+        Route::delete('/orders/{id}', [AdminOrderController::class, 'destroy'])->name('orders.delete');
+    });
+
+// === Redirect setelah login ===
 Route::middleware(['auth'])->get('/home', function () {
     $user = Auth::user();
 
-    // Jika belum verifikasi, redirect halaman verfikasi
     if (!$user->email_verified_at) {
         return redirect()->route('verification.notice')
             ->with('status', 'Silakan verifikasi email Anda terlebih dahulu.');
     }
 
-    // Jika sudah verifikasi, redirect berdasarkan role
-    if ($user->role === 'admin') {
-        return redirect()->route('admin.dashboard');
-    } else {
-        return redirect('/');
-    }
+    return $user->role === 'admin'
+        ? redirect()->route('admin.dashboard')
+        : redirect('/');
 })->name('home');
 
-// === Logout ===
+// === LOGOUT ===
 Route::post('/logout', function () {
     Auth::logout();
     request()->session()->invalidate();
@@ -78,7 +87,6 @@ Route::post('/logout', function () {
     return redirect('/');
 })->name('logout');
 
-// Jika user mengetik /logout di URL secara langsung
 Route::get('/logout', function () {
     abort(404);
 });
