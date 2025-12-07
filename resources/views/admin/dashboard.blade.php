@@ -4,147 +4,189 @@
 
 @section('content')
 
+<!-- ===================== STYLE ===================== -->
 <style>
+    /* Kartu statistik */
     .stat-card {
-        border-radius: 12px;
-        padding: 18px 22px;
-        border: 2px solid #e3e6f0;
-        background: #fff;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-        transition: 0.2s;
+        background: #E5E5E5;
+        border-radius: 18px;
+        padding: 25px;
+        text-align: center;
     }
-    .stat-card:hover {
-        transform: translateY(-3px);
+    .stat-icon {
+        font-size: 40px;
+        color: #444;
+        margin-bottom: 8px;
     }
     .stat-title {
         font-size: 15px;
         font-weight: 600;
         color: #555;
+        margin-bottom: 3px;
     }
     .stat-value {
-        font-size: 32px;
-        font-weight: 700;
-        margin-top: -4px;
+        font-size: 24px;
+        font-weight: 800;
+        color: #0F184C;
     }
-    .info-box-custom {
-        border-radius: 12px;
-        border: 1px solid #e3e6f0;
-        background: white;
-        padding: 20px;
+
+    /* Box chart */
+    .chart-box {
+        background: #fff;
+        border-radius: 22px;
+        padding: 25px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     }
-    table th {
-        background: #f8f9fc !important;
+
+    /* Tabel */
+    .table thead {
+        background: #F5F6FA;
         font-weight: 600;
     }
 </style>
 
 
-<div class="content-header">
-    <div class="container-fluid">
-        <h4 class="text-primary font-weight-bold mb-3">Admin Dashboard</h4>
+<!-- ===================== 4 KOTAK STATISTIK ===================== -->
+<div class="row mb-4">
+
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-seedling"></i></div>
+            <div class="stat-title">Jumlah Produk</div>
+            <div class="stat-value">{{ $totalProduk }}</div>
+        </div>
     </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-shopping-cart"></i></div>
+            <div class="stat-title">Jumlah Pesanan</div>
+            <div class="stat-value">{{ $totalOrders }}</div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-chart-bar"></i></div>
+            <div class="stat-title">Penjualan</div>
+            <div class="stat-value">Rp {{ number_format($totalRevenue) }}</div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-user"></i></div>
+            <div class="stat-title">Customers</div>
+            <div class="stat-value">{{ $totalCustomer }}</div>
+        </div>
+    </div>
+
 </div>
 
-<section class="content">
-    <div class="container-fluid">
 
-        <!-- ROW CARD STATISTIK -->
-        <div class="row">
 
-            <div class="col-md-4 mb-4">
-                <div class="stat-card">
-                    <div class="stat-title">Total Users</div>
-                    <div class="stat-value text-primary">{{ $totalUsers ?? 0 }}</div>
-                </div>
-            </div>
+<!-- ===================== GRAFIK (LINE) & DONUT ===================== -->
+<div class="row mb-4">
 
-            <div class="col-md-4 mb-4">
-                <div class="stat-card">
-                    <div class="stat-title">Total Orders</div>
-                    <div class="stat-value text-success">{{ $totalOrders ?? 0 }}</div>
-                </div>
-            </div>
-
-            <div class="col-md-4 mb-4">
-                <div class="stat-card">
-                    <div class="stat-title">Revenue</div>
-                    <div class="stat-value text-warning">Rp {{ number_format($totalRevenue ?? 0, 0, ',', '.') }}</div>
-                </div>
-            </div>
-
+    <!-- Grafik Balance History -->
+    <div class="col-md-8">
+        <div class="chart-box">
+            <h5 class="font-weight-bold mb-3">Balance History</h5>
+            <canvas id="chartLine" height="170"></canvas>
         </div>
-
-
-        <!-- SECTION: INFORMASI AKUN -->
-        <div class="info-box-custom mb-4">
-            <h5 class="font-weight-bold">Selamat datang, {{ Auth::user()->name }}!</h5>
-            <p class="text-muted mb-1">Anda login sebagai <strong class="text-primary">Administrator</strong></p>
-
-            <hr>
-
-            <div class="row mt-3">
-                <div class="col-md-4">
-                    <p><strong>Email:</strong> {{ Auth::user()->email }}</p>
-                </div>
-                <div class="col-md-4">
-                    <p><strong>Role:</strong> 
-                        <span class="badge badge-primary">Admin</span>
-                    </p>
-                </div>
-                <div class="col-md-4">
-                    <p><strong>Login Method:</strong> Google OAuth</p>
-                </div>
-            </div>
-        </div>
-
-
-        <!-- TABLE: PESANAN TERBARU -->
-        <div class="card">
-            <div class="card-header bg-white">
-                <h5 class="font-weight-bold mb-0">Pesanan Terbaru</h5>
-            </div>
-
-            <div class="card-body p-0">
-                <div class="table-responsive">
-
-                    <table class="table table-bordered mb-0">
-                        <thead>
-                            <tr>
-                                <th style="width: 70px">ID</th>
-                                <th>User</th>
-                                <th>Total Harga</th>
-                                <th>Status</th>
-                                <th>Tanggal</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @forelse($latestOrders as $order)
-                            <tr>
-                                <td>{{ $order->id }}</td>
-                                <td>{{ $order->user->name }}</td>
-                                <td>Rp {{ number_format($order->total_harga, 0, ',', '.') }}</td>
-                                <td>
-                                    <span class="badge badge-secondary">{{ $order->status }}</span>
-                                </td>
-                                <td>{{ $order->created_at->format('d M Y') }}</td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="5" class="text-center text-muted p-3">
-                                    Tidak ada pesanan terbaru.
-                                </td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-
-                    </table>
-
-                </div>
-            </div>
-        </div>
-
     </div>
-</section>
+
+    <!-- Donut Chart -->
+    <div class="col-md-4">
+        <div class="chart-box text-center">
+            <h5 class="font-weight-bold mb-3">Kategori Produk Terlaris</h5>
+            <canvas id="chartDonut" height="230"></canvas>
+        </div>
+    </div>
+
+</div>
+
+
+
+<!-- ===================== TABEL ORDER ===================== -->
+<div class="chart-box">
+
+    <h5 class="font-weight-bold mb-3">Total Order</h5>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Tanaman</th>
+                <th>Jumlah</th>
+                <th>Status</th>
+                <th>Total Harga</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        @foreach ($latestOrders as $o)
+            <tr>
+                <td>{{ $o->id }}</td>
+                <td>{{ $o->user->name }}</td>
+                <td>{{ $o->produk->nama_produk ?? '-' }}</td>
+                <td>{{ $o->jumlah }}</td>
+                <td>{{ ucfirst($o->status) }}</td>
+                <td>Rp {{ number_format($o->total_harga) }}</td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+</div>
+
+
+
+
+<!-- ===================== CHART SCRIPT ===================== -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+/* ====== LINE CHART ====== */
+new Chart(document.getElementById('chartLine'), {
+    type: 'line',
+    data: {
+        labels: ['Jul','Aug','Sep','Oct','Nov','Dec','Jan'],
+        datasets: [{
+            data: [100,220,350,700,150,420,530],
+            borderColor: '#1A73E8',
+            backgroundColor: 'rgba(26,115,232,0.2)',
+            borderWidth: 3,
+            tension: .3,
+            fill: true
+        }]
+    },
+    options: {
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+            y: { beginAtZero: true }
+        }
+    }
+});
+
+
+/* ====== DONUT CHART ====== */
+new Chart(document.getElementById('chartDonut'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Mawar', 'Jambu', 'Tulip'],
+        datasets: [{
+            data: [40, 35, 25],
+            backgroundColor: ['#22C55E','#3B82F6','#EF4444'],
+            borderWidth: 0
+        }]
+    },
+    options: {
+        cutout: '65%',
+        maintainAspectRatio: false
+    }
+});
+</script>
 
 @endsection

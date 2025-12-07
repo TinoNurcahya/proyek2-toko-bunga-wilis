@@ -3,21 +3,27 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\AdminOrder;
 use Illuminate\Http\Request;
+use App\Models\Pesanan;
 
 class AdminOrderController extends Controller
 {
     public function index()
     {
-        $orders = AdminOrder::orderBy('created_at', 'desc')->get();
-        return view('admin.orders.index', compact('orders'));
+        $orders = Pesanan::with(['user', 'items.produkUkuran.produk'])
+                        ->orderBy('id_pesanan', 'desc')
+                        ->get();
+
+        return view('admin.orders', compact('orders'));
     }
 
     public function show($id)
     {
-        $order = AdminOrder::findOrFail($id);
-        return view('admin.orders.show', compact('order'));
+        $order = Pesanan::with(['user', 'items.produk'])
+                        ->where('id_pesanan', $id)
+                        ->firstOrFail();
+
+        return view('admin.order-detail', compact('order'));
     }
 
     public function updateStatus(Request $request, $id)
@@ -26,31 +32,10 @@ class AdminOrderController extends Controller
             'status' => 'required'
         ]);
 
-        $order = AdminOrder::findOrFail($id);
-        $order->status = $request->status;
+        $order = Pesanan::where('id_pesanan', $id)->firstOrFail();
+        $order->status = strtolower($request->status);
         $order->save();
 
-        return back()->with('success', 'Status berhasil diperbarui');
-    }
-
-    public function updateResi(Request $request, $id)
-    {
-        $request->validate([
-            'resi' => 'required'
-        ]);
-
-        $order = AdminOrder::findOrFail($id);
-        $order->resi = $request->resi;
-        $order->save();
-
-        return back()->with('success', 'Nomor resi berhasil ditambahkan');
-    }
-
-    public function destroy($id)
-    {
-        $order = AdminOrder::findOrFail($id);
-        $order->delete();
-
-        return back()->with('success', 'Pesanan berhasil dihapus');
+        return back()->with('success', 'Status berhasil diperbarui!');
     }
 }

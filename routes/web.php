@@ -63,6 +63,14 @@ Route::prefix('admin')
         Route::post('/orders/{id}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.status');
         Route::post('/orders/{id}/resi', [AdminOrderController::class, 'updateResi'])->name('orders.resi');
         Route::delete('/orders/{id}', [AdminOrderController::class, 'destroy'])->name('orders.delete');
+
+        Route::get('/iot', function () {
+         return view('admin.iot');
+         })->name('iot');
+
+         Route::get('/tanaman', [\App\Http\Controllers\Admin\AdminTanamanController::class, 'index'])
+         ->name('tanaman');
+
     });
 
 // === Redirect setelah login ===
@@ -90,5 +98,6 @@ Route::post('/logout', function () {
 Route::get('/logout', function () {
     abort(404);
 });
+
 
 require __DIR__ . '/auth.php';
