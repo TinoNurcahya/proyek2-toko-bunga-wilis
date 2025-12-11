@@ -34,7 +34,8 @@
     <div class="nav-section border border-1 border-light pb-1 mb-3">
         <h6 class="section-title text-uppercase mb-3">Pesanan Saya</h6>
         <div class="nav-links">
-            <a href="#" class="sidebar-link">
+            <a href="{{ route('profile.pesanan') }}"
+                class="sidebar-link {{ request()->routeIs('profile.pesanan') ? 'sidebar-active' : '' }}">
                 <i class="fa-solid fa-boxes-packing me-2"></i>
                 Semua Pesanan
             </a>

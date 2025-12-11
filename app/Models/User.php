@@ -11,7 +11,7 @@ use App\Notifications\CustomVerifyEmail;
 
 class User extends Authenticatable implements MustVerifyEmailContract
 {
-    use HasFactory, Notifiable, MustVerifyEmail; 
+    use HasFactory, Notifiable, MustVerifyEmail;
 
     protected $primaryKey = 'id_users';
     public $incrementing = true;
@@ -27,6 +27,8 @@ class User extends Authenticatable implements MustVerifyEmailContract
         'no_hp',
         'jenis_kelamin',
         'foto_profil',
+        'kota',
+        'kode_pos',
     ];
 
     protected $hidden = [

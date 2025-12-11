@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Keranjang;
 use App\Models\ProdukUkuran;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class CartList extends Component
 {
@@ -59,9 +60,11 @@ class CartList extends Component
     {
         $total = 0;
         foreach ($this->cartItems as $item) {
-            if (in_array($item->id_keranjang, $this->selectedItems) && 
-                $item->produkUkuran && 
-                $item->produkUkuran->stok > 0) {
+            if (
+                in_array($item->id_keranjang, $this->selectedItems) &&
+                $item->produkUkuran &&
+                $item->produkUkuran->stok > 0
+            ) {
                 $total += $item->produkUkuran->harga * $item->jumlah;
             }
         }
@@ -165,6 +168,61 @@ class CartList extends Component
         $this->dispatch('show-toast', type: 'success', message: 'Item terpilih berhasil dihapus');
     }
 
+    public function checkoutSelected()
+    {
+        // Validasi jika ada item yang dipilih
+        if (empty($this->selectedItems)) {
+            $this->dispatch(
+                'show-toast',
+                type: 'error',
+                message: 'Pilih minimal satu item untuk checkout'
+            );
+            return;
+        }
+
+        // Validasi stok untuk semua item yang dipilih
+        $outOfStockItems = [];
+        foreach ($this->cartItems as $item) {
+            if (in_array($item->id_keranjang, $this->selectedItems)) {
+                if (!$item->produkUkuran || $item->produkUkuran->stok < $item->jumlah) {
+                    $outOfStockItems[] = $item->produkUkuran ?
+                        $item->produkUkuran->produk->nama : 'Produk tidak tersedia';
+                }
+            }
+        }
+
+        if (!empty($outOfStockItems)) {
+            $this->dispatch(
+                'show-toast',
+                type: 'error',
+                message: 'Beberapa produk stok tidak mencukupi: ' . implode(', ', $outOfStockItems)
+            );
+            return;
+        }
+
+        // Simpan selected items ke session untuk digunakan di halaman checkout
+        Session::put('checkout_items', $this->selectedItems);
+        return redirect()->route('checkout');
+    }
+
+    // method untuk redirect ke halaman checkout
+    public function goToCheckout()
+    {
+        if (empty($this->selectedItems)) {
+            $this->dispatch(
+                'show-toast',
+                type: 'error',
+                message: 'Pilih minimal satu item untuk checkout'
+            );
+            return;
+        }
+
+        // Simpan ke session
+        Session::put('checkout_items', $this->selectedItems);
+
+        // Redirect menggunakan Livewire redirect
+        return $this->redirect(route('checkout'), navigate: true);
+    }
     public function render()
     {
         return view('livewire.cart-list', [

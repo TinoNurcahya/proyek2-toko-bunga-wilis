@@ -24,6 +24,8 @@ class UserSeeder extends Seeder
             'no_hp' => '081234567890',
             'jenis_kelamin' => 'P',
             'foto_profil' => null,
+            'kota' => 'Bandung',
+            'kode_pos' => '40123',
         ]);
         User::create([
             'role' => 'admin',
@@ -34,6 +36,8 @@ class UserSeeder extends Seeder
             'no_hp' => '081234567890',
             'jenis_kelamin' => 'L',
             'foto_profil' => null,
+            'kota' => 'Bandung',
+            'kode_pos' => '40123',
         ]);
         User::create([
             'role' => 'admin',
@@ -44,6 +48,8 @@ class UserSeeder extends Seeder
             'no_hp' => '081234567890',
             'jenis_kelamin' => 'L',
             'foto_profil' => null,
+            'kota' => 'Bandung',
+            'kode_pos' => '40123',
         ]);
         User::create([
             'role' => 'admin',
@@ -54,6 +60,8 @@ class UserSeeder extends Seeder
             'no_hp' => '081234567890',
             'jenis_kelamin' => 'P',
             'foto_profil' => null,
+            'kota' => 'Bandung',
+            'kode_pos' => '40123',
         ]);
 
 
@@ -67,6 +75,8 @@ class UserSeeder extends Seeder
             'no_hp' => '081298765432',
             'jenis_kelamin' => 'L',
             'foto_profil' => null,
+            'kota' => 'Bandung',
+            'kode_pos' => '40123',
         ]);
 
         User::create([
@@ -78,6 +88,8 @@ class UserSeeder extends Seeder
             'no_hp' => '081298765432',
             'jenis_kelamin' => 'L',
             'foto_profil' => null,
+            'kota' => 'Bandung',
+            'kode_pos' => '40123',
         ]);
 
         User::create([
@@ -89,6 +101,8 @@ class UserSeeder extends Seeder
             'no_hp' => '081298765432',
             'jenis_kelamin' => 'L',
             'foto_profil' => null,
+            'kota' => 'Bandung',
+            'kode_pos' => '40123',
         ]);
     }
 }

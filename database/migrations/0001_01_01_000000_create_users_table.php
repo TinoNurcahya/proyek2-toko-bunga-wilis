@@ -23,6 +23,8 @@ return new class extends Migration
             $table->enum('jenis_kelamin', ['L', 'P'])->default('L');
             $table->string('foto_profil')->nullable();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('kota')->nullable();
+            $table->string('kode_pos')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
