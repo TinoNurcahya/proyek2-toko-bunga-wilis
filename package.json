@@ -19,6 +19,7 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^7.1.0",
         "@popperjs/core": "^2.11.8",
+        "admin-lte": "^4.0.0-rc4",
         "aos": "^2.3.4",
         "bootstrap": "^5.3.8",
         "photoswipe": "^5.4.4",

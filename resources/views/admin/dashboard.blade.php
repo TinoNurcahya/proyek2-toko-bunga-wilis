@@ -1,71 +1,192 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('admin.layout')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
+@section('title', 'Dashboard')
 
-<body class="bg-gray-100">
-    <div class="min-h-screen">
-        <!-- Navbar -->
-        <nav class="bg-blue-600 text-white p-4">
-            <div class="container mx-auto flex justify-between items-center">
-                <h1 class="text-2xl font-bold">Admin Dashboard</h1>
-                <div class="flex items-center space-x-4">
-                    <img src="{{ $user->avatar ?? '/default-avatar.png' }}" alt="Avatar" class="w-8 h-8 rounded-full">
-                    <span>{{ $user->name }}</span>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded">
-                            Logout
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </nav>
+@section('content')
 
-        <!-- Content -->
-        <div class="container mx-auto p-6">
-            @if (session('success'))
-                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                    {{ session('success') }}
-                </div>
-            @endif
+<!-- ===================== STYLE ===================== -->
+<style>
+    /* Kartu statistik */
+    .stat-card {
+        background: #E5E5E5;
+        border-radius: 18px;
+        padding: 25px;
+        text-align: center;
+    }
+    .stat-icon {
+        font-size: 40px;
+        color: #444;
+        margin-bottom: 8px;
+    }
+    .stat-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 3px;
+    }
+    .stat-value {
+        font-size: 24px;
+        font-weight: 800;
+        color: #0F184C;
+    }
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                <div class="bg-white rounded-lg shadow p-6">
-                    <h3 class="text-lg font-semibold mb-2">Total Users</h3>
-                    <p class="text-3xl font-bold text-blue-600">{{ $stats['total_users'] ?? 0 }}</p>
-                </div>
-                <div class="bg-white rounded-lg shadow p-6">
-                    <h3 class="text-lg font-semibold mb-2">Total Orders</h3>
-                    <p class="text-3xl font-bold text-green-600">{{ $stats['total_orders'] ?? 0 }}</p>
-                </div>
-                <div class="bg-white rounded-lg shadow p-6">
-                    <h3 class="text-lg font-semibold mb-2">Revenue</h3>
-                    <p class="text-3xl font-bold text-purple-600">Rp
-                        {{ number_format($stats['revenue'] ?? 0, 0, ',', '.') }}</p>
-                </div>
-            </div>
+    /* Box chart */
+    .chart-box {
+        background: #fff;
+        border-radius: 22px;
+        padding: 25px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
 
-            <div class="bg-white rounded-lg shadow p-6">
-                <h2 class="text-xl font-semibold mb-4">Selamat datang, {{ $user->name }}!</h2>
-                <p class="text-gray-600">Anda login sebagai <span
-                        class="font-semibold text-blue-600">Administrator</span></p>
+    /* Tabel */
+    .table thead {
+        background: #F5F6FA;
+        font-weight: 600;
+    }
+</style>
 
-                <div class="mt-6 p-4 bg-gray-50 rounded">
-                    <h3 class="font-semibold mb-2">Informasi Akun:</h3>
-                    <p><strong>Email:</strong> {{ $user->email }}</p>
-                    <p><strong>Role:</strong> <span
-                            class="px-2 py-1 bg-blue-100 text-blue-800 rounded">{{ $user->role }}</span></p>
-                    <p><strong>Login Method:</strong> {{ $user->google_id ? 'Google OAuth' : 'Email' }}</p>
-                </div>
-            </div>
+
+<!-- ===================== 4 KOTAK STATISTIK ===================== -->
+<div class="row mb-4">
+
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-seedling"></i></div>
+            <div class="stat-title">Jumlah Produk</div>
+            <div class="stat-value">{{ $totalProduk }}</div>
         </div>
     </div>
-</body>
 
-</html>
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-shopping-cart"></i></div>
+            <div class="stat-title">Jumlah Pesanan</div>
+            <div class="stat-value">{{ $totalOrders }}</div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-chart-bar"></i></div>
+            <div class="stat-title">Penjualan</div>
+            <div class="stat-value">Rp {{ number_format($totalRevenue) }}</div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-user"></i></div>
+            <div class="stat-title">Customers</div>
+            <div class="stat-value">{{ $totalCustomer }}</div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<!-- ===================== GRAFIK (LINE) & DONUT ===================== -->
+<div class="row mb-4">
+
+    <!-- Grafik Balance History -->
+    <div class="col-md-8">
+        <div class="chart-box">
+            <h5 class="font-weight-bold mb-3">Balance History</h5>
+            <canvas id="chartLine" height="170"></canvas>
+        </div>
+    </div>
+
+    <!-- Donut Chart -->
+    <div class="col-md-4">
+        <div class="chart-box text-center">
+            <h5 class="font-weight-bold mb-3">Kategori Produk Terlaris</h5>
+            <canvas id="chartDonut" height="230"></canvas>
+        </div>
+    </div>
+
+</div>
+
+
+
+<!-- ===================== TABEL ORDER ===================== -->
+<div class="chart-box">
+
+    <h5 class="font-weight-bold mb-3">Total Order</h5>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Tanaman</th>
+                <th>Jumlah</th>
+                <th>Status</th>
+                <th>Total Harga</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        @foreach ($latestOrders as $o)
+            <tr>
+                <td>{{ $o->id }}</td>
+                <td>{{ $o->user->name }}</td>
+                <td>{{ $o->produk->nama_produk ?? '-' }}</td>
+                <td>{{ $o->jumlah }}</td>
+                <td>{{ ucfirst($o->status) }}</td>
+                <td>Rp {{ number_format($o->total_harga) }}</td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+</div>
+
+
+
+
+<!-- ===================== CHART SCRIPT ===================== -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+/* ====== LINE CHART ====== */
+new Chart(document.getElementById('chartLine'), {
+    type: 'line',
+    data: {
+        labels: ['Jul','Aug','Sep','Oct','Nov','Dec','Jan'],
+        datasets: [{
+            data: [100,220,350,700,150,420,530],
+            borderColor: '#1A73E8',
+            backgroundColor: 'rgba(26,115,232,0.2)',
+            borderWidth: 3,
+            tension: .3,
+            fill: true
+        }]
+    },
+    options: {
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+            y: { beginAtZero: true }
+        }
+    }
+});
+
+
+/* ====== DONUT CHART ====== */
+new Chart(document.getElementById('chartDonut'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Mawar', 'Jambu', 'Tulip'],
+        datasets: [{
+            data: [40, 35, 25],
+            backgroundColor: ['#22C55E','#3B82F6','#EF4444'],
+            borderWidth: 0
+        }]
+    },
+    options: {
+        cutout: '65%',
+        maintainAspectRatio: false
+    }
+});
+</script>
+
+@endsection
