@@ -223,29 +223,35 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-var ctx = document.getElementById('salesChart').getContext('2d');
+fetch("{{ route('admin.dashboard.chartData') }}")
+    .then(res => res.json())
+    .then(result => {
 
-new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: ['Jan','Feb','Mar','Apr','Mei','Jun','Jul'],
-        datasets: [{
-            label: 'Jumlah Penjualan',
-            data: [50,75,60,90,120,110,150],
-            fill: true,
-            borderWidth: 2,
-            borderColor: '#28a745',
-            backgroundColor: 'rgba(40,167,69,0.2)',
-            tension: .3
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: { y: { beginAtZero: true } }
-    }
-});
+        const ctx = document.getElementById('salesChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: result.labels,
+                datasets: [{
+                    label: 'Jumlah Pesanan',
+                    data: result.data,
+                    fill: true,
+                    borderWidth: 2,
+                    tension: .3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    });
 </script>
+
 
 <!-- SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>

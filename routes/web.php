@@ -94,6 +94,12 @@ Route::prefix('admin')
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])
             ->name('dashboard');
 
+        // Dashboard dinamis
+        
+      Route::get('/dashboard/chart-data', [AdminDashboardController::class, 'chartData'])
+              ->name('dashboard.chartData');
+
+
         // Orders
         Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders');
         Route::get('/orders/{id}', [AdminOrderController::class, 'show'])->name('orders.show');
