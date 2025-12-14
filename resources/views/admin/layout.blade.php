@@ -44,33 +44,43 @@
             padding: 12px 20px;
         }
 
-        .top-search {
-            border: 1px solid #d4dce7;
+        .glass-search {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid #a5d6a7;
             border-radius: 20px;
-            padding: 5px 12px;
+            padding: 6px 14px;
             width: 250px;
+            display: flex;
+            align-items: center;
         }
-        .top-search input {
+        .glass-search input {
+            background: transparent;
             border: none;
             outline: none;
             width: 200px;
+            color: #2e7d32;
+            font-weight: 500;
         }
 
-        .profile-circle {
+        .profile-avatar {
             width: 38px;
             height: 38px;
             border-radius: 50%;
-            background: #ff7043;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
+            object-fit: cover;
+            border: 2px solid #2e7d32;
         }
 
         .content-wrapper {
             background: #f5f7fb !important;
             padding: 25px;
+        }
+
+        .navbar-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2e7d32;
         }
     </style>
 </head>
@@ -79,26 +89,25 @@
 <div class="wrapper">
 
     <!-- NAVBAR -->
-    <nav class="main-header navbar navbar-expand">
-        <ul class="navbar-nav mr-auto"></ul>
+    <nav class="main-header navbar navbar-expand d-flex justify-content-between align-items-center">
+        <!-- Tulisan Overview -->
+        <div class="navbar-title">Overview</div>
 
-        <ul class="navbar-nav ml-auto align-items-center">
-            <li class="nav-item">
-                <div class="top-search d-flex align-items-center">
-                    <i class="fas fa-search mr-2 text-secondary"></i>
-                    <input type="text" placeholder="Search...">
-                </div>
-            </li>
-            <li class="nav-item ml-3">
-                <a class="nav-link"><i class="fas fa-cog fa-lg text-secondary"></i></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link"><i class="fas fa-bell fa-lg text-secondary"></i></a>
-            </li>
-            <li class="nav-item ml-3">
-                <div class="profile-circle"><i class="fas fa-user"></i></div>
-            </li>
-        </ul>
+        <!-- Kanan: Search + Ikon + Avatar -->
+        <div class="d-flex align-items-center gap-3">
+            <!-- Search transparan -->
+            <div class="glass-search">
+                <i class="fas fa-search mr-2 text-success"></i>
+                <input type="text" placeholder="Search...">
+            </div>
+
+            <!-- Ikon hijau -->
+            <a class="nav-link"><i class="fas fa-cog fa-lg text-success"></i></a>
+            <a class="nav-link"><i class="fas fa-bell fa-lg text-success"></i></a>
+
+            <!-- Avatar pakai gambar -->
+            <img src="https://example.com/avatar.jpg" alt="Admin Avatar" class="profile-avatar">
+        </div>
     </nav>
 
     <!-- SIDEBAR -->

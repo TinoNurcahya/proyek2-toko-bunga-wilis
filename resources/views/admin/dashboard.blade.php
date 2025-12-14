@@ -11,7 +11,7 @@
         background: #E5E5E5;
         border-radius: 18px;
         padding: 25px;
-        text-align: center;
+        text-align: center;z
     }
     .stat-icon {
         font-size: 40px;
