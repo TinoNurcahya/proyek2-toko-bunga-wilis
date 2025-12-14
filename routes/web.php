@@ -90,15 +90,21 @@ Route::prefix('admin')
     ->name('admin.')
     ->group(function () {
 
+// Dashboard
+Route::get('/dashboard', [AdminDashboardController::class, 'index'])
+    ->name('dashboard');
 
-        // Dashboard
-        Route::get('/dashboard', [AdminDashboardController::class, 'index'])
-            ->name('dashboard');
 
         // Dashboard dinamis
         
       Route::get('/dashboard/chart-data', [AdminDashboardController::class, 'chartData'])
               ->name('dashboard.chartData');
+
+              // Produk Terlaris (Dashboard)
+    Route::get('/dashboard/produk-terlaris', [AdminDashboardController::class, 'produkTerlaris'])
+    ->name('dashboard.produkTerlaris');
+
+
 
 
         // Orders
