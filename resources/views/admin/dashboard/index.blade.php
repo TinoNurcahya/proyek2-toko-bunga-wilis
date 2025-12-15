@@ -58,8 +58,8 @@
     </div>
 
     <!-- ===== TAMBAHAN FITUR ===== -->
-
     <div class="row mt-4">
+
         <!-- GRAFIK PENJUALAN -->
         <div class="col-md-8">
             <div class="card shadow-sm">
@@ -72,7 +72,7 @@
             </div>
         </div>
 
-        <!-- PRODUK TERLARIS -->
+        <!-- PRODUK TERLARIS (TABEL) -->
         <div class="col-md-4">
             <div class="card shadow-sm">
                 <div class="card-header">
@@ -90,7 +90,7 @@
                         <tbody>
                             @forelse ($produkTerlaris as $item)
                             <tr>
-                                <td>{{ $item->nama_produk }}</td>
+                                <td>{{ $item->nama }}</td>
                                 <td>{{ $item->total_terjual }}</td>
                                 <td>
                                     @if ($item->total_terjual >= 100)
@@ -114,12 +114,31 @@
                 </div>
             </div>
         </div>
+
+    </div>
+
+    <!-- ===== DONUT PRODUK TERLARIS ===== -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <strong>Diagram Produk Terlaris</strong>
+                </div>
+                <div class="card-body">
+                    <div style="width: 220px; height: 220px; margin: auto;">
+                        <canvas id="donutProdukTerlaris"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
 
-<!-- SCRIPT GRAFIK -->
+<!-- SCRIPT CHART -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- LINE CHART -->
 <script>
 fetch("{{ route('admin.dashboard.chartData') }}")
     .then(response => response.json())
@@ -135,6 +154,42 @@ fetch("{{ route('admin.dashboard.chartData') }}")
                     fill: true,
                     tension: 0.4,
                 }]
+            }
+        });
+    });
+</script>
+
+<!-- DONUT PRODUK TERLARIS -->
+<script>
+fetch("{{ route('admin.dashboard.produkTerlaris') }}")
+    .then(response => response.json())
+    .then(data => {
+
+        const labels = data.map(item => item.nama);
+        const values = data.map(item => item.total_terjual);
+
+        const ctx = document.getElementById('donutProdukTerlaris').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: values
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '65%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: 12
+                        }
+                    }
+                }
             }
         });
     });
