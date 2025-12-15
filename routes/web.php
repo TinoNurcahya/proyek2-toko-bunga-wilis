@@ -84,11 +84,16 @@ Route::post('/pembayaran/notification', [PaymentController::class, 'notification
 
 
 
-// === ROUTE ADMIN — FIXED (tidak duplikat lagi) ===
+// === ROUTE ADMIN — FIXED  ===
 Route::prefix('admin')
     ->middleware(['auth', 'verified', 'role:admin'])
     ->name('admin.')
     ->group(function () {
+
+        Route::get('/dashboard/produk-terlaris',
+    [AdminDashboardController::class, 'produkTerlaris']
+)->name('dashboard.produkTerlaris');
+
 
 // Dashboard
 Route::get('/dashboard', [AdminDashboardController::class, 'index'])
