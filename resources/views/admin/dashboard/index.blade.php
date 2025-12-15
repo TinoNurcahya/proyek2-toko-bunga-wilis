@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('Admin.layouts.admin')
 
 @section('content')
 <div class="container py-4">
@@ -90,7 +90,7 @@
                         <tbody>
                             @forelse ($produkTerlaris as $item)
                             <tr>
-                                <td>{{ $item->nama_produk }}</td>
+                                <td>{{ $item->nama}}</td>
                                 <td>{{ $item->total_terjual }}</td>
                                 <td>
                                     @if ($item->total_terjual >= 100)
