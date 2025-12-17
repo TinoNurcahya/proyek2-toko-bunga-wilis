@@ -1,77 +1,83 @@
-<?php
+@extends('admin.layouts.admin')
+@section('title','Kelola Order')
 
-namespace App\Http\Controllers\Admin;
+@section('content')
+<div class="container-fluid px-4">
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\AdminOrder;
+<h3 class="mb-4 text-success fw-bold">KELOLA ORDER</h3>
 
-class AdminOrderController extends Controller
-{
-    // Menampilkan semua pesanan + filter + pagination
-    public function index(Request $request)
-    {
-        $query = AdminOrder::orderBy('created_at', 'desc');
+<form method="GET" class="mb-3 d-flex gap-2">
+    <select name="status" class="form-select w-auto">
+        <option value="">Semua Status</option>
+        @foreach(['pending','diproses','dikirim','selesai','dibatalkan'] as $st)
+            <option value="{{ $st }}" {{ request('status')==$st?'selected':'' }}>
+                {{ ucfirst($st) }}
+            </option>
+        @endforeach
+    </select>
+    <button class="btn btn-outline-success">Filter</button>
+</form>
 
-        // Filter status
-        if ($request->status) {
-            $query->where('status', $request->status);
-        }
+<div class="card shadow-sm">
+<div class="table-responsive">
+<table class="table table-bordered align-middle">
+<thead class="table-light">
+<tr>
+    <th>ID</th>
+    <th>Status</th>
+    <th>Resi</th>
+    <th>Item</th>
+    <th>Customer</th>
+    <th>Produk</th>
+    <th>Total</th>
+    <th>Aksi</th>
+</tr>
+</thead>
 
-        // Pagination (WAJIB supaya withQueryString() tidak error)
-        $orders = $query->paginate(10);
+<tbody>
+@forelse($orders as $order)
+<tr>
+    <td>{{ $order->id_pesanan }}</td>
 
-        return view('admin.orders.index', compact('orders'));
-    }
+    <td>
+        <span class="badge bg-{{ 
+            $order->status=='pending'?'secondary':
+            ($order->status=='diproses'?'warning':
+            ($order->status=='dikirim'?'info':
+            ($order->status=='selesai'?'success':'danger')))
+        }}">
+            {{ ucfirst($order->status) }}
+        </span>
+    </td>
 
-    // Menampilkan detail pesanan
-    public function show($id)
-    {
-        $order = AdminOrder::findOrFail($id);
-        return view('admin.orders.show', compact('order'));
-    }
+    <td>{{ $order->no_resi ?? '-' }}</td>
 
-    // Menampilkan form edit status
-    public function edit($id)
-    {
-        $order = AdminOrder::findOrFail($id);
-        return view('admin.orders.edit', compact('order'));
-    }
+    <td class="text-center">{{ $order->items->sum('kuantitas') }}</td>
 
-    // Update status pesanan
-    public function updateStatus(Request $request, $id)
-    {
-        $request->validate(['status' => 'required']);
+    <td>{{ $order->nama_penerima ?? '-' }}</td>
 
-        $order = AdminOrder::findOrFail($id);
-        $order->status = $request->status;
-        $order->save();
+    <td>
+        @foreach($order->items as $item)
+            {{ $item->produkUkuran->produk->nama_produk ?? '-' }}
+            (x{{ $item->kuantitas }})<br>
+        @endforeach
+    </td>
 
-        return redirect()
-            ->route('admin.orders.show', $order->id)
-            ->with('success', 'Status berhasil diperbarui');
-    }
+    <td>Rp {{ number_format($order->total_harga,0,',','.') }}</td>
 
-    // Update nomor resi
-    public function updateResi(Request $request, $id)
-    {
-        $request->validate(['resi' => 'required']);
+    <td class="text-center">
+        <a href="{{ route('admin.orders.show',$order->id_pesanan) }}"
+           class="btn btn-sm btn-outline-success">✏️</a>
+    </td>
+</tr>
+@empty
+<tr><td colspan="8" class="text-center">Belum ada pesanan</td></tr>
+@endforelse
+</tbody>
+</table>
+</div>
 
-        $order = AdminOrder::findOrFail($id);
-        $order->resi = $request->resi;
-        $order->save();
-
-        return redirect()
-            ->route('admin.orders.show', $order->id)
-            ->with('success', 'Nomor resi berhasil ditambahkan');
-    }
-
-    // Hapus pesanan
-    public function destroy($id)
-    {
-        $order = AdminOrder::findOrFail($id);
-        $order->delete();
-
-        return back()->with('success', 'Pesanan berhasil dihapus');
-    }
-}
+<div class="p-3">{{ $orders->links() }}</div>
+</div>
+</div>
+@endsection

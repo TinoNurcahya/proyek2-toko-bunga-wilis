@@ -4,51 +4,54 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pesanan;
-
 use Illuminate\Support\Facades\Auth;
 
 class PesananController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $user = $request->user();
+        $user = Auth::user();
 
-        $orders = Pesanan::with(['items.produkUkuran.produk', 'items.produkUkuran.ukuran'])
+        $orders = Pesanan::with([
+                'items.produkUkuran.produk',
+                'items.produkUkuran.ukuran'
+            ])
             ->where('id_users', $user->id_users)
             ->orderBy('tanggal_pesanan', 'desc')
             ->paginate(10);
 
-        return view('profile.pesanan', [
-            'user' => $user,
-            'orders' => $orders,
-            'theme' => 'light'
-        ]);
+        return view('profile.pesanan', compact('user', 'orders'));
     }
 
-    public function detail(Request $request, $kode)
+    public function detail($kode)
     {
-        $user = $request->user();
+        $user = Auth::user();
 
-        $order = Pesanan::with(['items.produkUkuran.produk', 'items.produkUkuran.ukuran', 'user'])
+        $order = Pesanan::with([
+                'items.produkUkuran.produk',
+                'items.produkUkuran.ukuran',
+                'user'
+            ])
             ->where('kode_pesanan', $kode)
             ->where('id_users', $user->id_users)
             ->firstOrFail();
 
-        return view('user.pesanan.detail', compact('user', 'order'));
+        return view('profile.pesanan-detail', compact('user', 'order'));
     }
 
-    public function batalkan(Request $request, $kode)
+    public function batalkan($kode)
     {
-        $user = $request->user();
+        $user = Auth::user();
 
         $order = Pesanan::where('kode_pesanan', $kode)
             ->where('id_users', $user->id_users)
-            ->where('status', 'menunggu')
+            ->where('status', 'pending') // FIX STATUS
             ->firstOrFail();
 
         $order->update(['status' => 'dibatalkan']);
 
-        return redirect()->route('profile.pesanan')
+        return redirect()
+            ->route('profile.pesanan')
             ->with('success', 'Pesanan berhasil dibatalkan');
     }
 }
