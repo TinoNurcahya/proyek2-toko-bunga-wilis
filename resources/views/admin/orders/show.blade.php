@@ -46,7 +46,7 @@
                 <p>
                     <strong>Status Saat Ini</strong><br>
                     <span class="badge
-                        @if($order->status=='pending') bg-secondary
+                        @if($order->status=='menunggu') bg-secondary
                         @elseif($order->status=='diproses') bg-warning
                         @elseif($order->status=='dikirim') bg-info
                         @elseif($order->status=='selesai') bg-success
@@ -65,7 +65,7 @@
                     <select name="status"
                             class="form-select w-75"
                             onchange="this.form.submit()">
-                        @foreach(['pending','diproses','dikirim','selesai','dibatalkan'] as $st)
+                        @foreach(['menunggu','diproses','dikirim','selesai','dibatalkan'] as $st)
                             <option value="{{ $st }}"
                                 {{ $order->status==$st ? 'selected' : '' }}>
                                 {{ ucfirst($st) }}

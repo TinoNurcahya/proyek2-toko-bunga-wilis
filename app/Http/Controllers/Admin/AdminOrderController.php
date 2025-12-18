@@ -31,19 +31,18 @@ class AdminOrderController extends Controller
 
   public function updateStatus(Request $request, $id)
 {
-    $request->validate([
-        'status' => 'required|in:pending,diproses,dikirim,selesai,dibatalkan'
+    $order = Pesanan::findOrFail($id);
+
+    $order->update([
+        'status' => $request->status
     ]);
 
-    $order = Pesanan::where('id_pesanan', $id)->firstOrFail();
-
-    $order->status = $request->status;
-    $order->save();
-
+    
     return redirect()
-        ->back()
-        ->with('success', 'Status berhasil diperbarui');
+        ->route('admin.orders.show', $id)
+        ->with('success', 'Status pesanan berhasil diperbarui');
 }
+
 
 
 public function updateResi(Request $request, $id)
