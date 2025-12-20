@@ -10,8 +10,10 @@ class DetailTanaman extends Model
     use HasFactory;
 
     protected $table = 'detail_tanaman';
-    protected $primaryKey = 'id_detail';
+    protected $primaryKey = 'id_produk';
     public $timestamps = true;
+    public $incrementing = false;
+
 
     protected $fillable = [
         'id_produk',

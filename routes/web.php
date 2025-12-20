@@ -14,6 +14,7 @@ use App\Http\Controllers\PesananController;
 
 
 use App\Http\Controllers\Admin\AdminOrderController;
+use App\Http\Controllers\Admin\AdminTanamanController;
 use App\Http\Controllers\Admin\IotController;
 
 // use App\Livewire\ProductList;    
@@ -122,11 +123,39 @@ Route::get('/dashboard', [AdminDashboardController::class, 'index'])
         Route::get('/iot', function () {
          return view('admin.iot');
          })->name('iot');
+    // READ (list)
+    Route::get('/tanaman', [AdminTanamanController::class, 'index'])
+        ->name('tanaman');
+    // CREATE (form)
+    Route::get('/tanaman/create', [AdminTanamanController::class, 'create'])
+        ->name('tanaman.create');
+    // CREATE (simpan)
+    Route::post('/tanaman', [AdminTanamanController::class, 'store'])
+        ->name('tanaman.store');
+    // READ (detail)
+    Route::get('/tanaman/{id}', [AdminTanamanController::class, 'show'])
+        ->name('tanaman.show');
+    // UPDATE (form edit)
+    Route::get('/tanaman/{id}/edit', [AdminTanamanController::class, 'edit'])
+        ->name('tanaman.edit');
+    // UPDATE (simpan perubahan)
+    Route::put('/tanaman/{id}', [AdminTanamanController::class, 'update'])
+        ->name('tanaman.update');
+    // DELETE
+    Route::delete('/tanaman/{id}', [AdminTanamanController::class, 'destroy'])
+        ->name('tanaman.destroy');
+    Route::get('/tanaman/{id}/ukuran', [ProdukUkuranController::class, 'create'])
+    ->name('ukuran.create');
+Route::post('/tanaman/{id}/ukuran', [ProdukUkuranController::class, 'store'])
+    ->name('ukuran.store');
+    Route::get(
+    '/tanaman/{id}/penyiraman',
+    [AdminTanamanController::class, 'penyiraman']
+)->name('tanaman.penyiraman');
 
-         Route::get('/tanaman', [\App\Http\Controllers\Admin\AdminTanamanController::class, 'index'])
-         ->name('tanaman');
 
-    });
+
+});
 
 // === Redirect setelah login ===
 Route::middleware(['auth'])->get('/home', function () {
