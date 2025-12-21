@@ -20,4 +20,5 @@ class FotoProduk extends Model
     {
         return $this->belongsTo(Produk::class, 'id_produk', 'id_produk');
     }
+public $timestamps = false;
 }

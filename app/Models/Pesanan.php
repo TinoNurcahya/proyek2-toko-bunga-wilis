@@ -20,6 +20,7 @@ class Pesanan extends Model
         'pajak',
         'total_harga',
         'status',
+        'no_resi',
         'metode_pembayaran',
         'bank',
         'va_number',

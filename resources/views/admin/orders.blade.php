@@ -1,6 +1,7 @@
 @extends('admin.layout')
 
 @section('title', 'Kelola Order')
+@section('page-title', 'Kelola Order')
 
 @section('content')
 
