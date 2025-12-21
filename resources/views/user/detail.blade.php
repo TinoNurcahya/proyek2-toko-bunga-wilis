@@ -119,10 +119,13 @@
               @endif
             </ul>
 
-            <div class="tab-content border border-top-0 p-4 rounded-bottom" id="productTabContent" style="max-height: 500px; overflow-y: auto;">
+            <div class="tab-content border border-top-0 p-4 rounded-bottom" id="productTabContent"
+              style="max-height: 500px; overflow-y: auto;">
               {{-- Tab Deskripsi --}}
               <div class="tab-pane fade show active" id="desc" role="tabpanel">
-                <p class="small mb-0 montserrat">{{ $produk->deskripsi ?? 'Tidak ada deskripsi.' }}</p>
+                <div class="small mb-0 montserrat">
+                  {!! nl2br(e($produk->deskripsi ?? 'Tidak ada deskripsi.')) !!}
+                </div>
               </div>
 
               {{-- Tab Detail Tanaman --}}
@@ -554,6 +557,5 @@
       });
       window.dispatchEvent(toastEvent);
     };
-
   </script>
 @endsection

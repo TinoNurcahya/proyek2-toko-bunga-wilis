@@ -154,6 +154,8 @@ Route::prefix('admin')
         // DELETE
         Route::delete('/tanaman/{id}', [AdminTanamanController::class, 'destroy'])
             ->name('tanaman.destroy');
+        Route::get('/tanaman/foto/{id}/hapus', [AdminTanamanController::class, 'hapusFoto'])
+            ->name('tanaman.hapus-foto');
         Route::get('/tanaman/{id}/ukuran', [ProdukUkuranController::class, 'create'])
             ->name('ukuran.create');
         Route::post('/tanaman/{id}/ukuran', [ProdukUkuranController::class, 'store'])

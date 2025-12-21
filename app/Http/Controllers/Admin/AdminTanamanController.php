@@ -12,13 +12,14 @@ use App\Models\DetailTanaman;
 use App\Models\PetunjukPerawatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class AdminTanamanController extends Controller
 {
     /* ================= INDEX ================= */
     public function index()
     {
-        $produk = Produk::with('produkUkuran')->latest()->get();
+        $produk = Produk::with(['produkUkuran', 'kategori'])->latest()->get();
         return view('admin.tanaman.index', compact('produk'));
     }
 
@@ -35,22 +36,36 @@ class AdminTanamanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama'        => 'required',
-            'id_kategori' => 'required',
-            'deskripsi'   => 'required',
-            'foto_utama'  => 'required|image',
+            'nama'               => 'required|string|max:200',
+            'id_kategori'        => 'required|exists:kategori,id_kategori',
+            'deskripsi'          => 'required|string',
+            'nama_ilmiah'        => 'nullable|string|max:100',
+            'asal_tanaman'       => 'nullable|string|max:100',
+            'ukuran_detail'      => 'nullable|string|max:200',
+            'foto_utama'         => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'foto_produk.*'      => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'harga.*'            => 'nullable|numeric|min:0',
+            'stok.*'             => 'nullable|integer|min:0',
+            'penyiraman'         => 'nullable|string',
+            'cahaya'             => 'nullable|string',
+            'suhu_dan_kelembapan' => 'nullable|string',
         ]);
 
         DB::transaction(function () use ($request) {
+            // Buat folder jika belum ada
+            $this->createDirectories();
 
             /* ===== FOTO UTAMA ===== */
-            $namaUtama = time().'_'.$request->foto_utama->getClientOriginalName();
-            $request->foto_utama->move(public_path('images'), $namaUtama);
+            $fotoUtama = $request->file('foto_utama');
+            $namaUtama = time() . '_' . Str::random(10) . '.' . $fotoUtama->getClientOriginalExtension();
+            $pathUtama = 'images/products/' . $namaUtama;
+            $fotoUtama->move(public_path('images/products'), $namaUtama);
 
+            /* ===== CREATE PRODUK ===== */
             $produk = Produk::create([
                 'id_kategori'   => $request->id_kategori,
                 'nama'          => $request->nama,
-                'foto_utama'    => 'images/'.$namaUtama,
+                'foto_utama'    => $pathUtama,
                 'deskripsi'     => $request->deskripsi,
                 'terjual'       => 0,
                 'rating'        => 0,
@@ -58,45 +73,55 @@ class AdminTanamanController extends Controller
             ]);
 
             /* ===== DETAIL TANAMAN ===== */
-            DetailTanaman::create([
-                'id_produk'     => $produk->id_produk,
-                'nama_ilmiah'   => $request->nama_ilmiah,
-                'ukuran_detail' => $request->ukuran_detail,
-                'asal_tanaman'  => $request->asal_tanaman,
-            ]);
+            if ($request->filled('nama_ilmiah') || $request->filled('ukuran_detail') || $request->filled('asal_tanaman')) {
+                DetailTanaman::create([
+                    'id_produk'     => $produk->id_produk,
+                    'nama_ilmiah'   => $request->nama_ilmiah,
+                    'ukuran_detail' => $request->ukuran_detail,
+                    'asal_tanaman'  => $request->asal_tanaman,
+                ]);
+            }
 
             /* ===== HARGA & STOK ===== */
             if ($request->harga) {
                 foreach ($request->harga as $id_ukuran => $harga) {
-                    ProdukUkuran::create([
-                        'id_produk' => $produk->id_produk,
-                        'id_ukuran' => $id_ukuran,
-                        'harga'     => $harga ?? 0,
-                        'stok'      => $request->stok[$id_ukuran] ?? 0,
-                    ]);
+                    $stok = $request->stok[$id_ukuran] ?? 0;
+
+                    // Hanya simpan jika ada harga atau stok
+                    if (!is_null($harga) || $stok > 0) {
+                        ProdukUkuran::create([
+                            'id_produk' => $produk->id_produk,
+                            'id_ukuran' => $id_ukuran,
+                            'harga'     => $harga ?: 0,
+                            'stok'      => $stok,
+                        ]);
+                    }
                 }
             }
 
             /* ===== FOTO GALLERY ===== */
             if ($request->hasFile('foto_produk')) {
-                foreach ($request->foto_produk as $foto) {
-                    $namaFoto = time().'_'.$foto->getClientOriginalName();
-                    $foto->move(public_path('uploads'), $namaFoto);
+                foreach ($request->file('foto_produk') as $foto) {
+                    $namaFoto = time() . '_' . Str::random(10) . '.' . $foto->getClientOriginalExtension();
+                    $pathFoto = 'uploads/produk/' . $namaFoto;
+                    $foto->move(public_path('uploads/produk'), $namaFoto);
 
                     FotoProduk::create([
                         'id_produk' => $produk->id_produk,
-                        'foto'      => 'uploads/'.$namaFoto,
+                        'foto'      => $pathFoto,
                     ]);
                 }
             }
-            /* ===== PETUNJUK PERAWATAN ===== */
-    PetunjukPerawatan::create([
-    'id_produk'  => $produk->id_produk,
-    'penyiraman' => $request->penyiraman,
-    'cahaya'     => $request->cahaya,
-    'suhu'       => $request->suhu,
-]);
 
+            /* ===== PETUNJUK PERAWATAN ===== */
+            if ($request->filled('penyiraman') || $request->filled('cahaya') || $request->filled('suhu_dan_kelembapan')) {
+                PetunjukPerawatan::create([
+                    'id_produk'            => $produk->id_produk,
+                    'penyiraman'          => $request->penyiraman,
+                    'cahaya'              => $request->cahaya,
+                    'suhu_dan_kelembapan' => $request->suhu_dan_kelembapan,
+                ]);
+            }
         });
 
         return redirect()->route('admin.tanaman')
@@ -110,8 +135,8 @@ class AdminTanamanController extends Controller
             'produkUkuran.ukuran',
             'fotoProduk',
             'detailTanaman',
-            'petunjukPerawatan'
-
+            'petunjukPerawatan',
+            'kategori'
         ])->findOrFail($id);
 
         return view('admin.tanaman.show', compact('produk'));
@@ -122,7 +147,9 @@ class AdminTanamanController extends Controller
     {
         $produk = Produk::with([
             'detailTanaman',
-            'produkUkuran'
+            'produkUkuran',
+            'fotoProduk',
+            'petunjukPerawatan'
         ])->findOrFail($id);
 
         return view('admin.tanaman.edit', [
@@ -138,25 +165,36 @@ class AdminTanamanController extends Controller
         $produk = Produk::findOrFail($id);
 
         $request->validate([
-            'nama'        => 'required',
-            'id_kategori' => 'required',
-            'deskripsi'   => 'required',
-            'foto_utama'  => 'nullable|image',
+            'nama'               => 'required|string|max:200',
+            'id_kategori'        => 'required|exists:kategori,id_kategori',
+            'deskripsi'          => 'required|string',
+            'nama_ilmiah'        => 'nullable|string|max:100',
+            'asal_tanaman'       => 'nullable|string|max:100',
+            'ukuran_detail'      => 'nullable|string|max:200',
+            'foto_utama'         => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'foto_produk.*'      => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'harga.*'            => 'nullable|numeric|min:0',
+            'stok.*'             => 'nullable|integer|min:0',
+            'penyiraman'         => 'nullable|string',
+            'cahaya'             => 'nullable|string',
+            'suhu_dan_kelembapan' => 'nullable|string',
         ]);
 
         DB::transaction(function () use ($request, $produk) {
-
             /* FOTO UTAMA */
             if ($request->hasFile('foto_utama')) {
-                if ($produk->foto_utama && file_exists(public_path($produk->foto_utama))) {
-                    unlink(public_path($produk->foto_utama));
-                }
+                // Hapus foto lama
+                $this->hapusFile($produk->foto_utama);
 
-                $namaUtama = time().'_'.$request->foto_utama->getClientOriginalName();
-                $request->foto_utama->move(public_path('images'), $namaUtama);
-                $produk->foto_utama = 'images/'.$namaUtama;
+                $fotoUtama = $request->file('foto_utama');
+                $namaUtama = time() . '_' . Str::random(10) . '.' . $fotoUtama->getClientOriginalExtension();
+                $pathUtama = 'images/products/' . $namaUtama;
+                $fotoUtama->move(public_path('images/products'), $namaUtama);
+
+                $produk->foto_utama = $pathUtama;
             }
 
+            /* UPDATE PRODUK */
             $produk->update([
                 'nama'        => $request->nama,
                 'id_kategori' => $request->id_kategori,
@@ -168,36 +206,60 @@ class AdminTanamanController extends Controller
             DetailTanaman::updateOrCreate(
                 ['id_produk' => $produk->id_produk],
                 [
-                    'nama_ilmiah'   => $request->nama_ilmiah,
-                    'ukuran_detail' => $request->ukuran_detail,
-                    'asal_tanaman'  => $request->asal_tanaman,
+                    'nama_ilmiah'       => $request->nama_ilmiah,
+                    'ukuran_detail'     => $request->ukuran_detail,
+                    'asal_tanaman'      => $request->asal_tanaman,
                 ]
             );
 
             /* UPDATE HARGA & STOK */
             if ($request->harga) {
                 foreach ($request->harga as $id_ukuran => $harga) {
-                    ProdukUkuran::updateOrCreate(
-                        [
-                            'id_produk' => $produk->id_produk,
-                            'id_ukuran' => $id_ukuran,
-                        ],
-                        [
-                            'harga' => $harga ?? 0,
-                            'stok'  => $request->stok[$id_ukuran] ?? 0,
-                        ]
-                    );
+                    $stok = $request->stok[$id_ukuran] ?? 0;
+
+                    // Hapus jika harga dan stok kosong
+                    if (is_null($harga) && $stok == 0) {
+                        ProdukUkuran::where('id_produk', $produk->id_produk)
+                            ->where('id_ukuran', $id_ukuran)
+                            ->delete();
+                    } else {
+                        ProdukUkuran::updateOrCreate(
+                            [
+                                'id_produk' => $produk->id_produk,
+                                'id_ukuran' => $id_ukuran,
+                            ],
+                            [
+                                'harga' => $harga ?: 0,
+                                'stok'  => $stok,
+                            ]
+                        );
+                    }
                 }
             }
-            PetunjukPerawatan::updateOrCreate(
-    ['id_produk' => $produk->id_produk],
-    [
-        'penyiraman' => $request->penyiraman,
-        'cahaya'     => $request->cahaya,
-        'suhu'       => $request->suhu,
-    ]
-);
 
+            /* TAMBAH FOTO BARU KE GALLERY */
+            if ($request->hasFile('foto_produk')) {
+                foreach ($request->file('foto_produk') as $foto) {
+                    $namaFoto = time() . '_' . Str::random(10) . '.' . $foto->getClientOriginalExtension();
+                    $pathFoto = 'uploads/produk/' . $namaFoto;
+                    $foto->move(public_path('uploads/produk'), $namaFoto);
+
+                    FotoProduk::create([
+                        'id_produk' => $produk->id_produk,
+                        'foto'      => $pathFoto,
+                    ]);
+                }
+            }
+
+            /* PETUNJUK PERAWATAN */
+            PetunjukPerawatan::updateOrCreate(
+                ['id_produk' => $produk->id_produk],
+                [
+                    'penyiraman'          => $request->penyiraman,
+                    'cahaya'              => $request->cahaya,
+                    'suhu_dan_kelembapan' => $request->suhu_dan_kelembapan,
+                ]
+            );
         });
 
         return redirect()->route('admin.tanaman')
@@ -207,28 +269,70 @@ class AdminTanamanController extends Controller
     /* ================= DESTROY ================= */
     public function destroy($id)
     {
-        $produk = Produk::with('fotoProduk', 'detailTanaman', 'produkUkuran')
+        $produk = Produk::with('fotoProduk', 'detailTanaman', 'produkUkuran', 'petunjukPerawatan')
             ->findOrFail($id);
 
         DB::transaction(function () use ($produk) {
+            // Hapus foto utama
+            $this->hapusFile($produk->foto_utama);
 
-            if ($produk->foto_utama && file_exists(public_path($produk->foto_utama))) {
-                unlink(public_path($produk->foto_utama));
-            }
-
+            // Hapus foto gallery
             foreach ($produk->fotoProduk as $foto) {
-                if (file_exists(public_path($foto->foto))) {
-                    unlink(public_path($foto->foto));
-                }
+                $this->hapusFile($foto->foto);
             }
 
+            // Hapus semua relasi
             $produk->fotoProduk()->delete();
             $produk->produkUkuran()->delete();
             $produk->detailTanaman()->delete();
+            $produk->petunjukPerawatan()->delete();
             $produk->delete();
         });
 
         return redirect()->route('admin.tanaman')
             ->with('success', 'Tanaman berhasil dihapus');
+    }
+
+    /* ================= HAPUS FOTO GALERI ================= */
+    public function hapusFoto($id)
+    {
+        $foto = FotoProduk::findOrFail($id);
+
+        // Hapus file fisik
+        $this->hapusFile($foto->foto);
+
+        // Hapus dari database
+        $foto->delete();
+
+        return back()->with('success', 'Foto berhasil dihapus');
+    }
+
+    /* ================= PRIVATE HELPER METHODS ================= */
+
+    /**
+     * Buat direktori jika belum ada
+     */
+    private function createDirectories()
+    {
+        $directories = [
+            public_path('images/products'),
+            public_path('uploads/produk'),
+        ];
+
+        foreach ($directories as $directory) {
+            if (!is_dir($directory)) {
+                mkdir($directory, 0755, true);
+            }
+        }
+    }
+
+    /**
+     * Hapus file fisik jika ada
+     */
+    private function hapusFile($path)
+    {
+        if ($path && file_exists(public_path($path))) {
+            unlink(public_path($path));
+        }
     }
 }

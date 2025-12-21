@@ -28,7 +28,7 @@ class RoleMiddleware
             if ($userRole === 'admin') {
                 return redirect()->route('admin.dashboard');
             } elseif ($userRole === 'user') {
-                return redirect()->route('/');
+                return redirect('/');
             } else {
                 return redirect('/')->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
             }
