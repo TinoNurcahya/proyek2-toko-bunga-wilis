@@ -30,7 +30,7 @@
             <div class="flex-fill position-relative">
               <div class="step-line z-0"></div>
               <div class="step-icon bg-warning text-white position-relative z-1">
-                <i class="fas fa-user-circle fa-fw"></i>
+                <i class="fas fa-check-circle fa-fw"></i>
               </div>
               <p class="fw-semibold small mb-0 fraunces">Konfirmasi Berhasil</p>
               <small class="text-muted montserrat">Langkah 3</small>

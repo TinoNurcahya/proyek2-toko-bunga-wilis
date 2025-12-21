@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 
 class PesananItem extends Model
@@ -18,6 +17,11 @@ class PesananItem extends Model
         'subtotal'
     ];
 
+    protected $casts = [
+        'harga_satuan' => 'decimal:2',
+        'subtotal' => 'decimal:2'
+    ];
+
     public function pesanan()
     {
         return $this->belongsTo(Pesanan::class, 'id_pesanan', 'id_pesanan');
@@ -26,5 +30,10 @@ class PesananItem extends Model
     public function produkUkuran()
     {
         return $this->belongsTo(ProdukUkuran::class, 'id_produk_ukuran', 'id_produk_ukuran');
+    }
+
+    public function getTotalAttribute()
+    {
+        return $this->harga_satuan * $this->kuantitas;
     }
 }

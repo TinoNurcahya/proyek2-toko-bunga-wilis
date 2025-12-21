@@ -24,8 +24,6 @@ class DatabaseSeeder extends Seeder
             DetailTanamanSeeder::class,
             PetunjukPerawatanSeeder::class,
             ProdukUkuranSeeder::class,
-            PesananSeeder::class,
-            PesananItemSeeder::class,
             KeranjangSeeder::class,
             ReviewSeeder::class,
         ]);

@@ -22,7 +22,7 @@
       <div class="flex-fill position-relative">
         <div class="step-line z-0"></div>
         <div class="step-icon bg-warning text-white position-relative z-1">
-          <i class="fas fa-user-circle fa-fw"></i>
+          <i class="fas fa-check-circle fa-fw"></i>
         </div>
         <p class="fw-semibold small mb-0 fraunces">Konfirmasi Berhasil</p>
         <small class="text-muted montserrat">Langkah 3</small>
@@ -119,7 +119,7 @@
                   </div>
                   <div class="col-md-6">
                     <label class="form-label fw-medium">Kode pos <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control form-control-md p-2" placeholder="Masukkan kode pos"
+                    <input type="number" class="form-control form-control-md p-2" placeholder="Masukkan kode pos"
                       wire:model="kode_pos" required>
                     @error('kode_pos')
                       <div class="text-danger mt-1 small">{{ $message }}</div>

@@ -20,7 +20,7 @@
                 <p class="small text-muted mb-0">Kelola Pesanan Anda.</p>
 
                 @if (session('success'))
-                  <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  <div class="alert alert-success alert-dismissible fade show mt-1" role="alert">
                     {{ session('success') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                   </div>
@@ -59,7 +59,6 @@
                           <span class="badge bg-secondary">{{ ucfirst($order->status) }}</span>
                         @endif
                       </div>
-
                     </div>
 
 
@@ -73,11 +72,6 @@
                               Ukuran: {{ $item->produkUkuran->ukuran->nama_ukuran ?? 'Standar' }}
                               • Qty: {{ $item->kuantitas }}
                             </div>
-                            @if ($item->produkUkuran->produk->deskripsi_singkat ?? false)
-                              <small class="text-muted">
-                                {{ Str::limit($item->produkUkuran->produk->deskripsi_singkat, 70) }}
-                              </small>
-                            @endif
                           </div>
 
                           <div class="col-12 col-md-4 text-start text-md-end">
@@ -155,7 +149,6 @@
                               </div>
                             </div>
                           @endif
-
                         </div>
 
                         <!-- Rincian Biaya -->
@@ -170,7 +163,6 @@
                             </div>
 
                             <div class="row">
-
                               <div class="col-md-6 mb-2">
                                 <div class="d-flex justify-content-between small mb-1">
                                   <span class="text-muted">Subtotal:</span>
@@ -228,14 +220,6 @@
                               Kode pesanan tidak valid
                             </button>
                           @endif
-                        </div>
-                      </div>
-                    @elseif ($order->status === 'selesai')
-                      <div class="card-footer bg-white">
-                        <div class="d-flex flex-column flex-md-row">
-                          <button class="btn btn-outline-success">
-                            <i class="fa-regular fa-star me-2"></i> Berikan Penilaian
-                          </button>
                         </div>
                       </div>
                     @endif

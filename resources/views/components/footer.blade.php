@@ -18,10 +18,10 @@
                     <div class="col-md-4 mb-4">
                         <h5 class="footer-title">Tautan</h5>
                         <ul class="list-unstyled montserrat">
-                            <li><a href="#">Beranda</a></li>
-                            <li><a href="#">Produk</a></li>
+                            <li><a href="{{ url('/') }}">Beranda</a></li>
+                            <li><a href="{{ url('/produk') }}">Produk</a></li>
                             <li><a href="{{ url('/') }}#tentang">Tentang Kami</a></li>
-                            <li><a href="#">Mengapa Memilih Kami?</a></li>
+                            <li><a href="{{ url('/') }}#pilih-kami">Mengapa Memilih Kami?</a></li>
                         </ul>
                     </div>
 

@@ -144,9 +144,6 @@ class CheckoutPage extends Component
           'kuantitas' => $item->jumlah,
           'subtotal' => $item->jumlah * $item->produkUkuran->harga
         ]);
-
-        // Update stok
-        $item->produkUkuran->decrement('stok', $item->jumlah);
       }
 
       // Generate Snap Token dari Midtrans

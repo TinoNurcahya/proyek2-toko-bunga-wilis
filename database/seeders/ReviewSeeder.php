@@ -14,18 +14,6 @@ class ReviewSeeder extends Seeder
         $produks = Produk::limit(3)->get();
         $users = User::limit(3)->get();
 
-        // Debug: Cek data yang ada
-        $this->command->info('Products found: ' . $produks->count());
-        $this->command->info('Users found: ' . $users->count());
-        
-        if ($produks->count() > 0) {
-            $this->command->info('Product IDs: ' . $produks->pluck('id_produk')->implode(', '));
-        }
-        
-        if ($users->count() > 0) {
-            $this->command->info('User IDs: ' . $users->pluck('id_users')->implode(', '));
-        }
-
         if ($produks->count() > 0 && $users->count() > 0) {
             Review::create([
                 'id_produk' => $produks[0]->id_produk,
@@ -50,10 +38,6 @@ class ReviewSeeder extends Seeder
                 'komentar' => 'Produk sesuai gambar, tanaman sehat dan perawatannya mudah. Recommended!',
                 'tanggal_review' => now()->subDays(7),
             ]);
-            
-            $this->command->info('Successfully created 3 reviews');
-        } else {
-            $this->command->error('Cannot create reviews: insufficient users or products');
         }
     }
 }

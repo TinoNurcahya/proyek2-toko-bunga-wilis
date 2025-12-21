@@ -48,9 +48,12 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::post('/profile/keranjang/{id}/update-quantity', [ProfileController::class, 'updateQuantity'])->name('profile.keranjang.update-quantity');
 
     // PESANAN - GUNAKAN CONTROLLER BARU
-    Route::get('/profile/pesanan', [PesananController::class, 'index'])->name('profile.pesanan'); // UPDATE INI
-    Route::get('/profile/pesanan/detail/{kode}', [PesananController::class, 'detail'])->name('pesanan.detail'); // TAMBAHKAN INI
-    Route::post('/profile/pesanan/batalkan/{kode}', [PesananController::class, 'batalkan'])->name('pesanan.batalkan'); // TAMBAHKAN INI
+    Route::get('/profile/pesanan', [PesananController::class, 'index'])->name('profile.pesanan');
+    Route::get('/profile/pesanan-selesai', [PesananController::class, 'pesananSelesai'])->name('profile.pesanan-selesai');
+    Route::get('/profile/pesanan-dikirim', [PesananController::class, 'pesananDikirim'])->name('profile.pesanan-dikirim');
+    Route::post('/profile/pesanan/selesaikan/{kode}', [PesananController::class, 'selesaikan'])->name('pesanan.selesaikan');
+    Route::get('/profile/pesanan/detail/{kode}', [PesananController::class, 'detail'])->name('pesanan.detail');
+    Route::post('/profile/pesanan/batalkan/{kode}', [PesananController::class, 'batalkan'])->name('pesanan.batalkan');
 
     // CHECKOUT
     Route::get('/profile/checkout', [CheckoutController::class, 'index'])->name('checkout');
@@ -64,10 +67,16 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::get('/produk/search', [ProductController::class, 'search'])->name('produk.search');
     Route::get('/produk/{produk}', [ProductController::class, 'show'])->name('produk.detail');
 
-    // ROUTE REVIEW
-    // Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
-    // Route::get('/reviews/create/{produk}', [ReviewController::class, 'create'])->name('reviews.create');
-    // Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+    // ROUTE ULASAN
+    Route::get('/profile/ulasan', [ReviewController::class, 'index'])
+        ->name('profile.ulasan');
+    Route::get('/orders/{order_id}/review', [ReviewController::class, 'create'])
+        ->name('reviews.create');
+    Route::post('/reviews/store', [ReviewController::class, 'store'])
+        ->name('reviews.store');
+    Route::get('/profile/ulasan/{id}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
+    Route::put('/ulasan/{id}', [ReviewController::class, 'update'])->name('reviews.update');
+    Route::delete('/ulasan/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 });
 
 // Webhook Midtrans
@@ -95,9 +104,9 @@ Route::prefix('admin')
             ->name('dashboard');
 
         // Dashboard dinamis
-        
-      Route::get('/dashboard/chart-data', [AdminDashboardController::class, 'chartData'])
-              ->name('dashboard.chartData');
+
+        Route::get('/dashboard/chart-data', [AdminDashboardController::class, 'chartData'])
+            ->name('dashboard.chartData');
 
 
         // Orders
@@ -108,12 +117,11 @@ Route::prefix('admin')
         Route::delete('/orders/{id}', [AdminOrderController::class, 'destroy'])->name('orders.delete');
 
         Route::get('/iot', function () {
-         return view('admin.iot');
-         })->name('iot');
+            return view('admin.iot');
+        })->name('iot');
 
-         Route::get('/tanaman', [\App\Http\Controllers\Admin\AdminTanamanController::class, 'index'])
-         ->name('tanaman');
-
+        Route::get('/tanaman', [\App\Http\Controllers\Admin\AdminTanamanController::class, 'index'])
+            ->name('tanaman');
     });
 
 // === Redirect setelah login ===

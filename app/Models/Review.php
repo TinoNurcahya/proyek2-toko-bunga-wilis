@@ -2,57 +2,33 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Review extends Model
 {
-    use HasFactory;
-
-    protected $table = 'reviews';
     protected $primaryKey = 'id_review';
+    public $incrementing = true;
+    protected $keyType = 'int';
+    protected $table = 'review';
+
 
     protected $fillable = [
         'id_produk',
         'id_users',
+        'id_pesanan',
         'rating',
         'komentar',
-        'tanggal_review',
+        'tanggal_review'
     ];
 
-    protected static function boot()
+    protected $casts = [
+        'tanggal_review' => 'datetime',
+        'rating' => 'integer'
+    ];
+
+    public function pesanan()
     {
-        parent::boot();
-        static::saved(function ($review) {
-            $review->updateProductRating();
-        });
-
-        static::deleted(function ($review) {
-            $review->updateProductRating();
-        });
-    }
-
-    public function updateProductRating()
-    {
-        $produk = $this->produk;
-        if (!$produk) return;
-
-        $reviews = $produk->reviews;
-
-        if ($reviews->count() > 0) {
-            $produk->rating = $reviews->avg('rating');
-            $produk->jumlah_rating = $reviews->count();
-        } else {
-            $produk->rating = 0;
-            $produk->jumlah_rating = 0;
-        }
-
-        $produk->save();
-    }
-
-    public function getRouteKeyName()
-    {
-        return 'id_review';
+        return $this->belongsTo(Pesanan::class, 'id_pesanan', 'id_pesanan');
     }
 
     public function produk()
@@ -63,5 +39,27 @@ class Review extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'id_users', 'id_users');
+    }
+
+    public function getTanggalFormattedAttribute()
+    {
+        return $this->tanggal_review->format('d M Y');
+    }
+
+    public function getRatingStarsAttribute()
+    {
+        $stars = '';
+        for ($i = 1; $i <= 5; $i++) {
+            if ($i <= $this->rating) {
+                $stars .= '<i class="fas fa-star text-warning"></i>';
+            } else {
+                $stars .= '<i class="far fa-star text-warning"></i>';
+            }
+        }
+        return $stars;
+    }
+    public function getRouteKeyName()
+    {
+        return 'id_review';
     }
 }

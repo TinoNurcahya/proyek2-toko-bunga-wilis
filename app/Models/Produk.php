@@ -90,4 +90,97 @@ class Produk extends Model
     {
         return $this->hasMany(FotoProduk::class, 'id_produk', 'id_produk');
     }
+
+
+    /**
+     * Update rating produk berdasarkan semua review yang ada
+     */
+    public function updateRating()
+    {
+        $reviews = $this->reviews;
+
+        if ($reviews->count() > 0) {
+            $totalRating = $reviews->sum('rating');
+            $averageRating = $totalRating / $reviews->count();
+
+            $this->update([
+                'rating' => round($averageRating, 2),
+                'jumlah_rating' => $reviews->count(),
+            ]);
+
+            \Illuminate\Support\Facades\Log::info("Product {$this->id_produk} rating updated to: {$averageRating} from {$reviews->count()} reviews");
+        } else {
+            $this->update([
+                'rating' => 0,
+                'jumlah_rating' => 0,
+            ]);
+
+            \Illuminate\Support\Facades\Log::info("Product {$this->id_produk} rating reset to 0 (no reviews)");
+        }
+
+        return $this;
+    }
+
+    /**
+     * Accessor untuk rating dinamis (selalu hitung dari database)
+     * Digunakan di view untuk menghindari cache masalah
+     */
+    public function getRatingDinamisAttribute()
+    {
+        $reviews = $this->reviews;
+        return $reviews->count() > 0 ? round($reviews->avg('rating'), 2) : 0;
+    }
+
+    /**
+     * Accessor untuk jumlah rating dinamis
+     */
+    public function getJumlahRatingDinamisAttribute()
+    {
+        return $this->reviews()->count();
+    }
+
+    /**
+     * Hitung distribusi rating (5,4,3,2,1 stars)
+     */
+    public function getRatingDistributionAttribute()
+    {
+        $distribution = [5 => 0, 4 => 0, 3 => 0, 2 => 0, 1 => 0];
+
+        foreach ($this->reviews as $review) {
+            if (isset($distribution[$review->rating])) {
+                $distribution[$review->rating]++;
+            }
+        }
+
+        return $distribution;
+    }
+
+    /**
+     * Persentase untuk setiap rating
+     */
+    public function getRatingPercentageAttribute()
+    {
+        $total = $this->reviews->count();
+        $distribution = $this->rating_distribution;
+        $percentage = [];
+
+        foreach ($distribution as $rating => $count) {
+            $percentage[$rating] = $total > 0 ? round(($count / $total) * 100, 1) : 0;
+        }
+
+        return $percentage;
+    }
+
+    /**
+     * Rating summary untuk display
+     */
+    public function getRatingSummaryAttribute()
+    {
+        return [
+            'average' => $this->rating_dinamis,
+            'total' => $this->jumlah_rating_dinamis,
+            'distribution' => $this->rating_distribution,
+            'percentage' => $this->rating_percentage,
+        ];
+    }
 }
