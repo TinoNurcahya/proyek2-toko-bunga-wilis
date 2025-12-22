@@ -11,6 +11,7 @@ use \App\Livewire\CheckoutPage;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\PesananController;
+use Illuminate\Notifications\Notifiable;
 
 
 use App\Http\Controllers\Admin\AdminOrderController;
@@ -115,7 +116,6 @@ Route::prefix('admin')
 
         Route::get('/dashboard/chart-data', [AdminDashboardController::class, 'chartData'])
             ->name('dashboard.chartData');
-
         // Produk Terlaris (Dashboard)
         Route::get('/dashboard/produk-terlaris', [AdminDashboardController::class, 'produkTerlaris'])
             ->name('dashboard.produkTerlaris');
@@ -126,9 +126,6 @@ Route::prefix('admin')
         // Orders
         Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders');
         Route::get('/orders/{id}', [AdminOrderController::class, 'show'])->name('orders.show');
-        Route::post('/orders/{id}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.status');
-        Route::post('/orders/{id}/resi', [AdminOrderController::class, 'updateResi'])->name('orders.resi');
-        Route::delete('/orders/{id}', [AdminOrderController::class, 'destroy'])->name('orders.delete');
 
         Route::get('/iot', function () {
             return view('admin.iot');
@@ -164,8 +161,24 @@ Route::prefix('admin')
             '/tanaman/{id}/penyiraman',
             [AdminTanamanController::class, 'penyiraman']
         )->name('tanaman.penyiraman');
-    });
+        
+        Route::get('/notifikasi/baca/{id}', function ($id) {
+    $notif = auth()->user()
+        ->notifications()
+        ->findOrFail($id);
 
+    $notif->markAsRead();
+
+    if (!empty($notif->data['order_id'])) {
+        return redirect()->route(
+            'admin.orders.show',
+            $notif->data['order_id']
+        );
+    }
+
+    return back();
+})->name('admin.notifikasi.baca');
+    });
 // === Redirect setelah login ===
 Route::middleware(['auth'])->get('/home', function () {
     $user = Auth::user();

@@ -25,7 +25,6 @@
 <tr>
     <th>ID</th>
     <th>Status</th>
-    <th>Resi</th>
     <th>Item</th>
     <th>Customer</th>
     <th>Produk</th>
@@ -40,30 +39,31 @@
     <td>{{ $order->id_pesanan }}</td>
 
     <td>
-        <span class="badge bg-{{ 
-            $order->status=='pending'?'secondary':
-            ($order->status=='diproses'?'warning':
-            ($order->status=='dikirim'?'info':
-            ($order->status=='selesai'?'success':'danger')))
+        <span class="badge bg-{{
+            $order->status=='pending' ? 'secondary' :
+            ($order->status=='diproses' ? 'warning' :
+            ($order->status=='dikirim' ? 'info' :
+            ($order->status=='selesai' ? 'success' : 'danger')))
         }}">
             {{ ucfirst($order->status) }}
         </span>
     </td>
-
-    <td>{{ $order->no_resi ?? '-' }}</td>
-
-    <td class="text-center">{{ $order->items->sum('kuantitas') }}</td>
+    <td class="text-center">
+        {{ $order->items->sum('kuantitas') }}
+    </td>
 
     <td>{{ $order->nama_penerima ?? '-' }}</td>
 
     <td>
         @foreach($order->items as $item)
-            {{ $item->produkUkuran->produk->nama_produk ?? '-' }}
+            {{ optional($item->produkUkuran->produk)->nama}}
             (x{{ $item->kuantitas }})<br>
         @endforeach
     </td>
 
-    <td>Rp {{ number_format($order->total_harga,0,',','.') }}</td>
+    <td>
+        Rp {{ number_format($order->total_harga,0,',','.') }}
+    </td>
 
     <td class="text-center">
         <a href="{{ route('admin.orders.show',$order->id_pesanan) }}"
@@ -71,13 +71,19 @@
     </td>
 </tr>
 @empty
-<tr><td colspan="8" class="text-center">Belum ada pesanan</td></tr>
+<tr>
+    <td colspan="8" class="text-center text-muted">
+        Belum ada pesanan
+    </td>
+</tr>
 @endforelse
 </tbody>
 </table>
 </div>
 
-<div class="p-3">{{ $orders->links() }}</div>
+<div class="p-3">
+    {{ $orders->links() }}
+</div>
 </div>
 </div>
 @endsection

@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title') - Admin Panel</title>
+    <title>@yield('title', 'Dashboard') - Admin Panel</title>
 
     <!-- AdminLTE + Bootstrap + FontAwesome -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+
+    @stack('styles')
 
     <style>
         body { background: #f5f7fb !important; }
@@ -17,6 +19,7 @@
             background: #ffffff !important;
             border-right: 1px solid #e5eaf2;
         }
+
         .brand-link {
             background: #fff;
             color: #2e7d32 !important;
@@ -24,15 +27,17 @@
             font-size: 22px;
             border-bottom: none;
         }
+
         .sidebar .nav-link {
             color: #333 !important;
             font-weight: 500;
             margin: 6px 10px;
             border-radius: 12px;
         }
+
         .sidebar .nav-link.active {
             background: #4caf50 !important;
-            color: white !important;
+            color: #fff !important;
             box-shadow: 0 4px 10px rgba(76,175,80,.3);
         }
 
@@ -44,43 +49,45 @@
             padding: 12px 20px;
         }
 
+        .navbar-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2e7d32;
+        }
+
         .glass-search {
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background: rgba(255,255,255,.6);
             border: 1px solid #a5d6a7;
             border-radius: 20px;
             padding: 6px 14px;
-            width: 250px;
             display: flex;
             align-items: center;
         }
+
         .glass-search input {
             background: transparent;
             border: none;
             outline: none;
-            width: 200px;
-            color: #2e7d32;
-            font-weight: 500;
+            width: 180px;
         }
 
-        .profile-avatar {
-            width: 38px;
-            height: 38px;
+        /* Avatar */
+        .admin-avatar {
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #2e7d32;
+            background: #4caf50;
+            color: #fff;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
         }
 
         .content-wrapper {
             background: #f5f7fb !important;
             padding: 25px;
-        }
-
-        .navbar-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #2e7d32;
         }
     </style>
 </head>
@@ -89,25 +96,52 @@
 <div class="wrapper">
 
     <!-- NAVBAR -->
-    <nav class="main-header navbar navbar-expand d-flex justify-content-between align-items-center">
-        <!-- Tulisan Overview -->
-        <div class="navbar-title">Overview</div>
+    <nav class="main-header navbar navbar-expand navbar-white">
+        <span class="navbar-title">@yield('page-title', 'Admin Panel')</span>
 
-        <!-- Kanan: Search + Ikon + Avatar -->
-        <div class="d-flex align-items-center gap-3">
-            <!-- Search transparan -->
-            <div class="glass-search">
-                <i class="fas fa-search mr-2 text-success"></i>
-                <input type="text" placeholder="Search...">
-            </div>
+        <ul class="navbar-nav ml-auto align-items-center">
 
-            <!-- Ikon hijau -->
-            <a class="nav-link"><i class="fas fa-cog fa-lg text-success"></i></a>
-            <a class="nav-link"><i class="fas fa-bell fa-lg text-success"></i></a>
+            <!-- SEARCH -->
+            <li class="nav-item mr-3">
+                <div class="glass-search">
+                    <i class="fas fa-search text-success mr-2"></i>
+                    <input type="text" placeholder="Cari...">
+                </div>
+            </li>
 
-            <!-- Avatar pakai gambar -->
-            <img src="https://example.com/avatar.jpg" alt="Admin Avatar" class="profile-avatar">
-        </div>
+            <!-- NOTIF -->
+            <li class="nav-item dropdown mr-3">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="far fa-bell text-success"></i>
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-right shadow">
+                    <span class="dropdown-item-text font-weight-bold">Notifikasi</span>
+                    <div class="dropdown-divider"></div>
+                    <span class="dropdown-item text-muted">Tidak ada notifikasi baru</span>
+                </div>
+            </li>
+
+            <!-- AVATAR -->
+            <li class="nav-item dropdown">
+                <a class="nav-link p-0" data-toggle="dropdown" href="#">
+                    <div class="admin-avatar">
+                        {{ strtoupper(substr(Auth::user()->nama ?? 'V', 0, 1)) }}
+                    </div>
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-right shadow">
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button class="dropdown-item text-danger font-weight-bold"
+                                onclick="return confirm('Yakin ingin logout?')">
+                            <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                        </button>
+                    </form>
+                </div>
+            </li>
+
+        </ul>
     </nav>
 
     <!-- SIDEBAR -->
@@ -135,14 +169,16 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ route('admin.iot') }}" class="nav-link {{ request()->routeIs('admin.iot') ? 'active' : '' }}">
+                        <a href="{{ route('admin.iot') }}"
+                           class="nav-link {{ request()->routeIs('admin.iot') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-leaf"></i>
                             <p>IoT Monitoring</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ route('admin.tanaman') }}" class="nav-link {{ request()->routeIs('admin.tanaman') ? 'active' : '' }}">
+                        <a href="{{ route('admin.tanaman') }}"
+                           class="nav-link {{ request()->routeIs('admin.tanaman') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-tree"></i>
                             <p>Kelola Tanaman</p>
                         </a>
@@ -153,7 +189,7 @@
         </div>
     </aside>
 
-    <!-- CONTENT WRAPPER -->
+    <!-- CONTENT -->
     <div class="content-wrapper">
         @yield('content')
     </div>
@@ -161,9 +197,11 @@
 </div>
 
 <!-- SCRIPTS -->
-<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+
+@stack('scripts')
 
 </body>
 </html>
