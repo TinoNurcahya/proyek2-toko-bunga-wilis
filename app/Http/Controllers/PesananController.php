@@ -19,7 +19,11 @@ class PesananController extends Controller
             ->orderBy('tanggal_pesanan', 'desc')
             ->paginate(10);
 
-        return view('profile.pesanan', compact('user', 'orders'));
+        return view('profile.pesanan', [
+            'user'   => $user,
+            'orders' => $orders,
+            'theme'  => 'light',
+        ]);
     }
 
     // Menampilkan pesanan selesai
@@ -80,10 +84,10 @@ class PesananController extends Controller
         $user = Auth::user();
 
         $order = Pesanan::with([
-                'items.produkUkuran.produk',
-                'items.produkUkuran.ukuran',
-                'user'
-            ])
+            'items.produkUkuran.produk',
+            'items.produkUkuran.ukuran',
+            'user'
+        ])
             ->where('kode_pesanan', $kode)
             ->where('id_users', $user->id_users)
             ->firstOrFail();

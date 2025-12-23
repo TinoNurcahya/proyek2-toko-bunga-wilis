@@ -16,6 +16,7 @@ use App\Http\Controllers\PesananController;
 use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\AdminTanamanController;
 use App\Http\Controllers\Admin\IotController;
+use App\Http\Controllers\Admin\IotDashboardController;
 
 // use App\Livewire\ProductList;    
 
@@ -130,9 +131,6 @@ Route::prefix('admin')
         Route::post('/orders/{id}/resi', [AdminOrderController::class, 'updateResi'])->name('orders.resi');
         Route::delete('/orders/{id}', [AdminOrderController::class, 'destroy'])->name('orders.delete');
 
-        Route::get('/iot', function () {
-            return view('admin.iot');
-        })->name('iot');
         // READ (list)
         Route::get('/tanaman', [AdminTanamanController::class, 'index'])
             ->name('tanaman');
@@ -156,14 +154,21 @@ Route::prefix('admin')
             ->name('tanaman.destroy');
         Route::get('/tanaman/foto/{id}/hapus', [AdminTanamanController::class, 'hapusFoto'])
             ->name('tanaman.hapus-foto');
-        Route::get('/tanaman/{id}/ukuran', [ProdukUkuranController::class, 'create'])
-            ->name('ukuran.create');
-        Route::post('/tanaman/{id}/ukuran', [ProdukUkuranController::class, 'store'])
-            ->name('ukuran.store');
+        // Route::get('/tanaman/{id}/ukuran', [ProdukUkuranController::class, 'create'])
+        //     ->name('ukuran.create');
+        // Route::post('/tanaman/{id}/ukuran', [ProdukUkuranController::class, 'store'])
+        //     ->name('ukuran.store');
         Route::get(
             '/tanaman/{id}/penyiraman',
             [AdminTanamanController::class, 'penyiraman']
         )->name('tanaman.penyiraman');
+
+        Route::get('/iot', [IotDashboardController::class, 'index'])
+            ->name('iot');
+        Route::get('/iot/data', [IotDashboardController::class, 'data'])
+            ->name('iot.data');
+        Route::post('/iot/pump', [IotDashboardController::class, 'pump'])
+            ->name('iot.pump');
     });
 
 // === Redirect setelah login ===

@@ -75,8 +75,18 @@
             @endif
         </button>
         
-        <button class="btn btn-green text-light flex-fill py-3" id="buy-now-btn">
-            <i class="fas fa-bolt me-2"></i>Beli Sekarang
+        <button class="btn btn-green text-white flex-fill py-3"
+            wire:click="buyNow"
+            wire:loading.attr="disabled">
+            
+            <i class="fas fa-bolt me-2"></i>
+            
+            <span wire:loading.remove>Beli Sekarang</span>
+
+            <span wire:loading class="text-danger">
+                <i class="fas fa-spinner fa-spin me-2 text-danger"></i>
+                Memproses...
+            </span>
         </button>
     </div>
 

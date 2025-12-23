@@ -15,7 +15,7 @@ class ProductDetail extends Component
     public $selectedSizeId;
     public $selectedPrice;
     public $selectedStock;
-    
+
     //Loading state properties
     public $addingToCart = false;
     public $changingSize = false;
@@ -23,7 +23,7 @@ class ProductDetail extends Component
     public function mount($produk)
     {
         $this->produk = $produk;
-        
+
         // Set default selected size
         if ($this->produk->produkUkuran && $this->produk->produkUkuran->count() > 0) {
             $firstSize = $this->produk->produkUkuran->first();
@@ -60,7 +60,7 @@ class ProductDetail extends Component
 
         try {
             $produkUkuran = ProdukUkuran::find($this->selectedSizeId);
-            
+
             if (!$produkUkuran) {
                 $this->dispatch('show-alert', [
                     'type' => 'error',
@@ -72,7 +72,7 @@ class ProductDetail extends Component
 
             if ($produkUkuran->stok < $this->quantity) {
                 $this->dispatch('show-alert', [
-                    'type' => 'error', 
+                    'type' => 'error',
                     'message' => 'Stok tidak mencukupi. Stok tersedia: ' . $produkUkuran->stok
                 ]);
                 $this->addingToCart = false; // RESET LOADING STATE
@@ -86,7 +86,7 @@ class ProductDetail extends Component
 
             if ($existingCart) {
                 $newQuantity = $existingCart->jumlah + $this->quantity;
-                
+
                 if ($newQuantity > $produkUkuran->stok) {
                     $this->dispatch('show-alert', [
                         'type' => 'error',
@@ -95,7 +95,7 @@ class ProductDetail extends Component
                     $this->addingToCart = false; // RESET LOADING STATE
                     return;
                 }
-                
+
                 $existingCart->update(['jumlah' => $newQuantity]);
                 $message = 'Quantity produk di keranjang berhasil diperbarui';
             } else {
@@ -112,7 +112,6 @@ class ProductDetail extends Component
                 'type' => 'success',
                 'message' => $message
             ]);
-
         } catch (\Exception $e) {
             $this->dispatch('show-alert', [
                 'type' => 'error',
@@ -126,22 +125,52 @@ class ProductDetail extends Component
     public function selectSize($sizeId, $price, $stock)
     {
         $this->changingSize = true; // Loading state untuk ukuran
-        
+
         $this->selectedSizeId = $sizeId;
         $this->selectedPrice = $price;
         $this->selectedStock = $stock;
         $this->quantity = 1;
-        
+
         $this->changingSize = false; // Reset loading state
     }
 
     public function updateQuantity($change)
     {
         $newQuantity = $this->quantity + $change;
-        
+
         if ($newQuantity >= 1 && $newQuantity <= $this->selectedStock) {
             $this->quantity = $newQuantity;
         }
+    }
+
+    public function buyNow()
+    {
+        if (!$this->selectedSizeId) {
+            $this->dispatch('show-alert', [
+                'type' => 'error',
+                'message' => 'Silakan pilih ukuran terlebih dahulu'
+            ]);
+            return;
+        }
+
+        if ($this->quantity > $this->selectedStock) {
+            $this->dispatch('show-alert', [
+                'type' => 'error',
+                'message' => 'Stok tidak mencukupi'
+            ]);
+            return;
+        }
+
+        Keranjang::updateOrCreate(
+            [
+                'id_users' => Auth::id(),
+                'id_produk_ukuran' => $this->selectedSizeId,
+            ],
+            [
+                'jumlah' => $this->quantity,
+            ]
+        );
+        return redirect()->route('checkout');
     }
 
     public function render()
