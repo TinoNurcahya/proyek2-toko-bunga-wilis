@@ -11,6 +11,7 @@ use \App\Livewire\CheckoutPage;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\PesananController;
+use Illuminate\Notifications\Notifiable;
 
 
 use App\Http\Controllers\Admin\AdminOrderController;
@@ -106,69 +107,45 @@ Route::prefix('admin')
             [AdminDashboardController::class, 'produkTerlaris']
         )->name('dashboard.produkTerlaris');
 
-
         // Dashboard
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])
             ->name('dashboard');
 
-
         // Dashboard dinamis
-
         Route::get('/dashboard/chart-data', [AdminDashboardController::class, 'chartData'])
             ->name('dashboard.chartData');
-
-        // Produk Terlaris (Dashboard)
-        Route::get('/dashboard/produk-terlaris', [AdminDashboardController::class, 'produkTerlaris'])
-            ->name('dashboard.produkTerlaris');
-
-
-
 
         // Orders
         Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders');
         Route::get('/orders/{id}', [AdminOrderController::class, 'show'])->name('orders.show');
-        Route::post('/orders/{id}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.status');
-        Route::post('/orders/{id}/resi', [AdminOrderController::class, 'updateResi'])->name('orders.resi');
-        Route::delete('/orders/{id}', [AdminOrderController::class, 'destroy'])->name('orders.delete');
 
-        // READ (list)
-        Route::get('/tanaman', [AdminTanamanController::class, 'index'])
-            ->name('tanaman');
-        // CREATE (form)
-        Route::get('/tanaman/create', [AdminTanamanController::class, 'create'])
-            ->name('tanaman.create');
-        // CREATE (simpan)
-        Route::post('/tanaman', [AdminTanamanController::class, 'store'])
-            ->name('tanaman.store');
-        // READ (detail)
-        Route::get('/tanaman/{id}', [AdminTanamanController::class, 'show'])
-            ->name('tanaman.show');
-        // UPDATE (form edit)
-        Route::get('/tanaman/{id}/edit', [AdminTanamanController::class, 'edit'])
-            ->name('tanaman.edit');
-        // UPDATE (simpan perubahan)
-        Route::put('/tanaman/{id}', [AdminTanamanController::class, 'update'])
-            ->name('tanaman.update');
-        // DELETE
-        Route::delete('/tanaman/{id}', [AdminTanamanController::class, 'destroy'])
-            ->name('tanaman.destroy');
-        Route::get('/tanaman/foto/{id}/hapus', [AdminTanamanController::class, 'hapusFoto'])
-            ->name('tanaman.hapus-foto');
-        // Route::get('/tanaman/{id}/ukuran', [ProdukUkuranController::class, 'create'])
-        //     ->name('ukuran.create');
-        // Route::post('/tanaman/{id}/ukuran', [ProdukUkuranController::class, 'store'])
-        //     ->name('ukuran.store');
-        Route::get(
-            '/tanaman/{id}/penyiraman',
-            [AdminTanamanController::class, 'penyiraman']
-        )->name('tanaman.penyiraman');
+        // Tanaman
+        Route::get('/tanaman', [AdminTanamanController::class, 'index'])->name('tanaman');
+        Route::get('/tanaman/create', [AdminTanamanController::class, 'create'])->name('tanaman.create');
+        Route::post('/tanaman', [AdminTanamanController::class, 'store'])->name('tanaman.store');
+        Route::get('/tanaman/{id}', [AdminTanamanController::class, 'show'])->name('tanaman.show');
+        Route::get('/tanaman/{id}/edit', [AdminTanamanController::class, 'edit'])->name('tanaman.edit');
+        Route::put('/tanaman/{id}', [AdminTanamanController::class, 'update'])->name('tanaman.update');
+        Route::delete('/tanaman/{id}', [AdminTanamanController::class, 'destroy'])->name('tanaman.destroy');
+        Route::get('/tanaman/foto/{id}/hapus', [AdminTanamanController::class, 'hapusFoto'])->name('tanaman.hapus-foto');
+        Route::get('/tanaman/{id}/penyiraman', [AdminTanamanController::class, 'penyiraman'])->name('tanaman.penyiraman');
 
-        Route::get('/iot', [IotDashboardController::class, 'index'])
-            ->name('iot');
-        Route::get('/iot/data', [IotDashboardController::class, 'data'])
-            ->name('iot.data');
-        Route::post('/iot/pump', [IotDashboardController::class, 'pump'])
-            ->name('iot.pump');
+        // IoT
+        Route::get('/iot', [IotDashboardController::class, 'index'])->name('iot');
+        Route::get('/iot/data', [IotDashboardController::class, 'data'])->name('iot.data');
+        Route::post('/iot/pump', [IotDashboardController::class, 'pump'])->name('iot.pump');
+
+        // Notifikasi
+        // Route::get('/notifikasi/baca/{id}', function ($id) {
+        //     $notif = auth()->user()->notifications()->findOrFail($id);
+        //     $notif->markAsRead();
+
+        //     if (!empty($notif->data['order_id'])) {
+        //         return redirect()->route('admin.orders.show', $notif->data['order_id']);
+        //     }
+
+        //     return back();
+        // })->name('notifikasi.baca');
     });
 
 // === Redirect setelah login ===
