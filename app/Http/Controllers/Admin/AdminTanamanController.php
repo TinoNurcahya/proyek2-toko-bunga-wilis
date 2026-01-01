@@ -251,15 +251,32 @@ class AdminTanamanController extends Controller
                 }
             }
 
-            /* PETUNJUK PERAWATAN */
-            PetunjukPerawatan::updateOrCreate(
-                ['id_produk' => $produk->id_produk],
-                [
-                    'penyiraman'          => $request->penyiraman,
-                    'cahaya'              => $request->cahaya,
-                    'suhu_dan_kelembapan' => $request->suhu_dan_kelembapan,
-                ]
-            );
+            /* PETUNJUK PERAWATAN - PERBAIKAN DISINI */
+            // Cari berdasarkan id_produk, bukan primary key
+            if ($request->filled('penyiraman') || $request->filled('cahaya') || $request->filled('suhu_dan_kelembapan')) {
+                // Cek apakah sudah ada data
+                $petunjuk = PetunjukPerawatan::where('id_produk', $produk->id_produk)->first();
+
+                if ($petunjuk) {
+                    // Update data yang sudah ada
+                    $petunjuk->update([
+                        'penyiraman'          => $request->penyiraman,
+                        'cahaya'              => $request->cahaya,
+                        'suhu_dan_kelembapan' => $request->suhu_dan_kelembapan,
+                    ]);
+                } else {
+                    // Buat data baru
+                    PetunjukPerawatan::create([
+                        'id_produk'            => $produk->id_produk,
+                        'penyiraman'          => $request->penyiraman,
+                        'cahaya'              => $request->cahaya,
+                        'suhu_dan_kelembapan' => $request->suhu_dan_kelembapan,
+                    ]);
+                }
+            } else {
+                // Hapus jika semua field kosong
+                PetunjukPerawatan::where('id_produk', $produk->id_produk)->delete();
+            }
         });
 
         return redirect()->route('admin.tanaman')

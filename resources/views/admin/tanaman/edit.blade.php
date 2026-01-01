@@ -191,19 +191,14 @@
                       <div class="input-group">
                         <span class="input-group-text">Rp</span>
                         <input type="number" name="harga[{{ $item->id_ukuran }}]" class="form-control"
-                          min="0" placeholder="0"
-                          value="{{ old('harga.' . $item->id_ukuran, $produkUkuran->harga ?? 0) }}">
+                          min="0" placeholder="Kosongkan jika tidak tersedia"
+                          value="{{ old('harga.' . $item->id_ukuran, $produkUkuran->harga ?? '') }}">
                       </div>
-                      @error('harga.' . $item->id_ukuran)
-                        <div class="text-danger small">{{ $message }}</div>
-                      @enderror
                     </td>
                     <td>
                       <input type="number" name="stok[{{ $item->id_ukuran }}]" class="form-control" min="0"
-                        placeholder="0" value="{{ old('stok.' . $item->id_ukuran, $produkUkuran->stok ?? 0) }}">
-                      @error('stok.' . $item->id_ukuran)
-                        <div class="text-danger small">{{ $message }}</div>
-                      @enderror
+                        placeholder="Kosongkan jika tidak tersedia"
+                        value="{{ old('stok.' . $item->id_ukuran, $produkUkuran->stok ?? '') }}">
                     </td>
                   </tr>
                 @endforeach

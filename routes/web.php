@@ -118,6 +118,10 @@ Route::prefix('admin')
         // Orders
         Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders');
         Route::get('/orders/{id}', [AdminOrderController::class, 'show'])->name('orders.show');
+        Route::post('/orders/{id}/status', [AdminOrderController::class, 'updateStatus'])
+            ->name('orders.status');
+        Route::put('/orders/{id}', [AdminOrderController::class, 'update'])
+            ->name('orders.update');
 
         // Tanaman
         Route::get('/tanaman', [AdminTanamanController::class, 'index'])->name('tanaman');

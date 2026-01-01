@@ -1,5 +1,5 @@
 
-@extends('layouts.admin')
+@extends('admin.layouts.Admin')
 
 
 @section('title', 'IoT Dashboard')
@@ -1172,8 +1172,8 @@
       loadData();
     }, 500);
 
-    // Auto-refresh every 30 seconds
-    setInterval(loadData, 30000);
+    // Auto-refresh every 10 seconds
+    setInterval(loadData, 10000);
 
     // Initial system check
     setTimeout(testMqtt, 2000);
