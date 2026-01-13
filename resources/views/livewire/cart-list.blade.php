@@ -32,7 +32,7 @@
     <!-- Selection Controls -->
     <div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-light rounded">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" wire:model.live="selectAll" id="selectAll">
+        <input class="form-check-input border-success" type="checkbox" wire:model.live="selectAll" id="selectAll">
         <label class="form-check-label small fw-medium" for="selectAll">
           Pilih Semua ({{ $this->selectedItemsCount }} terpilih)
         </label>
@@ -60,7 +60,7 @@
             <!-- Checkbox dan Product Info -->
             <div class="d-flex align-items-start mb-3">
               <div class="form-check me-2 flex-shrink-0">
-                <input class="form-check-input" type="checkbox" wire:model.live="selectedItems"
+                <input class="form-check-input border-success" type="checkbox" wire:model.live="selectedItems"
                   value="{{ $item->id_keranjang }}" id="item-{{ $item->id_keranjang }}-mobile"
                   {{ $item->produkUkuran && $item->produkUkuran->stok == 0 ? 'disabled' : '' }}>
               </div>
@@ -242,7 +242,7 @@
                 <div class="d-flex align-items-start">
                   <!-- Checkbox -->
                   <div class="form-check me-3 flex-shrink-0 mt-1">
-                    <input class="form-check-input" type="checkbox" wire:model.live="selectedItems"
+                    <input class="form-check-input border-success" type="checkbox" wire:model.live="selectedItems"
                       value="{{ $item->id_keranjang }}" id="item-{{ $item->id_keranjang }}-desktop"
                       {{ $item->produkUkuran && $item->produkUkuran->stok == 0 ? 'disabled' : '' }}>
                   </div>

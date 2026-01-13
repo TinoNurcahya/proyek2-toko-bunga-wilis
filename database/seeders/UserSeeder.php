@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         User::create([
             'role' => 'admin',
             'nama' => 'Ghina',
-            'email' => 'auliaghinaa75@gmail.com',
+            'email' => 'ghina@gmail.com',
             'password' => Hash::make('aaaaaaaa'),
             'alamat' => 'Jl. Merdeka No. 1, Bandung',
             'no_hp' => '081234567890',
@@ -42,7 +42,7 @@ class UserSeeder extends Seeder
         User::create([
             'role' => 'admin',
             'nama' => 'Andika ',
-            'email' => 'andikadwiki32@gmail.com',
+            'email' => 'andika@gmail.com',
             'password' => Hash::make('aaaaaaaa'),
             'alamat' => 'Jl. Merdeka No. 1, Bandung',
             'no_hp' => '081234567890',
@@ -54,7 +54,7 @@ class UserSeeder extends Seeder
         User::create([
             'role' => 'admin',
             'nama' => 'Viola ',
-            'email' => 'violainsanputri@gmail.com',
+            'email' => 'viola@gmail.com',
             'password' => Hash::make('aaaaaaaa'),
             'alamat' => 'Jl. Merdeka No. 1, Bandung',
             'no_hp' => '081234567890',

@@ -328,11 +328,15 @@
             @php
               $totalStok = $item->produkUkuran ? $item->produkUkuran->sum('stok') : 0;
             @endphp
-            <div class="col-6 col-md-4 col-lg-3 product-card">
+            <div class="col-6 col-md-4 col-lg-3 product-card" data-aos="fade-up" data-aos-duration="700"
+              data-aos-offset="50" data-category="{{ $item->id_kategori }}" data-price="{{ $item->harga_terendah }}"
+              data-size="{{ $item->ukuran ?? 'all' }}" data-date="{{ $item->created_at }}"
+              data-rating="{{ $item->rating ?? 0 }}" data-sold="{{ $item->terjual ?? 0 }}"
+              data-name="{{ strtolower($item->nama) }}" data-stok="{{ $totalStok }}">
               <div class="card h-100 border-0 shadow-sm product-item">
                 <div class="position-relative">
                   <img src="{{ asset($item->foto_utama) }}" alt="{{ $item->nama }}"
-                    class="card-img-top rounded-top-3 related-product-image">
+                    class="card-img-top rounded-top-3" style="height: 180px; object-fit: cover;" loading="lazy">
                   @if ($totalStok <= 0)
                     <div
                       class="position-absolute top-0 start-0 w-100 h-100 bg-light bg-opacity-75 d-flex align-items-center justify-content-center rounded-top-3">
