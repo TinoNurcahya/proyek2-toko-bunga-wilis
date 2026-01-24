@@ -12,6 +12,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\PesananController;
 use Illuminate\Notifications\Notifiable;
+use App\Http\Controllers\FooterController;
 
 
 use App\Http\Controllers\Admin\AdminOrderController;
@@ -81,6 +82,10 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::get('/profile/ulasan/{id}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
     Route::put('/ulasan/{id}', [ReviewController::class, 'update'])->name('reviews.update');
     Route::delete('/ulasan/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+
+    // ROUTE FOOTER CARA MEMESAN
+    Route::get('/faq', [FooterController::class, 'faq'])->name('footer.faq');
+    Route::get('/cara-memesan', [FooterController::class, 'caraMemesan'])->name('footer.cara-memesan');
 });
 
 // Webhook Midtrans
