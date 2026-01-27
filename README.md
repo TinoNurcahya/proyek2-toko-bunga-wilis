@@ -110,3 +110,37 @@ php artisan migrate --seed
 npm run dev
 php artisan serve
 ```
+
+## 🖼️ Preview Aplikasi (Screenshot)
+
+Aplikasi ini **belum di-deploy ke hosting**, sehingga preview tampilan website disediakan dalam bentuk **screenshot**.
+
+📁 Seluruh screenshot UI aplikasi tersedia di folder:
+
+> 📁 Folder: **docs/**
+
+Screenshot yang tersedia meliputi:
+- Login & Registrasi
+- Homepage
+- Daftar & Detail Produk
+- Keranjang & Checkout
+- Simulasi Pembayaran
+- Profil & Alamat User
+- Riwayat Pesanan
+- Rating & Ulasan Produk
+- Notifikasi dan halaman pendukung lainnya
+
+Silakan membuka folder tersebut untuk melihat **preview lengkap tampilan aplikasi**.
+
+### Alur Penggunaan Aplikasi
+1. User login atau registrasi
+   ![Login](docs/1-login.png)
+
+2. User melihat daftar produk
+   ![Home](docs/12-products-section.png)
+
+3. User melihat detail produk
+   ![Detail](docs/14-product-detail.png)
+
+4. User checkout dan pembayaran
+   ![Checkout](docs/19-cart.png)
