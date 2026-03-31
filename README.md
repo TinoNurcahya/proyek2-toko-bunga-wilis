@@ -2,7 +2,7 @@
 
 <div align="center">
 
-# <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=32&duration=2800&pause=2000&color=27AE60&center=true&vCenter=true&width=500&lines=🌸+Toko+Bunga+Wilis;🛍️+E-Commerce+Tanaman;🚀+Powered+by+Laravel" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=32&duration=2800&pause=2000&color=27AE60&center=true&vCenter=true&width=500&lines=%F0%9F%8C%B8+Toko+Bunga+Wilis;%F0%9F%9B%8D%EF%B8%8F+E-Commerce+Tanaman;%F0%9F%9A%80+Powered+by+Laravel" alt="Typing SVG" />
 
 ![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
